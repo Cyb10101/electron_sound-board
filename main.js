@@ -76,21 +76,30 @@ class ElectronApp {
     /**
      * If saved window bounds (x, y) is reachable then position will be returned.
      * @param key
-     * @param gap
+     * @param defaults
      */
-    getSavedWindowBounds(key, gap = 0) {
+    getSavedWindowBounds(key, defaults = {}) {
         let bounds = {};
         let savedBounds = store.get(key);
         if (savedBounds) {
             let displays = electron.screen.getAllDisplays();
             let externalDisplay = displays.find((display) => {
-                let x = (display.workArea.x <= savedBounds.x && savedBounds.x < (display.bounds.x + display.size.width - gap));
-                let y = (display.workArea.y <= savedBounds.y && savedBounds.y < (display.bounds.y + display.size.height - gap));
+                let x = (display.workArea.x <= savedBounds.x && savedBounds.x < (display.bounds.x + display.size.width));
+                let y = (display.workArea.y <= savedBounds.y && savedBounds.y < (display.bounds.y + display.size.height));
                 return x && y;
             });
             if (externalDisplay) {
                 bounds.x = savedBounds.x;
                 bounds.y = savedBounds.y;
+                bounds.width = savedBounds.width;
+                bounds.height = savedBounds.height;
+
+                if (bounds.width > externalDisplay.size.width) {
+                    bounds.width = defaults.hasOwnProperty('width') ? defaults.width : externalDisplay.size.width;
+                }
+                if (bounds.height > externalDisplay.size.height) {
+                    bounds.height = defaults.hasOwnProperty('height') ? defaults.height : externalDisplay.size.height;
+                }
             }
         }
         return bounds;
@@ -98,9 +107,9 @@ class ElectronApp {
 
     mainWindowCreate() {
         mainWindow = new BrowserWindow({
-            ...this.getSavedWindowBounds('mainWindowBounds'),
-            width: 700 + (environment.isDevelopment() ? 555 : 0), // + DevTools
-            height: (environment.isDevelopment() ? 600 : 262), // Menu + Window
+            ...this.getSavedWindowBounds('mainWindowBounds', {width: 700, height: 262}),
+            minWidth: 464,
+            minHeight: 260,
             frame: true,
             autoHideMenuBar: false,
             resizable: true,
