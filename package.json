@@ -1,0 +1,67 @@
+{
+    "name": "sound-board",
+    "version": "0.0.1",
+    "description": "A board with buttons to play funny sounds.",
+    "author": "Thomas Schur <cyb10101@gmail.com>",
+    "homepage": "https://cyb10101.de/",
+    "license": "ISC",
+    "main": "main.js",
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.11.2",
+        "bootstrap": "^4.3.1",
+        "electron-store": "^5.0.0",
+        "jquery": "^3.4.1",
+        "popper.js": "^1.15.0"
+    },
+    "devDependencies": {
+        "css-loader": "^3.2.0",
+        "electron": "^6.0.11",
+        "electron-builder": "^21.2.0",
+        "file-loader": "^4.2.0",
+        "friendly-errors-webpack-plugin": "^1.7.0",
+        "mini-css-extract-plugin": "^0.8.0",
+        "node-sass": "^4.12.0",
+        "sass-loader": "^8.0.0",
+        "webpack": "^4.41.0",
+        "webpack-cli": "^3.3.9"
+    },
+    "build": {
+        "appId": "com.cyb.${name}",
+        "linux": {
+            "category": "Utility",
+            "target": [
+                {
+                    "target": "AppImage",
+                    "arch": [
+                        "x64",
+                        "ia32"
+                    ]
+                },
+                {
+                    "target": "deb",
+                    "arch": [
+                        "x64",
+                        "ia32"
+                    ]
+                }
+            ]
+        },
+        "win": {
+            "target": [
+                {
+                    "target": "portable"
+                }
+            ],
+            "icon": "assets/images/icons/round-corner/256x256.png"
+        }
+    },
+    "scripts": {
+        "build": "webpack --mode=production",
+        "build:dev": "webpack --mode=development --watch",
+        "start": "electron .",
+        "start:dev": "APP_ENV=dev electron .",
+        "dist": "electron-builder",
+        "dist:dev": "electron-builder --linux AppImage --x64",
+        "dist:all": "electron-builder --linux --win"
+    }
+}
