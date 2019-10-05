@@ -18,6 +18,10 @@ class Environment {
     isWindows() {
         return (global.process.platform === 'win32'); // Even on 64 bit
     }
+
+    isMac() {
+        return (global.process.platform === 'darwin'); // Even on 64 bit
+    }
 }
 let environment = new Environment();
 /******************************************************************************/
@@ -33,7 +37,7 @@ class ElectronApp {
             label: 'File',
             submenu: [{
                 label: 'Quit',
-                accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+                accelerator: environment.isMac() ? 'Command+Q' : 'Ctrl+Q',
                 click() {
                     app.quit();
                 }
@@ -53,11 +57,11 @@ class ElectronApp {
             }
         }, {
             role: 'reload',
-            accelerator: process.platform === 'darwin' ? '' : 'F5',
+            accelerator: environment.isMac() ? '' : 'F5',
         }];
 
         // If mac, ad empty object to menu
-        if (process.platform === 'darwin') {
+        if (environment.isMac()) {
             mainMenuTemplate.unshift({});
         }
 
