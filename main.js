@@ -102,6 +102,14 @@ class ElectronApp {
                 }
             }
         }
+
+        // Just set default bounds if not set
+        if (!bounds.hasOwnProperty('width') && defaults.hasOwnProperty('width')) {
+            bounds.width = defaults.width;
+        }
+        if (!bounds.hasOwnProperty('height') && defaults.hasOwnProperty('height')) {
+            bounds.height = defaults.height;
+        }
         return bounds;
     }
 
