@@ -115,7 +115,7 @@ class ElectronApp {
 
     mainWindowCreate() {
         mainWindow = new BrowserWindow({
-            ...this.getSavedWindowBounds('mainWindowBounds', {width: 700, height: 262}),
+            ...this.getSavedWindowBounds('mainWindowBounds', {width: 500, height: 450}),
             minWidth: 260,
             minHeight: 260,
             frame: (environment.isDevelopment() ? true : false),
