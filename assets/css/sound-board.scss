@@ -1,0 +1,112 @@
+.sound-board {
+    .buttons {
+        margin-bottom: 20px;
+
+        > div {
+            text-align: center;
+        }
+    }
+}
+
+.button-sound {
+    display: inline-block;
+    position: relative;
+    top: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    background-color: #0C7CA2;
+    cursor: pointer;
+    box-shadow: 0 4px 0 darken(#0C7CA2, 11%);
+    -webkit-app-region: no-drag;
+
+    &:hover {
+        box-shadow: 0 2px 0 darken(#0C7CA2, 11%);
+        top: 2px;
+    }
+
+    &.active,
+    &:active {
+        box-shadow: 0 0 0 darken(#0C7CA2, 11%);
+        top: 4px;
+    }
+
+    .button-icon {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background-size: 50px 50px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .fas {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 50px;
+        color: #ffffff;
+    }
+}
+
+/* Responsive */
+.button-sound {
+    width: 32px;
+    height: 32px;
+
+    .button-icon {
+        background-size: 18px 18px;
+    }
+
+    .fas {
+        font-size: 18px;
+    }
+}
+
+@mixin mediaSoundBoard($width, $buttonWidth, $iconWidth) {
+    @media (min-width: $width) {
+        .button-sound {
+            width: $buttonWidth;
+            height: $buttonWidth;
+
+            .button-icon {
+                background-size: $iconWidth $iconWidth;
+            }
+
+            .fas {
+                font-size: $iconWidth;
+            }
+        }
+    }
+}
+
+@include mediaSoundBoard(300px, 40px, 18px);
+@include mediaSoundBoard(350px, 50px, 20px);
+@include mediaSoundBoard(400px, 60px, 30px);
+@include mediaSoundBoard(450px, 70px, 40px);
+@include mediaSoundBoard(500px, 80px, 50px);
+@include mediaSoundBoard(550px, 90px, 55px);
+@include mediaSoundBoard(600px, 100px, 60px);
+@include mediaSoundBoard(650px, 110px, 65px);
+@include mediaSoundBoard(700px, 110px, 70px);
+@include mediaSoundBoard(750px, 120px, 75px);
+@include mediaSoundBoard(800px, 130px, 80px);
+@include mediaSoundBoard(850px, 140px, 85px);
+@include mediaSoundBoard(900px, 150px, 90px);
+@include mediaSoundBoard(950px, 160px, 95px);
+@include mediaSoundBoard(1000px, 170px, 100px);
+
+.button-sound-minimal {
+    width: 32px;
+    height: 32px;
+
+    .button-icon {
+        background-size: 18px 18px;
+    }
+
+    .fas {
+        font-size: 18px;
+    }
+}

@@ -61,13 +61,16 @@ class Development {
                 event.preventDefault();
                 instance.devToolbarToggle();
             });
-            this.devToolbar.querySelectorAll('.dev-toolbar-block').forEach(function (obj) {
+            this.devToolbar.querySelectorAll('.dev-toolbar-icon').forEach(function (obj) {
                 obj.addEventListener('click', function (event) {
                     event.preventDefault();
-                    this.parentNode.querySelectorAll('.dev-toolbar-block.hover').forEach(function (obj2) {
+                    let isHover = this.parentNode.classList.contains('hover');
+                    this.parentNode.parentNode.querySelectorAll('.dev-toolbar-block.hover').forEach(function (obj2) {
                         obj2.classList.remove('hover');
                     });
-                    this.classList.toggle('hover');
+                    if (!isHover) {
+                        this.parentNode.classList.toggle('hover');
+                    }
                 });
             });
 

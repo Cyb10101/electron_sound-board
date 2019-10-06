@@ -11,13 +11,104 @@ html {
 body {
     position: relative;
     margin: 0;
-    padding: 5px;
+    padding: 34px 0 0 0;
     //min-height: 100%;
     font-family: 'Open Sans', sans-serif;
     background-color: #eaeaea;
+    color: #000000;
     @include user-select(none);
+    overflow: hidden;
+    -webkit-app-region: drag;
+    transition: background 1000ms, color 1000ms;
+}
+
+a {
+    color: #000000;
+    text-decoration: underline;
+    -webkit-app-region: no-drag;
+}
+a:hover {
+    text-decoration: overline;
+}
+a:active {
+    text-decoration: underline;
+}
+
+.page {
+    margin: 0;
+    padding: 5px;
+    height: 100%;
+    max-height: calc(100vh - 34px);
+    overflow: overlay;
 }
 
 nav.navbar {
     background-color: #eaeaea;
+}
+
+.menu {
+    position: fixed;
+    top: 0; left: 0;
+    margin-bottom: 5px;
+    width: 100%;
+    height: 34px;
+    z-index: 1000;
+
+    &:after {
+        clear: both;
+    }
+
+    .page-back {
+        display: none;
+        float: left;
+        margin-left: 4px;
+        font-size: 20px;
+        cursor: pointer;
+        -webkit-app-region: no-drag;
+
+        span {
+            display: inline-block;
+            width: 0;
+            transition: width 300ms ease;
+            overflow: hidden;
+            vertical-align: bottom;
+        }
+        &:hover span {
+            width: 45px;
+        }
+    }
+
+    .brand {
+        display: inline-block;
+        float: left;
+        padding-left: 5px;
+        height: 32px;
+        font-size: 21px;
+    }
+
+    .button {
+        display: inline-block;
+        float: right;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        top: 6px;
+        color: #000000;
+        opacity: 0.75 !important;
+        -webkit-app-region: no-drag;
+        text-shadow: none;
+        transition: color 1000ms;
+
+        &:hover {
+            opacity: 1 !important;
+        }
+
+        .fas {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 24px;
+        }
+    }
 }

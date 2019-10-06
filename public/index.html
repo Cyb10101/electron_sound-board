@@ -7,19 +7,193 @@
     <link rel="stylesheet" href="app://build/app.css">
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
+<div class="menu">
+    <div class="page-back"><i class="fas fa-arrow-left"></i> <span>Back</span></div>
+    <div class="brand"><i class="fas fa-volume-up"></i> Sound Board</div>
 
-            <div class="card">
-                <h5 class="card-header"><span class="fa fa-flask"></span> Sound board</h5>
-                <div class="card-body">
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                    invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-                    At vero eos et accusam et justo duo dolores et ea rebum.
+    <div class="button close"><i class="fas fa-times"></i></div>
+    <div class="button settings"><i class="fas fa-cog"></i></div>
+    <div class="button help"><i class="fas fa-question"></i></div>
+    <div class="button copyright"><i class="fas fa-copyright"></i></div>
+</div>
+
+<div class="page page-sound-board">
+    <div class="container-fluid sound-board">
+        <div class="row buttons">
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row buttons">
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row buttons">
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <i class="fas fa-drum"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page page-copyright" style="display: none;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h3>Sounds</h3>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <h5><i class="fas fa-file-audio"></i> ba-da-dum.wav</h5>
+                <b>Author:</b> <a href="https://freesound.org/people/Simon_Lacelle/sounds/37215/" class="external">Simon_Lacelle</a><br>
+                <b>Licence:</b> <a href="https://creativecommons.org/licenses/by/3.0/" class="external">CC BY 3.0</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page page-help" style="display: none;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h3><i class="fas fa-book-medical"></i> Modifier keys for global shortcuts</h3>
+                <p>Press <strong>Modifier-Keys + Number</strong> (Ctrl + Shift + 1) on the keyboard to play sounds.</p>
+                <p>Current possible numbers are <strong>1, 2, 3, 4, 5, 6, 7, 8, 9, 0</strong>.</p>
+                <p>Modifier keys for shortcuts can be changed in the settings.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page page-settings" style="display: none;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h3>Volume: <span id="setting-volume-label"></span></h3>
+                <input type="range" min="0" max="100" value="50" class="slider" id="setting-volume">
+            </div>
+
+            <div class="col-12 mb-3">
+                <h3>Modifier keys for global shortcuts</h3>
+                <div class="custom-control custom-checkbox custom-control-inline mr-3">
+                    <input type="checkbox" class="custom-control-input" id="setting-modifier-ctrl">
+                    <label class="custom-control-label" for="setting-modifier-ctrl">CTRL</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline mr-3">
+                    <input type="checkbox" class="custom-control-input" id="setting-modifier-shift">
+                    <label class="custom-control-label" for="setting-modifier-shift">SHIFT</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="setting-modifier-alt">
+                    <label class="custom-control-label" for="setting-modifier-alt">ALT</label>
                 </div>
             </div>
 
+            <div class="col-12 mb-3">
+                <div class="setting-page-color">
+                    <h3>Page color</h3>
+                    <div class="color-circle setting-color-0-page"></div>
+                    <div class="color-circle setting-color-1"></div>
+                    <div class="color-circle setting-color-2"></div>
+                    <div class="color-circle setting-color-3"></div>
+                    <div class="color-circle setting-color-4"></div>
+                    <div class="color-circle setting-color-5"></div>
+                    <div class="color-circle setting-color-6"></div>
+                    <div class="color-circle setting-color-7"></div>
+                    <div class="color-circle setting-color-8"></div>
+                    <div class="color-circle setting-color-9"></div>
+                    <div class="color-circle setting-color-10"></div>
+                    <div class="color-circle setting-color-11"></div>
+                    <div class="color-circle setting-color-12"></div>
+                    <div class="color-circle setting-color-13"></div>
+                    <div class="color-circle setting-color-14"></div>
+                    <div class="color-circle setting-color-15"></div>
+                    <div class="color-circle setting-color-16"></div>
+                    <div class="color-circle setting-color-17"></div>
+                    <div class="color-circle setting-color-18"></div>
+                    <div class="color-circle setting-color-19"></div>
+                </div>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="setting-button-color">
+                    <h3>Button color
+                        <div class="button-sound button-sound-minimal" data-sound="ba-da-dum.wav">
+                            <i class="fas fa-drum"></i>
+                        </div>
+                    </h3>
+                    <div class="color-circle setting-color-0-button"></div>
+                    <div class="color-circle setting-color-1"></div>
+                    <div class="color-circle setting-color-2"></div>
+                    <div class="color-circle setting-color-3"></div>
+                    <div class="color-circle setting-color-4"></div>
+                    <div class="color-circle setting-color-5"></div>
+                    <div class="color-circle setting-color-6"></div>
+                    <div class="color-circle setting-color-7"></div>
+                    <div class="color-circle setting-color-8"></div>
+                    <div class="color-circle setting-color-9"></div>
+                    <div class="color-circle setting-color-10"></div>
+                    <div class="color-circle setting-color-11"></div>
+                    <div class="color-circle setting-color-12"></div>
+                    <div class="color-circle setting-color-13"></div>
+                    <div class="color-circle setting-color-14"></div>
+                    <div class="color-circle setting-color-15"></div>
+                    <div class="color-circle setting-color-16"></div>
+                    <div class="color-circle setting-color-17"></div>
+                    <div class="color-circle setting-color-18"></div>
+                    <div class="color-circle setting-color-19"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
