@@ -1,5 +1,5 @@
 const electron = require('electron');
-const {app, BrowserWindow, Menu} = require('electron');
+const {app, BrowserWindow, Menu, globalShortcut, ipcMain} = require('electron');
 const path = require('path');
 const Store = require('electron-store');
 const store = new Store();
@@ -116,9 +116,9 @@ class ElectronApp {
     mainWindowCreate() {
         mainWindow = new BrowserWindow({
             ...this.getSavedWindowBounds('mainWindowBounds', {width: 700, height: 262}),
-            minWidth: 464,
+            minWidth: 260,
             minHeight: 260,
-            frame: true,
+            frame: (environment.isDevelopment() ? true : false),
             autoHideMenuBar: false,
             resizable: true,
             useContentSize: true,
@@ -138,9 +138,6 @@ class ElectronApp {
             }
         });
 
-        // @todo development test
-        console.log('ScaleFactor: ', electron.screen.getPrimaryDisplay().scaleFactor);
-
         if (environment.isDevelopment()) {
             mainWindow.webContents.openDevTools();
         }
@@ -157,13 +154,53 @@ class ElectronApp {
             mainWindow = null
         });
     }
+
+    connectIpc() {
+        let instance = this;
+        ipcMain.on('mainWindow', function (event, args) {
+            if (args === 'close') {
+                mainWindow.close();
+            }
+        });
+        ipcMain.on('setGlobalShortcuts', function () {
+            instance.setGlobalShortcuts();
+        });
+    }
+
+    setGlobalShortcuts() {
+        globalShortcut.unregisterAll();
+
+        let shortcutPrefix = '';
+        if (store.get('modifier-ctrl', true)) {
+            shortcutPrefix += 'ctrl+';
+        }
+        if (store.get('modifier-shift', true)) {
+            shortcutPrefix += 'shift+';
+        }
+        if (store.get('modifier-alt', false)) {
+            shortcutPrefix += 'alt+';
+        }
+
+        // Keys 1 to 9
+        for (let i = 1; i <= 9; i++) {
+            globalShortcut.register(shortcutPrefix + i, function () {
+                mainWindow.webContents.send('global-shortcut', (i - 1));
+            });
+        }
+
+        globalShortcut.register(shortcutPrefix + '0', function () {
+            mainWindow.webContents.send('global-shortcut', 9);
+        });
+    }
 }
 
 let electronApp = new ElectronApp();
 
 app.on('ready', () => {
+    electronApp.setGlobalShortcuts();
     electronApp.mainWindowMenu();
     electronApp.mainWindowCreate();
+    electronApp.connectIpc();
 });
 
 app.on('window-all-closed', () => {

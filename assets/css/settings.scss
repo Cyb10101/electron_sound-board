@@ -1,0 +1,113 @@
+.custom-control {
+    -webkit-app-region: no-drag;
+}
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity:0.7;
+    -webkit-transition: opacity .15s ease-in-out;
+    transition: opacity .15s ease-in-out;
+    -webkit-app-region: no-drag;
+
+    &:hover {
+        opacity:1;
+    }
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #0099cc;
+        border: 1px solid #d3d3d3;
+        cursor: pointer;
+    }
+}
+
+.color-circle {
+    display: inline-block;
+    margin: 0 5px 0 0;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #eaeaea;
+    border-radius: 50%;
+    -webkit-app-region: no-drag;
+}
+
+.setting-button-color,
+.setting-page-color {
+    .color-circle {
+        cursor: pointer;
+    }
+}
+
+@mixin settingColor($selector, $backgroundColor, $textColor, $iconColor) {
+    .page-color-#{$selector} {
+        background-color: $backgroundColor;
+        color: $textColor;
+
+        .menu .button {
+            color: $textColor;
+        }
+        a {
+            color: $textColor;
+        }
+    }
+
+    .button-color-#{$selector} {
+        .button-sound-style,
+        .button-sound {
+            background-color: $backgroundColor;
+            box-shadow: 0 4px 0 darken($backgroundColor, 11%);
+
+            &:hover {
+                box-shadow: 0 2px 0 darken($backgroundColor, 11%);
+            }
+
+            &.active,
+            &:active {
+                box-shadow: 0 0 0 darken($backgroundColor, 11%);
+            }
+
+            .fas {
+                color: $iconColor;
+            }
+        }
+    }
+
+    .setting-color-#{$selector} {
+        background-color: $backgroundColor;
+        color: $textColor;
+    }
+}
+
+.setting-color-0-page {
+    border-color: #9e9e9e;
+}
+
+@include settingColor(0-page, #eaeaea, #000000, #ffffff);
+@include settingColor(0-button, #0C7CA2, #ffffff, #ffffff);
+@include settingColor(1, #f44336, #000000, #ffffff);
+@include settingColor(2, #e91e63, #000000, #ffffff);
+@include settingColor(3, #9c27b0, #ffffff, #ffffff);
+@include settingColor(4, #673ab7, #ffffff, #ffffff);
+@include settingColor(5, #3f51b5, #ffffff, #ffffff);
+@include settingColor(6, #2196f3, #000000, #ffffff);
+@include settingColor(7, #03a9f4, #000000, #ffffff);
+@include settingColor(8, #00bcd4, #000000, #ffffff);
+@include settingColor(9, #009688, #000000, #ffffff);
+@include settingColor(10, #4caf50, #000000, #ffffff);
+@include settingColor(11, #8bc34a, #000000, #ffffff);
+@include settingColor(12, #cddc39, #000000, #000000);
+@include settingColor(13, #ffeb3b, #000000, #000000);
+@include settingColor(14, #ffc107, #000000, #ffffff);
+@include settingColor(15, #ff9800, #000000, #ffffff);
+@include settingColor(16, #ff5722, #000000, #ffffff);
+@include settingColor(17, #795548, #ffffff, #ffffff);
+@include settingColor(18, #9e9e9e, #ffffff, #ffffff);
+@include settingColor(19, #607d8b, #ffffff, #ffffff);
