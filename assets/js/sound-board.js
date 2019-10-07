@@ -1,6 +1,5 @@
 'use strict';
 
-const {Tray, Menu} = require('electron').remote;
 const {ipcRenderer, shell} = require('electron');
 const Store = require('electron-store');
 const store = new Store();
@@ -10,6 +9,7 @@ class SoundBoard {
         this.rootDiv = document.querySelectorAll('.sound-board');
         if (this.rootDiv) {
             this.connectMenu();
+            this.connectIpc();
             this.connectSoundButtons();
         }
         this.connectExternalLinks();
@@ -50,13 +50,20 @@ class SoundBoard {
         document.querySelector('.menu .close').addEventListener('click', function () {
             ipcRenderer.send('mainWindow', 'close');
         });
+    }
 
+    connectIpc() {
+        let instance = this;
         ipcRenderer.on('global-shortcut', function(event, arg) {
             instance.soundButtons[arg].dispatchEvent(new MouseEvent('click'));
             instance.soundButtons[arg].classList.add('active');
             window.setTimeout(function () {
                 instance.soundButtons[arg].classList.remove('active');
             }, 100);
+        });
+
+        ipcRenderer.on('switch-page', function(event, arg) {
+            instance.switchPage(arg);
         });
     }
 

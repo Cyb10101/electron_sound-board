@@ -1,5 +1,5 @@
 const electron = require('electron');
-const {app, BrowserWindow, Menu, globalShortcut, ipcMain} = require('electron');
+const {app, BrowserWindow, Menu, Tray, globalShortcut, ipcMain} = require('electron');
 const path = require('path');
 const Store = require('electron-store');
 const store = new Store();
@@ -155,6 +155,58 @@ class ElectronApp {
         });
     }
 
+    trayMenu() {
+        let instance = this;
+        let tray = new Tray(path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'));
+
+        const contextMenu = Menu.buildFromTemplate([{
+            label: 'Sound board',
+            click: function () {
+                if (!mainWindow) {
+                    instance.mainWindowCreate();
+                }
+                mainWindow.focus();
+                mainWindow.webContents.send('switch-page', '.page-sound-board');
+            }
+        }, {
+            type: 'separator'
+        }, {
+            label: 'Settings',
+            click: function () {
+                if (!mainWindow) {
+                    instance.mainWindowCreate();
+                }
+                mainWindow.focus();
+                mainWindow.webContents.send('switch-page', '.page-settings');
+            }
+        }, {
+            label: 'Help',
+            click: function () {
+                if (!mainWindow) {
+                    instance.mainWindowCreate();
+                }
+                mainWindow.focus();
+                mainWindow.webContents.send('switch-page', '.page-help');
+            }
+        }, {
+            label: 'Copyright',
+            click: function () {
+                if (!mainWindow) {
+                    instance.mainWindowCreate();
+                }
+                mainWindow.focus();
+                mainWindow.webContents.send('switch-page', '.page-copyright');
+            }
+        }, {
+            type: 'separator'
+        }, {
+            label: 'Quit',
+            click: app.quit
+        }]);
+        tray.setToolTip('Sound board');
+        tray.setContextMenu(contextMenu);
+    }
+
     connectIpc() {
         let instance = this;
         ipcMain.on('mainWindow', function (event, args) {
@@ -201,6 +253,7 @@ app.on('ready', () => {
     electronApp.mainWindowMenu();
     electronApp.mainWindowCreate();
     electronApp.connectIpc();
+    electronApp.trayMenu();
 });
 
 app.on('window-all-closed', () => {
