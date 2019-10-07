@@ -146,10 +146,10 @@ class ElectronApp {
         });
     }
 
-    registerFileProtocol(scheme) {
+    registerFileProtocol(scheme, pathName) {
         mainWindow.webContents.session.protocol.registerFileProtocol(scheme, (request, callback) => {
             const url = request.url.substr(scheme.length + 3);
-            callback({path: path.normalize(`${__dirname}/public/${url}`)});
+            callback({path: path.normalize(pathName + url)});
         }, (error) => {
             if (error) {
                 console.error('Failed to register protocol ' + scheme);
