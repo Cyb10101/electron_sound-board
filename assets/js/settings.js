@@ -73,6 +73,9 @@ class Settings {
         let isFrame = store.get('app-frame', false);
         document.querySelector('#setting-app-frame').checked = isFrame;
         document.querySelector('.menu .close').style.display = (isFrame ? 'none' : 'inline-block');
+        document.querySelector('.menu .maximize').style.display = (isFrame ? 'none' : 'inline-block');
+        document.querySelector('.menu .minimize').style.display = (isFrame ? 'none' : 'inline-block');
+        document.querySelector('.menu .window-default').style.display = (isFrame ? 'none' : 'inline-block');
     }
 
     bindPageColor() {
