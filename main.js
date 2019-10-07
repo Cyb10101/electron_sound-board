@@ -27,6 +27,7 @@ let environment = new Environment();
 /******************************************************************************/
 
 let mainWindow;
+let trayMenu;
 
 class ElectronApp {
     constructor() {
@@ -157,7 +158,7 @@ class ElectronApp {
 
     trayMenu() {
         let instance = this;
-        let tray = new Tray(path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'));
+        trayMenu = new Tray(path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'));
 
         const contextMenu = Menu.buildFromTemplate([{
             label: 'Sound board',
@@ -203,8 +204,8 @@ class ElectronApp {
             label: 'Quit',
             click: app.quit
         }]);
-        tray.setToolTip('Sound board');
-        tray.setContextMenu(contextMenu);
+        trayMenu.setToolTip('Sound board');
+        trayMenu.setContextMenu(contextMenu);
     }
 
     connectIpc() {
