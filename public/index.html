@@ -9,7 +9,7 @@
 <body>
 <div class="menu">
     <div class="page-back"><i class="fas fa-arrow-left"></i> <span>Back</span></div>
-    <div class="brand"><i class="fas fa-volume-up"></i> Sound Board</div>
+    <div class="brand"><i class="fas fa-volume-up"></i><span> Sound Board</span></div>
 
     <div class="button close"><i class="far fa-window-close"></i></div>
     <div class="button maximize"><i class="far fa-window-maximize"></i></div>
@@ -21,74 +21,36 @@
 </div>
 
 <div class="page page-sound-board">
-    <div class="container-fluid sound-board">
-        <div class="row buttons">
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
+    <div class="square-container">
+        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
+            <i class="fas fa-drum"></i>
         </div>
-        <div class="row buttons">
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
+        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
+            <i class="fas fa-drum"></i>
         </div>
-        <div class="row buttons">
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
+        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
+            <i class="fas fa-drum"></i>
         </div>
-        <div class="row buttons">
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
+        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
+            <i class="fas fa-drum"></i>
+        </div>
+        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
+            <i class="fas fa-drum"></i>
+        </div>
+        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
+            <i class="fas fa-drum"></i>
+        </div>
+        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
+            <i class="fas fa-drum"></i>
+        </div>
+        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
+            <i class="fas fa-drum"></i>
+        </div>
+        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
+            <i class="fas fa-drum"></i>
+        </div>
+        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
+            <i class="fas fa-drum"></i>
         </div>
     </div>
 </div>
@@ -100,7 +62,12 @@
                 <h3>Sounds</h3>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-                <h5><i class="fas fa-file-audio"></i> ba-da-dum.wav</h5>
+                <h5>
+                    <div class="button-sound" data-sound="ba-da-dum.wav">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    ba-da-dum.wav
+                </h5>
                 <b>Author:</b> <a href="https://freesound.org/people/Simon_Lacelle/sounds/37215/" class="external">Simon_Lacelle</a><br>
                 <b>Licence:</b> <a href="https://creativecommons.org/licenses/by/3.0/" class="external">CC BY 3.0</a>
             </div>
@@ -125,7 +92,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 mb-3">
-                <h3>Volume: <span id="setting-volume-label"></span></h3>
+                <h3>
+                    Volume
+                    <div class="button-sound pull-right" data-sound="ba-da-dum.wav">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <span id="setting-volume-label"></span>
+                </h3>
                 <input type="range" min="0" max="100" value="50" class="slider" id="setting-volume">
             </div>
 
@@ -172,11 +145,7 @@
             </div>
             <div class="col-12 mb-3">
                 <div class="setting-button-color">
-                    <h3>Button color
-                        <div class="button-sound button-sound-minimal" data-sound="ba-da-dum.wav">
-                            <i class="fas fa-drum"></i>
-                        </div>
-                    </h3>
+                    <h3>Button color</h3>
                     <div class="color-circle setting-color-0-button"></div>
                     <div class="color-circle setting-color-1"></div>
                     <div class="color-circle setting-color-2"></div>
@@ -208,10 +177,10 @@
             </div>
             <div class="col-12 mb-3">
                 <h3>Danger Zone</h3>
-                <button type="button" class="btn btn-theme setting-store-editor">
+                <button type="button" class="btn btn-theme setting-store-editor mb-1">
                     Configuration editor
                 </button>
-                <button type="button" class="btn btn-theme" data-toggle="modal" data-target="#appReset">
+                <button type="button" class="btn btn-theme mb-1" data-toggle="modal" data-target="#appReset">
                     Reset App
                 </button>
             </div>

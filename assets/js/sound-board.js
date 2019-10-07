@@ -126,4 +126,3 @@ class SoundBoard {
 document.addEventListener('DOMContentLoaded', function () {
     const soundBoard = new SoundBoard();
 });
-

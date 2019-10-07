@@ -1,6 +1,15 @@
 .custom-control {
     -webkit-app-region: no-drag;
+
+    .custom-control-label:before {
+        border-color: rgb(173, 181, 189);
+        box-shadow: none;
+    }
+    .custom-control-input:checked ~ .custom-control-label:before {
+        border-color: rgb(173, 181, 189);
+    }
 }
+
 .slider {
     -webkit-appearance: none;
     width: 100%;
@@ -91,14 +100,8 @@
         }
 
         .custom-control {
-            .custom-control-label:before {
-                background-color: $backgroundColor;
-                border-color: rgb(173, 181, 189);
-                box-shadow: none;
-            }
             .custom-control-input:checked ~ .custom-control-label:before {
                 background-color: $backgroundColor;
-                border-color: rgb(173, 181, 189);
             }
         }
 
