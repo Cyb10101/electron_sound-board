@@ -21,38 +21,7 @@
 </div>
 
 <div class="page page-sound-board">
-    <div class="square-container">
-        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
-            <i class="fas fa-drum"></i>
-        </div>
-        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
-            <i class="fas fa-drum"></i>
-        </div>
-        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
-            <i class="fas fa-drum"></i>
-        </div>
-        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
-            <i class="fas fa-drum"></i>
-        </div>
-        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
-            <i class="fas fa-drum"></i>
-        </div>
-        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
-            <i class="fas fa-drum"></i>
-        </div>
-        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
-            <i class="fas fa-drum"></i>
-        </div>
-        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
-            <i class="fas fa-drum"></i>
-        </div>
-        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
-            <i class="fas fa-drum"></i>
-        </div>
-        <div class="square-item button-sound" data-sound="ba-da-dum.wav">
-            <i class="fas fa-drum"></i>
-        </div>
-    </div>
+    <div class="square-container"></div>
 </div>
 
 <div class="page page-copyright" style="display: none;">
@@ -63,10 +32,10 @@
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
                 <h5>
-                    <div class="button-sound" data-sound="ba-da-dum.wav">
+                    <div class="button-sound" data-sound="ba-da-dum">
                         <i class="fas fa-volume-up"></i>
                     </div>
-                    ba-da-dum.wav
+                    ba-da-dum
                 </h5>
                 <b>Author:</b> <a href="https://freesound.org/people/Simon_Lacelle/sounds/37215/" class="external">Simon_Lacelle</a><br>
                 <b>Licence:</b> <a href="https://creativecommons.org/licenses/by/3.0/" class="external">CC BY 3.0</a>
@@ -94,7 +63,7 @@
             <div class="col-12 mb-3">
                 <h3>
                     Volume
-                    <div class="button-sound pull-right" data-sound="ba-da-dum.wav">
+                    <div class="button-sound pull-right" data-sound="ba-da-dum">
                         <i class="fas fa-volume-up"></i>
                     </div>
                     <span id="setting-volume-label"></span>
@@ -175,10 +144,13 @@
                     <label class="custom-control-label" for="setting-app-frame">Frame (Disable for frameless window)</label>
                 </div>
             </div>
-            <div class="col-12 mb-3">
+            <div class="col-12 mb-3 border border-danger rounded">
                 <h3>Danger Zone</h3>
                 <button type="button" class="btn btn-theme setting-store-editor mb-1">
                     Configuration editor
+                </button>
+                <button type="button" class="btn btn-theme setting-open-user-data mb-1">
+                    User data folder
                 </button>
                 <button type="button" class="btn btn-theme mb-1" data-toggle="modal" data-target="#appReset">
                     Reset App

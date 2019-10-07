@@ -1,6 +1,6 @@
 'use strict';
 
-const {ipcRenderer} = require('electron');
+const {ipcRenderer, remote, shell} = require('electron');
 const Store = require('electron-store');
 const store = new Store();
 
@@ -20,9 +20,8 @@ class Settings {
         this.bindAppSettings();
         this.setAppSettings();
 
-        this.bindStoreEditor();
+        this.bindDangerZone();
         this.bindRestartApp();
-        this.bindResetApp();
     }
 
     bindVolume() {
@@ -40,19 +39,20 @@ class Settings {
     }
 
     bindModifier() {
+        let instance = this;
         document.querySelector('#setting-modifier-ctrl').addEventListener('change', function () {
             store.set('modifier-ctrl', this.checked);
-            ipcRenderer.send('setGlobalShortcuts');
+            instance.setModifier();
         });
 
         document.querySelector('#setting-modifier-shift').addEventListener('change', function () {
             store.set('modifier-shift', this.checked);
-            ipcRenderer.send('setGlobalShortcuts');
+            instance.setModifier();
         });
 
         document.querySelector('#setting-modifier-alt').addEventListener('change', function () {
             store.set('modifier-alt', this.checked);
-            ipcRenderer.send('setGlobalShortcuts');
+            instance.setModifier();
         });
     }
 
@@ -60,6 +60,9 @@ class Settings {
         document.querySelector('#setting-modifier-ctrl').checked = store.get('modifier-ctrl', true);
         document.querySelector('#setting-modifier-shift').checked = store.get('modifier-shift', true);
         document.querySelector('#setting-modifier-alt').checked = store.get('modifier-alt', false);
+
+        let amount = document.querySelectorAll('.page-sound-board .button-sound').length;
+        ipcRenderer.send('setGlobalShortcuts', amount);
     }
 
     bindAppSettings() {
@@ -128,21 +131,21 @@ class Settings {
         }
     }
 
-    bindStoreEditor() {
+    bindDangerZone() {
         document.querySelector('.setting-store-editor').addEventListener('click', function () {
             store.openInEditor();
+        });
+        document.querySelector('.setting-open-user-data').addEventListener('click', function () {
+            shell.openItem(remote.app.getPath('userData'));
+        });
+        document.querySelector('.setting-reset-app').addEventListener('click', function () {
+            ipcRenderer.send('app', 'reset');
         });
     }
 
     bindRestartApp() {
         document.querySelector('.setting-restart-app').addEventListener('click', function () {
             ipcRenderer.send('app', 'restart');
-        });
-    }
-
-    bindResetApp() {
-        document.querySelector('.setting-reset-app').addEventListener('click', function () {
-            ipcRenderer.send('app', 'reset');
         });
     }
 }
