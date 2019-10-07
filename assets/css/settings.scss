@@ -78,6 +78,35 @@
                 color: $iconColor;
             }
         }
+
+        .btn-theme {
+            background-color: $backgroundColor;
+            border-color: $backgroundColor;
+            color: $iconColor;
+
+            &:hover {
+                background-color: darken($backgroundColor, 11%);
+                border-color: darken($backgroundColor, 11%);
+            }
+        }
+
+        .custom-control {
+            .custom-control-label:before {
+                background-color: $backgroundColor;
+                border-color: rgb(173, 181, 189);
+                box-shadow: none;
+            }
+            .custom-control-input:checked ~ .custom-control-label:before {
+                background-color: $backgroundColor;
+                border-color: rgb(173, 181, 189);
+            }
+        }
+
+        .slider {
+            &::-webkit-slider-thumb {
+                background: $backgroundColor;
+            }
+        }
     }
 
     .setting-color-#{$selector} {

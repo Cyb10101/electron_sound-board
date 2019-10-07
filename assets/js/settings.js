@@ -16,6 +16,9 @@ class Settings {
         this.setButtonColor();
         this.bindPageColor();
         this.bindButtonColor();
+
+        this.bindStoreEditor();
+        this.bindResetApp();
     }
 
     bindVolume() {
@@ -74,7 +77,7 @@ class Settings {
     }
 
     setPageColor() {
-        let id = store.get('page-color');
+        let id = store.get('page-color', '0-page');
         if (id) {
             document.body.className = document.body.className.replace(/page-color-(\w+(-\w+)?)/g, '');
             document.body.classList.add('page-color-' + id);
@@ -99,11 +102,23 @@ class Settings {
     }
 
     setButtonColor() {
-        let id = store.get('button-color');
+        let id = store.get('button-color', '0-button');
         if (id) {
             document.body.className = document.body.className.replace(/button-color-(\w+(-\w+)?)/g, '');
             document.body.classList.add('button-color-' + id);
         }
+    }
+
+    bindStoreEditor() {
+        document.querySelector('.setting-store-editor').addEventListener('click', function () {
+            store.openInEditor();
+        });
+    }
+
+    bindResetApp() {
+        document.querySelector('.setting-reset-app').addEventListener('click', function () {
+            ipcRenderer.send('app', 'reset');
+        });
     }
 }
 

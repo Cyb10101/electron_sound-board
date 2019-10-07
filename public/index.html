@@ -196,6 +196,35 @@
                     <div class="color-circle setting-color-19"></div>
                 </div>
             </div>
+            <div class="col-12 mb-3">
+                <h3>Danger Zone</h3>
+                <button type="button" class="btn btn-theme setting-store-editor">
+                    Configuration editor
+                </button>
+                <button type="button" class="btn btn-theme" data-toggle="modal" data-target="#appReset">
+                    Reset App
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="appReset" tabindex="-1" role="dialog" aria-labelledby="appResetTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Reset app data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                If you reset the app, all settings will be reset to default.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, do nothing</button>
+                <button type="button" class="btn btn-danger setting-reset-app">Yes, reset app</button>
+            </div>
         </div>
     </div>
 </div>

@@ -218,6 +218,14 @@ class ElectronApp {
         ipcMain.on('setGlobalShortcuts', function () {
             instance.setGlobalShortcuts();
         });
+        ipcMain.on('app', function (event, args) {
+            if (args === 'reset') {
+                mainWindow.close();
+                store.clear();
+                app.relaunch();
+                app.quit();
+            }
+        });
     }
 
     setGlobalShortcuts() {
