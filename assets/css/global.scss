@@ -94,6 +94,16 @@ nav.navbar {
         font-size: 21px;
     }
 
+    .separator {
+        display: inline-block;
+        float: right;
+        margin: 6px 5px 0;
+        width: 1px;
+        height: 20px;
+        border-left: 1px solid;
+        opacity: 0.5;
+    }
+
     .button {
         display: inline-block;
         float: right;
@@ -111,7 +121,7 @@ nav.navbar {
             opacity: 1 !important;
         }
 
-        .fas {
+        .fas, .far {
             display: flex;
             align-items: center;
             justify-content: center;

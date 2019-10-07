@@ -210,6 +210,14 @@ class ElectronApp {
         ipcMain.on('mainWindow', function (event, args) {
             if (args === 'close') {
                 mainWindow.close();
+            } else if (args === 'maximize') {
+                if (mainWindow.isMaximized()) {
+                    mainWindow.restore();
+                } else {
+                    mainWindow.maximize();
+                }
+            } else if (args === 'minimize') {
+                mainWindow.minimize();
             }
         });
 

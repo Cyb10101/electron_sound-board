@@ -50,6 +50,12 @@ class SoundBoard {
         document.querySelector('.menu .close').addEventListener('click', function () {
             ipcRenderer.send('mainWindow', 'close');
         });
+        document.querySelector('.menu .maximize').addEventListener('click', function () {
+            ipcRenderer.send('mainWindow', 'maximize');
+        });
+        document.querySelector('.menu .minimize').addEventListener('click', function () {
+            ipcRenderer.send('mainWindow', 'minimize');
+        });
     }
 
     connectIpc() {
