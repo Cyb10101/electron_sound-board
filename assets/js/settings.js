@@ -1,6 +1,6 @@
 'use strict';
 
-const {ipcRenderer} = require('electron');
+const {ipcRenderer, remote, shell} = require('electron');
 const Store = require('electron-store');
 const store = new Store();
 
@@ -16,6 +16,12 @@ class Settings {
         this.setButtonColor();
         this.bindPageColor();
         this.bindButtonColor();
+
+        this.bindAppSettings();
+        this.setAppSettings();
+
+        this.bindDangerZone();
+        this.bindRestartApp();
     }
 
     bindVolume() {
@@ -36,17 +42,17 @@ class Settings {
         let instance = this;
         document.querySelector('#setting-modifier-ctrl').addEventListener('change', function () {
             store.set('modifier-ctrl', this.checked);
-            ipcRenderer.send('setGlobalShortcuts');
+            instance.setModifier();
         });
 
         document.querySelector('#setting-modifier-shift').addEventListener('change', function () {
             store.set('modifier-shift', this.checked);
-            ipcRenderer.send('setGlobalShortcuts');
+            instance.setModifier();
         });
 
         document.querySelector('#setting-modifier-alt').addEventListener('change', function () {
             store.set('modifier-alt', this.checked);
-            ipcRenderer.send('setGlobalShortcuts');
+            instance.setModifier();
         });
     }
 
@@ -54,6 +60,25 @@ class Settings {
         document.querySelector('#setting-modifier-ctrl').checked = store.get('modifier-ctrl', true);
         document.querySelector('#setting-modifier-shift').checked = store.get('modifier-shift', true);
         document.querySelector('#setting-modifier-alt').checked = store.get('modifier-alt', false);
+
+        let amount = document.querySelectorAll('.page-sound-board .button-sound').length;
+        ipcRenderer.send('setGlobalShortcuts', amount);
+    }
+
+    bindAppSettings() {
+        document.querySelector('#setting-app-frame').addEventListener('change', function () {
+            store.set('app-frame', this.checked);
+            $('#appRestart').modal();
+        });
+    }
+
+    setAppSettings() {
+        let isFrame = store.get('app-frame', false);
+        document.querySelector('#setting-app-frame').checked = isFrame;
+        document.querySelector('.menu .close').style.display = (isFrame ? 'none' : 'inline-block');
+        document.querySelector('.menu .maximize').style.display = (isFrame ? 'none' : 'inline-block');
+        document.querySelector('.menu .minimize').style.display = (isFrame ? 'none' : 'inline-block');
+        document.querySelector('.menu .window-default').style.display = (isFrame ? 'none' : 'inline-block');
     }
 
     bindPageColor() {
@@ -74,7 +99,7 @@ class Settings {
     }
 
     setPageColor() {
-        let id = store.get('page-color');
+        let id = store.get('page-color', '0-page');
         if (id) {
             document.body.className = document.body.className.replace(/page-color-(\w+(-\w+)?)/g, '');
             document.body.classList.add('page-color-' + id);
@@ -99,11 +124,29 @@ class Settings {
     }
 
     setButtonColor() {
-        let id = store.get('button-color');
+        let id = store.get('button-color', '0-button');
         if (id) {
             document.body.className = document.body.className.replace(/button-color-(\w+(-\w+)?)/g, '');
             document.body.classList.add('button-color-' + id);
         }
+    }
+
+    bindDangerZone() {
+        document.querySelector('.setting-store-editor').addEventListener('click', function () {
+            store.openInEditor();
+        });
+        document.querySelector('.setting-open-user-data').addEventListener('click', function () {
+            shell.openItem(remote.app.getPath('userData'));
+        });
+        document.querySelector('.setting-reset-app').addEventListener('click', function () {
+            ipcRenderer.send('app', 'reset');
+        });
+    }
+
+    bindRestartApp() {
+        document.querySelector('.setting-restart-app').addEventListener('click', function () {
+            ipcRenderer.send('app', 'restart');
+        });
     }
 }
 

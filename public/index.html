@@ -9,85 +9,19 @@
 <body>
 <div class="menu">
     <div class="page-back"><i class="fas fa-arrow-left"></i> <span>Back</span></div>
-    <div class="brand"><i class="fas fa-volume-up"></i> Sound Board</div>
+    <div class="brand"><i class="fas fa-volume-up"></i><span> Sound Board</span></div>
 
-    <div class="button close"><i class="fas fa-times"></i></div>
+    <div class="button close"><i class="far fa-window-close"></i></div>
+    <div class="button maximize"><i class="far fa-window-maximize"></i></div>
+    <div class="button minimize"><i class="far fa-window-minimize"></i></div>
+    <div class="separator window-default"></div>
     <div class="button settings"><i class="fas fa-cog"></i></div>
     <div class="button help"><i class="fas fa-question"></i></div>
     <div class="button copyright"><i class="fas fa-copyright"></i></div>
 </div>
 
 <div class="page page-sound-board">
-    <div class="container-fluid sound-board">
-        <div class="row buttons">
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-        </div>
-        <div class="row buttons">
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-        </div>
-        <div class="row buttons">
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-        </div>
-        <div class="row buttons">
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="button-sound" data-sound="ba-da-dum.wav">
-                    <i class="fas fa-drum"></i>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="square-container"></div>
 </div>
 
 <div class="page page-copyright" style="display: none;">
@@ -97,7 +31,12 @@
                 <h3>Sounds</h3>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-                <h5><i class="fas fa-file-audio"></i> ba-da-dum.wav</h5>
+                <h5>
+                    <div class="button-sound" data-sound="ba-da-dum">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    ba-da-dum
+                </h5>
                 <b>Author:</b> <a href="https://freesound.org/people/Simon_Lacelle/sounds/37215/" class="external">Simon_Lacelle</a><br>
                 <b>Licence:</b> <a href="https://creativecommons.org/licenses/by/3.0/" class="external">CC BY 3.0</a>
             </div>
@@ -122,7 +61,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 mb-3">
-                <h3>Volume: <span id="setting-volume-label"></span></h3>
+                <h3>
+                    Volume
+                    <div class="button-sound pull-right" data-sound="ba-da-dum">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <span id="setting-volume-label"></span>
+                </h3>
                 <input type="range" min="0" max="100" value="50" class="slider" id="setting-volume">
             </div>
 
@@ -169,11 +114,7 @@
             </div>
             <div class="col-12 mb-3">
                 <div class="setting-button-color">
-                    <h3>Button color
-                        <div class="button-sound button-sound-minimal" data-sound="ba-da-dum.wav">
-                            <i class="fas fa-drum"></i>
-                        </div>
-                    </h3>
+                    <h3>Button color</h3>
                     <div class="color-circle setting-color-0-button"></div>
                     <div class="color-circle setting-color-1"></div>
                     <div class="color-circle setting-color-2"></div>
@@ -195,6 +136,65 @@
                     <div class="color-circle setting-color-18"></div>
                     <div class="color-circle setting-color-19"></div>
                 </div>
+            </div>
+            <div class="col-12 mb-3">
+                <h3>Application</h3>
+                <div class="custom-control custom-checkbox custom-control-inline mr-3">
+                    <input type="checkbox" class="custom-control-input" id="setting-app-frame">
+                    <label class="custom-control-label" for="setting-app-frame">Frame (Disable for frameless window)</label>
+                </div>
+            </div>
+            <div class="col-12 mb-3 border border-danger rounded">
+                <h3>Danger Zone</h3>
+                <button type="button" class="btn btn-theme setting-store-editor mb-1">
+                    Configuration editor
+                </button>
+                <button type="button" class="btn btn-theme setting-open-user-data mb-1">
+                    User data folder
+                </button>
+                <button type="button" class="btn btn-theme mb-1" data-toggle="modal" data-target="#appReset">
+                    Reset App
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="appRestart" tabindex="-1" role="dialog" aria-labelledby="appRestartTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="appRestartLongTitle">Restart app</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to restart the app?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger setting-restart-app">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="appReset" tabindex="-1" role="dialog" aria-labelledby="appResetTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="appResetLongTitle">Reset app data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                If you reset the app, all settings will be reset to default.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, do nothing</button>
+                <button type="button" class="btn btn-danger setting-reset-app">Yes, reset app</button>
             </div>
         </div>
     </div>

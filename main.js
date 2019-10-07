@@ -27,11 +27,9 @@ let environment = new Environment();
 /******************************************************************************/
 
 let mainWindow;
+let trayMenu;
 
 class ElectronApp {
-    constructor() {
-
-    }
     mainWindowMenu() {
         const mainMenuTemplate = [{
             label: 'File',
@@ -116,9 +114,9 @@ class ElectronApp {
     mainWindowCreate() {
         mainWindow = new BrowserWindow({
             ...this.getSavedWindowBounds('mainWindowBounds', {width: 500, height: 450}),
-            minWidth: 260,
-            minHeight: 260,
-            frame: (environment.isDevelopment() ? true : false),
+            minWidth: 280,
+            minHeight: 280,
+            frame: (store.get('app-frame', false)),
             autoHideMenuBar: false,
             resizable: true,
             useContentSize: true,
@@ -128,15 +126,8 @@ class ElectronApp {
             }
         });
 
-        let scheme = 'app';
-        mainWindow.webContents.session.protocol.registerFileProtocol(scheme, (request, callback) => {
-            const url = request.url.substr(scheme.length + 3);
-            callback({path: path.normalize(`${__dirname}/public/${url}`)});
-        }, (error) => {
-            if (error) {
-                console.error('Failed to register protocol');
-            }
-        });
+        this.registerFileProtocol('app', __dirname + '/public/');
+        this.registerFileProtocol('user', app.getPath('userData') + '/');
 
         if (environment.isDevelopment()) {
             mainWindow.webContents.openDevTools();
@@ -155,9 +146,21 @@ class ElectronApp {
         });
     }
 
+    registerFileProtocol(scheme) {
+        mainWindow.webContents.session.protocol.registerFileProtocol(scheme, (request, callback) => {
+            const url = request.url.substr(scheme.length + 3);
+            callback({path: path.normalize(`${__dirname}/public/${url}`)});
+        }, (error) => {
+            if (error) {
+                console.error('Failed to register protocol ' + scheme);
+            }
+        });
+    }
+
+
     trayMenu() {
         let instance = this;
-        let tray = new Tray(path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'));
+        trayMenu = new Tray(path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'));
 
         const contextMenu = Menu.buildFromTemplate([{
             label: 'Sound board',
@@ -203,8 +206,8 @@ class ElectronApp {
             label: 'Quit',
             click: app.quit
         }]);
-        tray.setToolTip('Sound board');
-        tray.setContextMenu(contextMenu);
+        trayMenu.setToolTip('Sound board');
+        trayMenu.setContextMenu(contextMenu);
     }
 
     connectIpc() {
@@ -212,14 +215,35 @@ class ElectronApp {
         ipcMain.on('mainWindow', function (event, args) {
             if (args === 'close') {
                 mainWindow.close();
+            } else if (args === 'maximize') {
+                if (mainWindow.isMaximized()) {
+                    mainWindow.restore();
+                } else {
+                    mainWindow.maximize();
+                }
+            } else if (args === 'minimize') {
+                mainWindow.minimize();
             }
         });
-        ipcMain.on('setGlobalShortcuts', function () {
-            instance.setGlobalShortcuts();
+
+        ipcMain.on('setGlobalShortcuts', function (event, args) {
+            instance.setGlobalShortcuts(args);
+        });
+
+        ipcMain.on('app', function (event, args) {
+            if (args === 'restart') {
+                app.relaunch();
+                app.quit();
+            } else if (args === 'reset') {
+                mainWindow.close();
+                store.clear();
+                app.relaunch();
+                app.quit();
+            }
         });
     }
 
-    setGlobalShortcuts() {
+    setGlobalShortcuts(amount) {
         globalShortcut.unregisterAll();
 
         let shortcutPrefix = '';
@@ -234,22 +258,25 @@ class ElectronApp {
         }
 
         // Keys 1 to 9
-        for (let i = 1; i <= 9; i++) {
-            globalShortcut.register(shortcutPrefix + i, function () {
-                mainWindow.webContents.send('global-shortcut', (i - 1));
-            });
+        if (amount >= 1) {
+            for (let i = 1; i <= Math.min(9, amount); i++) {
+                globalShortcut.register(shortcutPrefix + i, function () {
+                    mainWindow.webContents.send('global-shortcut', (i - 1));
+                });
+            }
         }
 
-        globalShortcut.register(shortcutPrefix + '0', function () {
-            mainWindow.webContents.send('global-shortcut', 9);
-        });
+        if (amount >= 10) {
+            globalShortcut.register(shortcutPrefix + '0', function () {
+                mainWindow.webContents.send('global-shortcut', 9);
+            });
+        }
     }
 }
 
 let electronApp = new ElectronApp();
 
 app.on('ready', () => {
-    electronApp.setGlobalShortcuts();
     electronApp.mainWindowMenu();
     electronApp.mainWindowCreate();
     electronApp.connectIpc();
