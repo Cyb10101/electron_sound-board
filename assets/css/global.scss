@@ -18,8 +18,10 @@ body {
     color: #000000;
     @include user-select(none);
     overflow: hidden;
-    -webkit-app-region: drag;
     transition: background 1000ms, color 1000ms;
+
+    // @todo Not working with modal
+    //-webkit-app-region: drag;
 }
 
 a {
@@ -32,6 +34,11 @@ a:hover {
 }
 a:active {
     text-decoration: underline;
+}
+
+.modal button,
+.btn {
+    -webkit-app-region: no-drag;
 }
 
 .page {
@@ -53,6 +60,7 @@ nav.navbar {
     width: 100%;
     height: 34px;
     z-index: 1000;
+    -webkit-app-region: drag;
 
     &:after {
         clear: both;

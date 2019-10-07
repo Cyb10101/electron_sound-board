@@ -30,9 +30,6 @@ let mainWindow;
 let trayMenu;
 
 class ElectronApp {
-    constructor() {
-
-    }
     mainWindowMenu() {
         const mainMenuTemplate = [{
             label: 'File',
@@ -119,7 +116,7 @@ class ElectronApp {
             ...this.getSavedWindowBounds('mainWindowBounds', {width: 500, height: 450}),
             minWidth: 260,
             minHeight: 260,
-            frame: (environment.isDevelopment() ? true : false),
+            frame: (store.get('app-frame', false)),
             autoHideMenuBar: false,
             resizable: true,
             useContentSize: true,
@@ -215,11 +212,16 @@ class ElectronApp {
                 mainWindow.close();
             }
         });
+
         ipcMain.on('setGlobalShortcuts', function () {
             instance.setGlobalShortcuts();
         });
+
         ipcMain.on('app', function (event, args) {
-            if (args === 'reset') {
+            if (args === 'restart') {
+                app.relaunch();
+                app.quit();
+            } else if (args === 'reset') {
                 mainWindow.close();
                 store.clear();
                 app.relaunch();

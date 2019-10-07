@@ -17,7 +17,11 @@ class Settings {
         this.bindPageColor();
         this.bindButtonColor();
 
+        this.bindAppSettings();
+        this.setAppSettings();
+
         this.bindStoreEditor();
+        this.bindRestartApp();
         this.bindResetApp();
     }
 
@@ -36,7 +40,6 @@ class Settings {
     }
 
     bindModifier() {
-        let instance = this;
         document.querySelector('#setting-modifier-ctrl').addEventListener('change', function () {
             store.set('modifier-ctrl', this.checked);
             ipcRenderer.send('setGlobalShortcuts');
@@ -57,6 +60,19 @@ class Settings {
         document.querySelector('#setting-modifier-ctrl').checked = store.get('modifier-ctrl', true);
         document.querySelector('#setting-modifier-shift').checked = store.get('modifier-shift', true);
         document.querySelector('#setting-modifier-alt').checked = store.get('modifier-alt', false);
+    }
+
+    bindAppSettings() {
+        document.querySelector('#setting-app-frame').addEventListener('change', function () {
+            store.set('app-frame', this.checked);
+            $('#appRestart').modal();
+        });
+    }
+
+    setAppSettings() {
+        let isFrame = store.get('app-frame', false);
+        document.querySelector('#setting-app-frame').checked = isFrame;
+        document.querySelector('.menu .close').style.display = (isFrame ? 'none' : 'inline-block');
     }
 
     bindPageColor() {
@@ -112,6 +128,12 @@ class Settings {
     bindStoreEditor() {
         document.querySelector('.setting-store-editor').addEventListener('click', function () {
             store.openInEditor();
+        });
+    }
+
+    bindRestartApp() {
+        document.querySelector('.setting-restart-app').addEventListener('click', function () {
+            ipcRenderer.send('app', 'restart');
         });
     }
 
