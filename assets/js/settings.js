@@ -79,6 +79,7 @@ class Settings {
         document.querySelector('.menu .maximize').style.display = (isFrame ? 'none' : 'inline-block');
         document.querySelector('.menu .minimize').style.display = (isFrame ? 'none' : 'inline-block');
         document.querySelector('.menu .window-default').style.display = (isFrame ? 'none' : 'inline-block');
+        document.querySelector('#setting-app-version').innerHTML = remote.app.getVersion();
     }
 
     bindPageColor() {
