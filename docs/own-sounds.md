@@ -23,13 +23,13 @@ Example of a configuration:
         }, {
             "soundUser": "sounds/external.wav"
         }, {
-            "soundUser": "sounds/external.wav",
+            "soundUser": "sounds/external.mp3",
             "icon": "fas fa-flask"
         }, {
             "soundUser": "sounds/external.wav",
             "imageUser": "sounds/external.png"
         }, {
-            "soundUser": "sounds/external.wav",
+            "soundUser": "sounds/external.mp3",
             "imageUser": "sounds/external.svg"
         }
     ]
@@ -42,6 +42,10 @@ This means that nothing new can be added.
 The variables `soundUser`, `imageUser` are external and start at the software user folder.
 
 As `icon` you can use anything that exists from [Font Awesome](https://fontawesome.com/) package.
+
+If you want to change `sound`, use the predefined sounds below.
+
+For `soundUser` you theoretically choose any audio file that is suitable for the web.
 
 For `image` or `imageUser` you theoretically choose any image that is suitable for the web.
 I recommend to choose a svg.
