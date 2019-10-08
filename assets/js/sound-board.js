@@ -1,6 +1,6 @@
 'use strict';
 
-const {ipcRenderer, remote, shell} = require('electron');
+const {ipcRenderer, shell} = require('electron');
 const Store = require('electron-store');
 const store = new Store();
 import Sortable from 'sortablejs';
@@ -209,7 +209,7 @@ class SoundBoard {
     connectSortable() {
         let instance = this;
         let sortable = new Sortable(document.querySelector('.page-sound-board .square-container'), {
-            delay: 80,
+            delay: 500,
             animation: 150,
             draggable: '.square-item',
             ghostClass: 'sortable-ghost',
