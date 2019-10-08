@@ -40,6 +40,16 @@
                 <b>Author:</b> <a href="https://freesound.org/people/Simon_Lacelle/sounds/37215/" class="external">Simon_Lacelle</a><br>
                 <b>Licence:</b> <a href="https://creativecommons.org/licenses/by/3.0/" class="external">CC BY 3.0</a>
             </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                <h5>
+                    <div class="button-sound" data-sound="weapon-science-fiction-01">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    weapon-science-fiction-01
+                </h5>
+                <b>Author:</b> <a href="https://www.zapsplat.com/music/science-fiction-weapon-gun-shoot-powerful-1/" class="external">ZapSplat</a><br>
+                <b>Licence:</b> <a href="https://www.zapsplat.com/license-type/standard-license/" class="external">Standard License</a>
+            </div>
         </div>
     </div>
 </div>
@@ -49,9 +59,16 @@
         <div class="row">
             <div class="col-12 mb-3">
                 <h3><i class="fas fa-book-medical"></i> Modifier keys for global shortcuts</h3>
-                <p>Press <strong>Modifier-Keys + Number</strong> (Ctrl + Shift + 1) on the keyboard to play sounds.</p>
+                <p>Press <strong>Modifier-Keys + Number</strong> (<span class="setting-modifier-example">Ctrl + Shift + 1</span>) on the keyboard to play sounds.</p>
                 <p>Current possible numbers are <strong>1, 2, 3, 4, 5, 6, 7, 8, 9, 0</strong>.</p>
                 <p>Modifier keys for shortcuts can be changed in the settings.</p>
+            </div>
+            <div class="col-12 mb-3">
+                <h3><i class="fab fa-github"></i> GitHub Repository</h3>
+                <p>
+                    Further information is documented in the GitHub repository:
+                    <a href="https://github.com/Cyb10101/electron_sound-board/" class="external">Cyb10101/electron_sound-board</a>
+                </p>
             </div>
         </div>
     </div>
@@ -139,12 +156,15 @@
             </div>
             <div class="col-12 mb-3">
                 <h3>Application</h3>
-                <div class="custom-control custom-checkbox custom-control-inline mr-3">
+                <div class="custom-control custom-checkbox custom-control-inline mb-1">
                     <input type="checkbox" class="custom-control-input" id="setting-app-frame">
                     <label class="custom-control-label" for="setting-app-frame">Frame (Disable for frameless window)</label>
                 </div>
+                <div>
+                    <b>Version:</b> <span id="setting-app-version"></span>
+                </div>
             </div>
-            <div class="col-12 mb-3 border border-danger rounded">
+            <div class="col-12 mb-3 border border-danger rounded dashed">
                 <h3>Danger Zone</h3>
                 <button type="button" class="btn btn-theme setting-store-editor mb-1">
                     Configuration editor
@@ -170,7 +190,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                Do you want to restart the app?
+                Do you want to restart the app?<br>
+                <br>
+                <i>Note: Windows does not start the application automatically.</i>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
