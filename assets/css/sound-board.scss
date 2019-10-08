@@ -177,3 +177,17 @@
         }
     }
 }
+
+.square-container .square-item  {
+    &.sortable-chosen {
+        top: 4px;
+        box-shadow: 0 0 0 #ffffff;
+        border: 3px dashed #DB0000;
+    }
+    &.sortable-ghost {
+        top: 4px;
+        background-color: #f8f8ff;
+        box-shadow: 0 0 0 #ffffff;
+        border: 3px dashed #9CB6C3;
+    }
+}

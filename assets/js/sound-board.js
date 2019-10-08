@@ -3,6 +3,7 @@
 const {ipcRenderer, remote, shell} = require('electron');
 const Store = require('electron-store');
 const store = new Store();
+import Sortable from 'sortablejs';
 
 class SoundBoard {
     constructor() {
@@ -12,13 +13,17 @@ class SoundBoard {
             this.connectMenu();
             this.connectIpc();
             this.connectSoundButtons();
+            this.connectSortable();
         }
         this.connectExternalLinks();
     }
 
     mapSound(name) {
-        switch (name) {
-            case 'ba-da-dum': return {sound: 'ba-da-dum.wav', icon: 'fas fa-drum'};
+        let predefinedSounds = {
+            'ba-da-dum': {sound: 'ba-da-dum.wav', icon: 'fas fa-drum'}
+        };
+        if (predefinedSounds.hasOwnProperty(name)) {
+            return predefinedSounds[name];
         }
         return null;
     }
@@ -200,6 +205,34 @@ class SoundBoard {
             });
         }
     }
+
+    connectSortable() {
+        let instance = this;
+        let sortable = new Sortable(document.querySelector('.page-sound-board .square-container'), {
+            delay: 80,
+            animation: 150,
+            draggable: '.square-item',
+            ghostClass: 'sortable-ghost',
+            chosenClass: "sortable-chosen",
+            onUpdate: function (event) {
+                let board = store.get('board', []);
+                instance.arrayMove(board, event.oldIndex, event.newIndex);
+                store.set('board', board);
+            },
+        });
+    }
+
+    arrayMove(array, oldIndex, newIndex) {
+        if (newIndex >= array.length) {
+            let pushEmpty = newIndex - array.length + 1;
+            while (pushEmpty--) {
+                array.push(undefined);
+            }
+        }
+        array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
+        return array; // for testing
+    };
+
 }
 
 document.addEventListener('DOMContentLoaded', function () {
