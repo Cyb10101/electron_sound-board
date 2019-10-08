@@ -4,6 +4,7 @@ const {ipcRenderer, shell} = require('electron');
 const Store = require('electron-store');
 const store = new Store();
 import Sortable from 'sortablejs';
+import {predefinedSounds} from './predefined-sounds.js';
 
 class SoundBoard {
     constructor() {
@@ -16,17 +17,6 @@ class SoundBoard {
             this.connectSortable();
         }
         this.connectExternalLinks();
-    }
-
-    mapSound(name) {
-        let predefinedSounds = {
-            'ba-da-dum': {sound: 'ba-da-dum.wav', icon: 'fas fa-drum'},
-            'weapon-science-fiction-01': {sound: 'weapon-science-fiction-01.mp3', image: 'weapon-military-01.svg'}
-        };
-        if (predefinedSounds.hasOwnProperty(name)) {
-            return predefinedSounds[name];
-        }
-        return null;
     }
 
     defaultSoundBoard() {
@@ -47,13 +37,15 @@ class SoundBoard {
         for (let item of board) {
             let element = document.createElement('div');
             element.className = 'square-item button-sound';
-            if (item.sound && this.mapSound(item.sound)) {
+
+            let soundStored = predefinedSounds.getSound(item.sound);
+            if (item.sound && soundStored) {
                 element.setAttribute('data-sound', item.sound);
-                if (!item.image && this.mapSound(item.sound).image) {
-                    item.image = this.mapSound(item.sound).image;
+                if (!item.image && soundStored.image) {
+                    item.image = soundStored.image;
                 }
                 if (!item.image && !item.icon) {
-                    item.icon = this.mapSound(item.sound).icon;
+                    item.icon = soundStored.icon;
                 }
             } else if (item.soundUser) {
                 element.setAttribute('data-soundUser', item.soundUser);
@@ -193,7 +185,8 @@ class SoundBoard {
         let external = false;
         let filename;
         if (sound && sound.value !== '') {
-            filename = 'app://sounds/' + this.mapSound(sound.value).sound;
+            let soundStored = predefinedSounds.getSound(sound.value);
+            filename = 'app://sounds/' + soundStored.sound;
         } else if (soundUser && soundUser.value !== '') {
             external = true;
             filename = 'user://' + soundUser.value;
