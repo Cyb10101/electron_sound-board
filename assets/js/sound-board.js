@@ -20,7 +20,8 @@ class SoundBoard {
 
     mapSound(name) {
         let predefinedSounds = {
-            'ba-da-dum': {sound: 'ba-da-dum.wav', icon: 'fas fa-drum'}
+            'ba-da-dum': {sound: 'ba-da-dum.wav', icon: 'fas fa-drum'},
+            'weapon-science-fiction-01': {sound: 'weapon-science-fiction-01.mp3', image: 'weapon-military-01.svg'}
         };
         if (predefinedSounds.hasOwnProperty(name)) {
             return predefinedSounds[name];
@@ -31,6 +32,8 @@ class SoundBoard {
     defaultSoundBoard() {
         return [{
             sound: 'ba-da-dum'
+        }, {
+            sound: 'weapon-science-fiction-01',
         }];
     }
 
@@ -46,7 +49,10 @@ class SoundBoard {
             element.className = 'square-item button-sound';
             if (item.sound && this.mapSound(item.sound)) {
                 element.setAttribute('data-sound', item.sound);
-                if (!item.icon) {
+                if (!item.image && this.mapSound(item.sound).image) {
+                    item.image = this.mapSound(item.sound).image;
+                }
+                if (!item.image && !item.icon) {
                     item.icon = this.mapSound(item.sound).icon;
                 }
             } else if (item.soundUser) {
