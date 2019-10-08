@@ -8,6 +8,6 @@ A board with buttons to play funny sounds.
 
 ## Documentation
 
-* [Own sounds](docs/own-sounds.md)
+* [Usage](docs/usage.md)
+* [Add own sounds](docs/add-own-sounds.md)
 * [Development](docs/development.md)
-

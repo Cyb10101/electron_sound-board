@@ -57,6 +57,23 @@ class Settings {
     }
 
     setModifier() {
+        let modifierCombined = '';
+        if (store.get('modifier-ctrl', true)) {
+            modifierCombined += 'Ctrl + ';
+        }
+        if (store.get('modifier-shift', true)) {
+            modifierCombined += 'Shift + ';
+        }
+        if (store.get('modifier-alt', true)) {
+            modifierCombined += 'Alt + ';
+        }
+        modifierCombined += '1';
+
+        let modifierExamples = document.querySelectorAll('.setting-modifier-example');
+        for (let i = 0; i < modifierExamples.length; i++) {
+            modifierExamples[i].innerHTML = modifierCombined;
+        }
+
         document.querySelector('#setting-modifier-ctrl').checked = store.get('modifier-ctrl', true);
         document.querySelector('#setting-modifier-shift').checked = store.get('modifier-shift', true);
         document.querySelector('#setting-modifier-alt').checked = store.get('modifier-alt', false);

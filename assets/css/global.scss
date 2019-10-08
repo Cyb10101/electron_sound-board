@@ -26,14 +26,17 @@ body {
 
 a {
     color: #000000;
-    text-decoration: underline;
+    border-bottom: 1px solid #c0c0c0;
+    text-decoration: none;
     -webkit-app-region: no-drag;
 }
-a:hover {
-    text-decoration: overline;
-}
 a:active {
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom: 1px solid #c0c0c0;
+}
+a:hover {
+    text-decoration: none;
+    border-bottom: 1px dashed #c0c0c0;
 }
 
 .modal button,

@@ -1,8 +1,10 @@
-# Own sounds
+# Add own sounds
 
 There is a Danger Zone area in the software under Settings.
 
-There you can open the configuration in the editor or open the user folder of the software.
+There you can open the configuration (`config.json`) in the editor or open the `user data folder` of the software.
+
+*Note: If you edit the configuration incorrectly and there is a bug in it, everything will be reset to default.*
 
 Example of a configuration:
 
@@ -27,10 +29,10 @@ Example of a configuration:
             "icon": "fas fa-flask"
         }, {
             "soundUser": "sounds/external.wav",
-            "imageUser": "sounds/external.png"
+            "imageUser": "images/external.png"
         }, {
             "soundUser": "sounds/external.mp3",
-            "imageUser": "sounds/external.svg"
+            "imageUser": "images/external.svg"
         }
     ]
 }
@@ -41,7 +43,7 @@ This means that nothing new can be added.
 
 The variables `soundUser`, `imageUser` are external and start at the software user folder.
 
-As `icon` you can use anything that exists from [Font Awesome](https://fontawesome.com/) package.
+As `icon` you can use anything that exists from [Font Awesome](https://fontawesome.com/) free package.
 
 If you want to change `sound`, use the predefined sounds below.
 
@@ -55,3 +57,6 @@ I recommend to choose a svg.
 Predefined ones which you can use as `sound`.
 
 * ba-da-dum
+* weapon-science-fiction-01
+
+*Note: Possibly not updated. But should always be complete in the reset of the app.*
