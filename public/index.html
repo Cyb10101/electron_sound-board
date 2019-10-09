@@ -192,7 +192,7 @@
             <div class="modal-body">
                 Do you want to restart the app?<br>
                 <br>
-                <i>Note: Windows does not start the application automatically.</i>
+                <i>Note: Windows maybe does not start the application automatically.</i>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
@@ -212,11 +212,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                If you reset the app, all settings will be reset to default.
+                If you reset the app, all settings will be reset to default.<br>
+                <br>
+                <i>Note: Windows maybe does not start the application automatically.</i>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No, do nothing</button>
-                <button type="button" class="btn btn-danger setting-reset-app">Yes, reset app</button>
+                <button type="button" class="btn btn-danger setting-reset-app" data-action="close">Yes, reset & close</button>
+                <button type="button" class="btn btn-danger setting-reset-app" data-action="restart">Yes, reset & restart</button>
             </div>
         </div>
     </div>

@@ -231,13 +231,15 @@ class ElectronApp {
         });
 
         ipcMain.on('app', function (event, args) {
-            if (args === 'restart') {
+            if (args.do === 'restart') {
                 app.relaunch();
                 app.quit();
-            } else if (args === 'reset') {
+            } else if (args.do === 'reset') {
                 mainWindow.close();
                 store.clear();
-                app.relaunch();
+                if (args.action === 'restart') {
+                    app.relaunch();
+                }
                 app.quit();
             }
         });

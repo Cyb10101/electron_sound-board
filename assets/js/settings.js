@@ -156,14 +156,17 @@ class Settings {
         document.querySelector('.setting-open-user-data').addEventListener('click', function () {
             shell.openItem(remote.app.getPath('userData'));
         });
-        document.querySelector('.setting-reset-app').addEventListener('click', function () {
-            ipcRenderer.send('app', 'reset');
+        document.querySelectorAll('.setting-reset-app').forEach(function(button) {
+            button.addEventListener('click', function () {
+                let action = (this.getAttribute('data-action') === 'restart' ? 'restart' : 'close');
+                ipcRenderer.send('app', {do: 'reset', action: action});
+            });
         });
     }
 
     bindRestartApp() {
         document.querySelector('.setting-restart-app').addEventListener('click', function () {
-            ipcRenderer.send('app', 'restart');
+            ipcRenderer.send('app', {do: 'restart'});
         });
     }
 }
