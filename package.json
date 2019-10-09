@@ -28,6 +28,7 @@
     },
     "build": {
         "appId": "com.cyb.${name}",
+        "artifactName": "${name}_${version}_${os}_${arch}.${ext}",
         "linux": {
             "category": "Utility",
             "target": [
