@@ -58,7 +58,20 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 mb-3">
-                <h3><i class="fas fa-book-medical"></i> Modifier keys for global shortcuts</h3>
+                <h3><i class="fas fa-book-medical"></i> Sound test buttons</h3>
+                <p>If you're watching this:
+                    <span class="button-sound pull-right" data-sound="ba-da-dum">
+                        <i class="fas fa-volume-up"></i>
+                    </span>
+                    <br>
+                    ...then you can hear a sound with a mouse click. Crazy, isn't it?</p>
+            </div>
+            <div class="col-12 mb-3">
+                <h3><i class="fas fa-book-medical"></i> Changing the order of sounds</h3>
+                <p>You can change the order of the sounds by pressing 500ms until the sound is highlighted. Then you can move it to another position.</p>
+            </div>
+            <div class="col-12 mb-3">
+                <h3><i class="fas fa-book-medical"></i> Shortcuts</h3>
                 <p>Press <strong>Modifier-Keys + Number</strong> (<span class="setting-modifier-example">Ctrl + Shift + 1</span>) on the keyboard to play sounds.</p>
                 <p>Current possible numbers are <strong>1, 2, 3, 4, 5, 6, 7, 8, 9, 0</strong>.</p>
                 <p>Modifier keys for shortcuts can be changed in the settings.</p>
@@ -79,17 +92,19 @@
         <div class="row">
             <div class="col-12 mb-3">
                 <h3>
-                    Volume
+                    Volume:
+                    <span id="setting-volume-label"></span>
+                    | Test:
                     <div class="button-sound pull-right" data-sound="ba-da-dum">
                         <i class="fas fa-volume-up"></i>
                     </div>
-                    <span id="setting-volume-label"></span>
                 </h3>
                 <input type="range" min="0" max="100" value="50" class="slider" id="setting-volume">
             </div>
 
             <div class="col-12 mb-3">
-                <h3>Modifier keys for global shortcuts</h3>
+                <h3>Shortcuts</h3>
+                <span>Modifier:</span>
                 <div class="custom-control custom-checkbox custom-control-inline mr-3">
                     <input type="checkbox" class="custom-control-input" id="setting-modifier-ctrl">
                     <label class="custom-control-label" for="setting-modifier-ctrl">CTRL</label>
@@ -101,6 +116,9 @@
                 <div class="custom-control custom-checkbox custom-control-inline">
                     <input type="checkbox" class="custom-control-input" id="setting-modifier-alt">
                     <label class="custom-control-label" for="setting-modifier-alt">ALT</label>
+                </div>
+                <div>
+                    See help for more information. Modifier + Number [0 - 9]
                 </div>
             </div>
 
@@ -156,9 +174,23 @@
             </div>
             <div class="col-12 mb-3">
                 <h3>Application</h3>
-                <div class="custom-control custom-checkbox custom-control-inline mb-1">
+                <div class="custom-control custom-checkbox mb-1">
+                    <input type="checkbox" class="custom-control-input" id="settings-app-start-minimized">
+                    <label class="custom-control-label" for="settings-app-start-minimized">Start minimized (Only for tray)</label>
+                </div>
+                <div class="custom-control custom-checkbox mb-1">
                     <input type="checkbox" class="custom-control-input" id="setting-app-frame">
                     <label class="custom-control-label" for="setting-app-frame">Frame (Disable for frameless window)</label>
+                </div>
+                <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="setting-app-tray-instead-taskbar_tray" name="setting-app-tray-instead-taskbar" value="tray" class="custom-control-input" checked>
+                        <label class="custom-control-label" for="setting-app-tray-instead-taskbar_tray">Show in tray</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="setting-app-tray-instead-taskbar_taskbar" name="setting-app-tray-instead-taskbar" value="taskbar" class="custom-control-input">
+                        <label class="custom-control-label" for="setting-app-tray-instead-taskbar_taskbar">Show in taskbar</label>
+                    </div>
                 </div>
                 <div>
                     <b>Version:</b> <span id="setting-app-version"></span>
@@ -180,23 +212,23 @@
     </div>
 </div>
 
-<div class="modal fade" id="appRestart" tabindex="-1" role="dialog" aria-labelledby="appRestartTitle" aria-hidden="true">
+<div class="modal fade" id="appFrame" tabindex="-1" role="dialog" aria-labelledby="appFrameTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="appRestartLongTitle">Restart app</h5>
+                <h5 class="modal-title" id="appFrameLongTitle">Change window frame</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Do you want to restart the app?<br>
+                Do you want to change window frame and restart the app?<br>
                 <br>
-                <i>Note: Windows does not start the application automatically.</i>
+                <i>Note: Windows maybe does not start the application automatically.</i>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger setting-restart-app">Yes</button>
+                <button type="button" class="btn btn-danger setting-app-frame-restart">Yes</button>
             </div>
         </div>
     </div>
@@ -212,11 +244,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                If you reset the app, all settings will be reset to default.
+                If you reset the app, all settings will be reset to default.<br>
+                <br>
+                <i>Note: Windows maybe does not start the application automatically.</i>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No, do nothing</button>
-                <button type="button" class="btn btn-danger setting-reset-app">Yes, reset app</button>
+                <button type="button" class="btn btn-danger setting-reset-app" data-action="close">Yes, reset & close</button>
+                <button type="button" class="btn btn-danger setting-reset-app" data-action="restart">Yes, reset & restart</button>
             </div>
         </div>
     </div>

@@ -13,6 +13,10 @@ class Environment {
         return (global.process.platform === 'win32'); // Even on 64 bit
     }
 
+    isLinux() {
+        return (global.process.platform === 'linux'); // Even on 64 bit
+    }
+
     isMac() {
         return (global.process.platform === 'darwin'); // Even on 64 bit
     }

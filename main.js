@@ -19,6 +19,10 @@ class Environment {
         return (global.process.platform === 'win32'); // Even on 64 bit
     }
 
+    isLinux() {
+        return (global.process.platform === 'linux'); // Even on 64 bit
+    }
+
     isMac() {
         return (global.process.platform === 'darwin'); // Even on 64 bit
     }
@@ -28,6 +32,8 @@ let environment = new Environment();
 
 let mainWindow;
 let trayMenu;
+let appQuit = false;
+let initializeStartMinimized = store.get('app-tray-instead-taskbar', true) && store.get('app-start-minimized', false);
 
 class ElectronApp {
     mainWindowMenu() {
@@ -113,7 +119,7 @@ class ElectronApp {
 
     mainWindowCreate() {
         mainWindow = new BrowserWindow({
-            ...this.getSavedWindowBounds('mainWindowBounds', {width: 500, height: 450}),
+            ...this.getSavedWindowBounds('mainWindowBounds', {width: 500, height: 600}),
             minWidth: 280,
             minHeight: 280,
             frame: (store.get('app-frame', false)),
@@ -123,8 +129,10 @@ class ElectronApp {
             icon: path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'),
             webPreferences: {
                 nodeIntegration: true
-            }
+            },
+            show: !initializeStartMinimized
         });
+        mainWindow.setSkipTaskbar(store.get('app-tray-instead-taskbar', true));
 
         this.registerFileProtocol('app', __dirname + '/public/');
         this.registerFileProtocol('user', app.getPath('userData') + '/');
@@ -137,8 +145,43 @@ class ElectronApp {
             console.error('Can\'t open Dashboard');
         });
 
-        mainWindow.on('close', () => {
-            store.set('mainWindowBounds', mainWindow.getBounds());
+        mainWindow.on('restore', () => {
+            if (store.get('app-tray-instead-taskbar', true)) {
+                mainWindow.setSkipTaskbar(false);
+            }
+        });
+
+        mainWindow.on('minimize', () => {
+            if (store.get('app-tray-instead-taskbar', true)) {
+                mainWindow.setSkipTaskbar(true);
+            }
+        });
+
+        mainWindow.on('show', (event) => {
+            if (initializeStartMinimized) {
+                initializeStartMinimized = false;
+                mainWindow.minimize();
+            }
+        });
+
+        mainWindow.on('close', (event) => {
+            let bounds = mainWindow.getBounds();
+            if (store.get('app-frame', false)) {
+                // @todo we should't calculate window size if framed
+                if (environment.isWindows()) {
+                    bounds.width -= 16;
+                    bounds.height -= 39
+                } else if (environment.isLinux()) {
+                    bounds.y -= 30;
+                    bounds.height -= 10;
+                }
+            }
+            store.set('mainWindowBounds', bounds);
+
+            if (!appQuit && store.get('app-tray-instead-taskbar', true)) {
+                event.preventDefault();
+                mainWindow.minimize();
+            }
         });
 
         mainWindow.on('closed', () => {
@@ -159,6 +202,10 @@ class ElectronApp {
 
 
     trayMenu() {
+        if (!store.get('app-tray-instead-taskbar', true)) {
+            return;
+        }
+
         let instance = this;
         trayMenu = new Tray(path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'));
 
@@ -168,6 +215,7 @@ class ElectronApp {
                 if (!mainWindow) {
                     instance.mainWindowCreate();
                 }
+                mainWindow.show();
                 mainWindow.focus();
                 mainWindow.webContents.send('switch-page', '.page-sound-board');
             }
@@ -179,6 +227,7 @@ class ElectronApp {
                 if (!mainWindow) {
                     instance.mainWindowCreate();
                 }
+                mainWindow.show();
                 mainWindow.focus();
                 mainWindow.webContents.send('switch-page', '.page-settings');
             }
@@ -188,6 +237,7 @@ class ElectronApp {
                 if (!mainWindow) {
                     instance.mainWindowCreate();
                 }
+                mainWindow.show();
                 mainWindow.focus();
                 mainWindow.webContents.send('switch-page', '.page-help');
             }
@@ -197,6 +247,7 @@ class ElectronApp {
                 if (!mainWindow) {
                     instance.mainWindowCreate();
                 }
+                mainWindow.show();
                 mainWindow.focus();
                 mainWindow.webContents.send('switch-page', '.page-copyright');
             }
@@ -204,7 +255,12 @@ class ElectronApp {
             type: 'separator'
         }, {
             label: 'Quit',
-            click: app.quit
+            click: function () {
+                if (store.get('app-tray-instead-taskbar', true)) {
+                    appQuit = true;
+                }
+                app.quit();
+            }
         }]);
         trayMenu.setToolTip('Sound board');
         trayMenu.setContextMenu(contextMenu);
@@ -231,13 +287,29 @@ class ElectronApp {
         });
 
         ipcMain.on('app', function (event, args) {
-            if (args === 'restart') {
+            if (args.do === 'tray-instead-taskbar') {
+                let isTray = store.get('app-tray-instead-taskbar', true);
+                if (isTray && !trayMenu) {
+                    instance.trayMenu();
+                } else {
+                    // @todo destroy tray menu
+                }
+                mainWindow.setSkipTaskbar(isTray);
+            } else if (args.do === 'restart') {
+                if (store.get('app-tray-instead-taskbar', true)) {
+                    appQuit = true;
+                }
                 app.relaunch();
                 app.quit();
-            } else if (args === 'reset') {
+            } else if (args.do === 'reset') {
                 mainWindow.close();
                 store.clear();
-                app.relaunch();
+                if (args.action === 'restart') {
+                    app.relaunch();
+                }
+                if (store.get('app-tray-instead-taskbar', true)) {
+                    appQuit = true;
+                }
                 app.quit();
             }
         });
@@ -276,6 +348,24 @@ class ElectronApp {
 
 let electronApp = new ElectronApp();
 
+if (!app.requestSingleInstanceLock()) {
+    if (store.get('app-tray-instead-taskbar', true)) {
+        appQuit = true;
+    }
+    app.quit();
+    return; // We need it
+}
+
+app.on('second-instance', (event, argv, cwd) => {
+    if (mainWindow) {
+        if (mainWindow.isMinimized()) {
+            mainWindow.restore();
+        }
+        mainWindow.show();
+        mainWindow.focus();
+    }
+});
+
 app.on('ready', () => {
     electronApp.mainWindowMenu();
     electronApp.mainWindowCreate();
@@ -285,6 +375,9 @@ app.on('ready', () => {
 
 app.on('window-all-closed', () => {
     if (!environment.isMac()) {
+        if (store.get('app-tray-instead-taskbar', true)) {
+            appQuit = true;
+        }
         app.quit();
     }
 });

@@ -21,7 +21,6 @@ class Settings {
         this.setAppSettings();
 
         this.bindDangerZone();
-        this.bindRestartApp();
     }
 
     bindVolume() {
@@ -83,13 +82,34 @@ class Settings {
     }
 
     bindAppSettings() {
+        let instance = this;
+        document.querySelector('#settings-app-start-minimized').addEventListener('change', function () {
+            store.set('app-start-minimized', this.checked);
+        });
+
         document.querySelector('#setting-app-frame').addEventListener('change', function () {
             store.set('app-frame', this.checked);
-            $('#appRestart').modal();
+            $('#appFrame').modal();
+        });
+        document.querySelector('.setting-app-frame-restart').addEventListener('click', function () {
+            ipcRenderer.send('app', {do: 'restart'});
+        });
+        $('#appFrame').on('hidden.bs.modal', function () {
+            store.set('app-frame', !store.get('app-frame', false));
+            instance.setAppSettings();
+        });
+
+        document.querySelectorAll('[name="setting-app-tray-instead-taskbar"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                store.set('app-tray-instead-taskbar', (this.value === 'tray'));
+                ipcRenderer.send('app', {do: 'tray-instead-taskbar'});
+            });
         });
     }
 
     setAppSettings() {
+        document.querySelector('#settings-app-start-minimized').checked = store.get('app-start-minimized', false);
+
         let isFrame = store.get('app-frame', false);
         document.querySelector('#setting-app-frame').checked = isFrame;
         document.querySelector('.menu .close').style.display = (isFrame ? 'none' : 'inline-block');
@@ -97,6 +117,12 @@ class Settings {
         document.querySelector('.menu .minimize').style.display = (isFrame ? 'none' : 'inline-block');
         document.querySelector('.menu .window-default').style.display = (isFrame ? 'none' : 'inline-block');
         document.querySelector('#setting-app-version').innerHTML = remote.app.getVersion();
+
+        if (store.get('app-tray-instead-taskbar', true)) {
+            document.querySelector('#setting-app-tray-instead-taskbar_tray').checked = true;
+        } else {
+            document.querySelector('#setting-app-tray-instead-taskbar_taskbar').checked = true;
+        }
     }
 
     bindPageColor() {
@@ -151,19 +177,20 @@ class Settings {
 
     bindDangerZone() {
         document.querySelector('.setting-store-editor').addEventListener('click', function () {
+            // Lazy method to prevent errors for a deleted config file
+            store.set('nothing', 'How lazy...');
+            store.delete('nothing');
+
             store.openInEditor();
         });
         document.querySelector('.setting-open-user-data').addEventListener('click', function () {
             shell.openItem(remote.app.getPath('userData'));
         });
-        document.querySelector('.setting-reset-app').addEventListener('click', function () {
-            ipcRenderer.send('app', 'reset');
-        });
-    }
-
-    bindRestartApp() {
-        document.querySelector('.setting-restart-app').addEventListener('click', function () {
-            ipcRenderer.send('app', 'restart');
+        document.querySelectorAll('.setting-reset-app').forEach(function(button) {
+            button.addEventListener('click', function () {
+                let action = (this.getAttribute('data-action') === 'restart' ? 'restart' : 'close');
+                ipcRenderer.send('app', {do: 'reset', action: action});
+            });
         });
     }
 }
