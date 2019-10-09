@@ -58,7 +58,20 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 mb-3">
-                <h3><i class="fas fa-book-medical"></i> Modifier keys for global shortcuts</h3>
+                <h3><i class="fas fa-book-medical"></i> Sound test buttons</h3>
+                <p>If you're watching this:
+                    <span class="button-sound pull-right" data-sound="ba-da-dum">
+                        <i class="fas fa-volume-up"></i>
+                    </span>
+                    <br>
+                    ...then you can hear a sound with a mouse click. Crazy, isn't it?</p>
+            </div>
+            <div class="col-12 mb-3">
+                <h3><i class="fas fa-book-medical"></i> Changing the order of sounds</h3>
+                <p>You can change the order of the sounds by pressing 500ms until the sound is highlighted. Then you can move it to another position.</p>
+            </div>
+            <div class="col-12 mb-3">
+                <h3><i class="fas fa-book-medical"></i> Shortcuts</h3>
                 <p>Press <strong>Modifier-Keys + Number</strong> (<span class="setting-modifier-example">Ctrl + Shift + 1</span>) on the keyboard to play sounds.</p>
                 <p>Current possible numbers are <strong>1, 2, 3, 4, 5, 6, 7, 8, 9, 0</strong>.</p>
                 <p>Modifier keys for shortcuts can be changed in the settings.</p>
@@ -79,17 +92,19 @@
         <div class="row">
             <div class="col-12 mb-3">
                 <h3>
-                    Volume
+                    Volume:
+                    <span id="setting-volume-label"></span>
+                    | Test:
                     <div class="button-sound pull-right" data-sound="ba-da-dum">
                         <i class="fas fa-volume-up"></i>
                     </div>
-                    <span id="setting-volume-label"></span>
                 </h3>
                 <input type="range" min="0" max="100" value="50" class="slider" id="setting-volume">
             </div>
 
             <div class="col-12 mb-3">
-                <h3>Modifier keys for global shortcuts</h3>
+                <h3>Shortcuts</h3>
+                <span>Modifier:</span>
                 <div class="custom-control custom-checkbox custom-control-inline mr-3">
                     <input type="checkbox" class="custom-control-input" id="setting-modifier-ctrl">
                     <label class="custom-control-label" for="setting-modifier-ctrl">CTRL</label>
@@ -101,6 +116,9 @@
                 <div class="custom-control custom-checkbox custom-control-inline">
                     <input type="checkbox" class="custom-control-input" id="setting-modifier-alt">
                     <label class="custom-control-label" for="setting-modifier-alt">ALT</label>
+                </div>
+                <div>
+                    See help for more information. Modifier + Number [0 - 9]
                 </div>
             </div>
 
