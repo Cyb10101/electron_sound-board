@@ -120,8 +120,8 @@ class ElectronApp {
     mainWindowCreate() {
         mainWindow = new BrowserWindow({
             ...this.getSavedWindowBounds('mainWindowBounds', {width: 500, height: 600}),
-            minWidth: 310,
-            minHeight: 310,
+            minWidth: 340,
+            minHeight: 340,
             frame: (store.get('app-frame', false)),
             autoHideMenuBar: false,
             resizable: true,
@@ -230,6 +230,16 @@ class ElectronApp {
                 mainWindow.show();
                 mainWindow.focus();
                 mainWindow.webContents.send('switch-page', '.page-settings');
+            }
+        }, {
+            label: 'Add own sound',
+            click: function () {
+                if (!mainWindow) {
+                    instance.mainWindowCreate();
+                }
+                mainWindow.show();
+                mainWindow.focus();
+                mainWindow.webContents.send('switch-page', '.page-add-own-sound');
             }
         }, {
             label: 'Edit sounds',
