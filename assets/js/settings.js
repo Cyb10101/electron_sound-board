@@ -21,7 +21,6 @@ class Settings {
         this.setAppSettings();
 
         this.bindDangerZone();
-        this.bindRestartApp();
     }
 
     bindVolume() {
@@ -83,9 +82,17 @@ class Settings {
     }
 
     bindAppSettings() {
+        let instance = this;
         document.querySelector('#setting-app-frame').addEventListener('change', function () {
             store.set('app-frame', this.checked);
-            $('#appRestart').modal();
+            $('#appFrame').modal();
+        });
+        document.querySelector('.setting-app-frame-restart').addEventListener('click', function () {
+            ipcRenderer.send('app', {do: 'restart'});
+        });
+        $('#appFrame').on('hidden.bs.modal', function () {
+            store.set('app-frame', !store.get('app-frame', false));
+            instance.setAppSettings();
         });
     }
 
@@ -161,12 +168,6 @@ class Settings {
                 let action = (this.getAttribute('data-action') === 'restart' ? 'restart' : 'close');
                 ipcRenderer.send('app', {do: 'reset', action: action});
             });
-        });
-    }
-
-    bindRestartApp() {
-        document.querySelector('.setting-restart-app').addEventListener('click', function () {
-            ipcRenderer.send('app', {do: 'restart'});
         });
     }
 }
