@@ -19,6 +19,10 @@ class Environment {
         return (global.process.platform === 'win32'); // Even on 64 bit
     }
 
+    isLinux() {
+        return (global.process.platform === 'linux'); // Even on 64 bit
+    }
+
     isMac() {
         return (global.process.platform === 'darwin'); // Even on 64 bit
     }
@@ -161,7 +165,19 @@ class ElectronApp {
         });
 
         mainWindow.on('close', (event) => {
-            store.set('mainWindowBounds', mainWindow.getBounds());
+            let bounds = mainWindow.getBounds();
+            if (store.get('app-frame', false)) {
+                // @todo we should't calculate window size if framed
+                if (environment.isWindows()) {
+                    bounds.width -= 16;
+                    bounds.height -= 39
+                } else if (environment.isLinux()) {
+                    bounds.y -= 30;
+                    bounds.height -= 10;
+                }
+            }
+            store.set('mainWindowBounds', bounds);
+
             if (!appQuit && store.get('app-tray-instead-taskbar', true)) {
                 event.preventDefault();
                 mainWindow.minimize();
