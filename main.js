@@ -29,6 +29,7 @@ let environment = new Environment();
 let mainWindow;
 let trayMenu;
 let appQuit = false;
+let initializeStartMinimized = store.get('app-tray-instead-taskbar', true) && store.get('app-start-minimized', false);
 
 class ElectronApp {
     mainWindowMenu() {
@@ -124,7 +125,8 @@ class ElectronApp {
             icon: path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'),
             webPreferences: {
                 nodeIntegration: true
-            }
+            },
+            show: !initializeStartMinimized
         });
         mainWindow.setSkipTaskbar(store.get('app-tray-instead-taskbar', true));
 
@@ -148,6 +150,13 @@ class ElectronApp {
         mainWindow.on('minimize', () => {
             if (store.get('app-tray-instead-taskbar', true)) {
                 mainWindow.setSkipTaskbar(true);
+            }
+        });
+
+        mainWindow.on('show', (event) => {
+            if (initializeStartMinimized) {
+                initializeStartMinimized = false;
+                mainWindow.minimize();
             }
         });
 

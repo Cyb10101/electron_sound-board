@@ -83,6 +83,10 @@ class Settings {
 
     bindAppSettings() {
         let instance = this;
+        document.querySelector('#settings-app-start-minimized').addEventListener('change', function () {
+            store.set('app-start-minimized', this.checked);
+        });
+
         document.querySelector('#setting-app-frame').addEventListener('change', function () {
             store.set('app-frame', this.checked);
             $('#appFrame').modal();
@@ -104,6 +108,8 @@ class Settings {
     }
 
     setAppSettings() {
+        document.querySelector('#settings-app-start-minimized').checked = store.get('app-start-minimized', false);
+
         let isFrame = store.get('app-frame', false);
         document.querySelector('#setting-app-frame').checked = isFrame;
         document.querySelector('.menu .close').style.display = (isFrame ? 'none' : 'inline-block');
