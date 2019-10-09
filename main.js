@@ -125,6 +125,7 @@ class ElectronApp {
                 nodeIntegration: true
             }
         });
+        mainWindow.setSkipTaskbar(store.get('app-tray-instead-taskbar', true));
 
         this.registerFileProtocol('app', __dirname + '/public/');
         this.registerFileProtocol('user', app.getPath('userData') + '/');
@@ -159,6 +160,10 @@ class ElectronApp {
 
 
     trayMenu() {
+        if (!store.get('app-tray-instead-taskbar', true)) {
+            return;
+        }
+
         let instance = this;
         trayMenu = new Tray(path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'));
 
@@ -231,7 +236,15 @@ class ElectronApp {
         });
 
         ipcMain.on('app', function (event, args) {
-            if (args.do === 'restart') {
+            if (args.do === 'tray-instead-taskbar') {
+                let isTray = store.get('app-tray-instead-taskbar', true);
+                mainWindow.setSkipTaskbar(isTray);
+                if (isTray && !trayMenu) {
+                    instance.trayMenu();
+                } else {
+                    // @todo destroy tray menu
+                }
+            } else if (args.do === 'restart') {
                 app.relaunch();
                 app.quit();
             } else if (args.do === 'reset') {

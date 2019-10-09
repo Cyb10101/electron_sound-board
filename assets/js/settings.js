@@ -94,6 +94,13 @@ class Settings {
             store.set('app-frame', !store.get('app-frame', false));
             instance.setAppSettings();
         });
+
+        document.querySelectorAll('[name="setting-app-tray-instead-taskbar"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                store.set('app-tray-instead-taskbar', (this.value === 'tray'));
+                ipcRenderer.send('app', {do: 'tray-instead-taskbar'});
+            });
+        });
     }
 
     setAppSettings() {
@@ -104,6 +111,12 @@ class Settings {
         document.querySelector('.menu .minimize').style.display = (isFrame ? 'none' : 'inline-block');
         document.querySelector('.menu .window-default').style.display = (isFrame ? 'none' : 'inline-block');
         document.querySelector('#setting-app-version').innerHTML = remote.app.getVersion();
+
+        if (store.get('app-tray-instead-taskbar', true)) {
+            document.querySelector('#setting-app-tray-instead-taskbar_tray').checked = true;
+        } else {
+            document.querySelector('#setting-app-tray-instead-taskbar_taskbar').checked = true;
+        }
     }
 
     bindPageColor() {
