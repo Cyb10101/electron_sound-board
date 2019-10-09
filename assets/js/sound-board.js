@@ -1,6 +1,7 @@
 'use strict';
 
-const {ipcRenderer, shell} = require('electron');
+const {ipcRenderer, remote, shell} = require('electron');
+const fs = require('fs');
 const Store = require('electron-store');
 const store = new Store();
 import Sortable from 'sortablejs';
@@ -8,17 +9,28 @@ import {predefinedSounds} from './predefined-sounds.js';
 
 class SoundBoard {
     constructor() {
-        this.rootDiv = document.querySelectorAll('.sound-board');
-        if (this.rootDiv) {
-            this.createSoundBoard();
-            this.createSoundBoardEdit();
-            this.addTestSoundButtons();
-            this.createCopyrightSoundLicencesAndAddSounds();
-            this.connectMenu();
-            this.connectIpc();
-            this.connectSortable();
-        }
+        this.initializeUserData();
+        this.createSoundBoard();
+        this.createSoundBoardEdit();
+        this.addTestSoundButtons();
+        this.createCopyrightSoundLicencesAndAddSounds();
+        this.connectMenu();
+        this.connectIpc();
+        this.connectSortable();
+        this.bindAddOwnSound();
         this.connectExternalLinks();
+    }
+
+    initializeUserData() {
+        this.userData = remote.app.getPath('userData');
+        this.userDataSounds = this.userData + '/sounds';
+        this.userDataImages = this.userData + '/images';
+        if (!fs.existsSync(this.userDataSounds)) {
+            fs.mkdirSync(this.userDataSounds);
+        }
+        if (!fs.existsSync(this.userDataImages)) {
+            fs.mkdirSync(this.userDataImages);
+        }
     }
 
     defaultSoundBoard() {
@@ -170,6 +182,9 @@ class SoundBoard {
         document.querySelector('.menu .page-back').addEventListener('click', function () {
             instance.switchPage('.page-sound-board');
         });
+        document.querySelector('.menu .add-own-sound').addEventListener('click', function () {
+            instance.switchPage('.page-add-own-sound');
+        });
         document.querySelector('.menu .edit-sounds').addEventListener('click', function () {
             instance.switchPage('.page-edit-sounds');
         });
@@ -249,7 +264,7 @@ class SoundBoard {
             if (extension === 'svg') {
                 span.classList.add('mask');
                 span.style.webkitMaskImage = 'url("app://images/sounds/' + image.value + '")';;
-                span.style.maskImage = 'url("app://images/sounds/' + image.value + '")';;
+                span.style.maskImage = 'url("app://images/sounds/' + image.value + '")';
             } else {
                 span.style.backgroundImage = 'url("app://images/sounds/' + image.value + '")';
             }
@@ -260,10 +275,10 @@ class SoundBoard {
             let extension = imageUser.value.split('.').pop();
             if (extension === 'svg') {
                 span.classList.add('mask');
-                span.style.webkitMaskImage = 'url("user://' + imageUser.value + '")';
-                span.style.maskImage = 'url("user://' + imageUser.value + '")';
+                span.style.webkitMaskImage = 'url("user://images/' + imageUser.value + '")';
+                span.style.maskImage = 'url("user://images/' + imageUser.value + '")';
             } else {
-                span.style.backgroundImage = 'url("user://' + imageUser.value + '")';
+                span.style.backgroundImage = 'url("user://images/' + imageUser.value + '")';
             }
             button.appendChild(span);
         }
@@ -281,7 +296,7 @@ class SoundBoard {
             filename = 'app://sounds/' + soundStored.sound;
         } else if (soundUser && soundUser.value !== '') {
             external = true;
-            filename = 'user://' + soundUser.value;
+            filename = 'user://sounds/' + soundUser.value;
         }
 
         if (filename) {
@@ -326,9 +341,20 @@ class SoundBoard {
         });
     }
 
+    getNameFromSoundItem(soundItem) {
+        let name = 'Unnamed sound';
+        if (soundItem.hasOwnProperty('name')) {
+            name = soundItem.name;
+        } else if (soundItem.hasOwnProperty('sound')) {
+            name = soundItem.sound;
+        } else if (soundItem.hasOwnProperty('soundUser')) {
+            name = soundItem.soundUser;
+        }
+        return name;
+    }
+
     createElementSoundBoardEdit(item, type = 'edit') {
         let instance = this;
-        let editBoard = document.querySelector('.page-edit-sounds .edit-board');
 
         let element = document.createElement('li');
         element.className = 'list-group-item';
@@ -336,7 +362,7 @@ class SoundBoard {
 
         let soundButton = this.createElementSoundButtonByItem(item);
         element.appendChild(soundButton);
-        element.appendChild(document.createTextNode(' ' + item.sound + ' '));
+        element.appendChild(document.createTextNode(' ' + this.getNameFromSoundItem(item) + ' '));
 
         if (type === 'edit') {
             let newSoundMove = document.createElement('i');
@@ -350,6 +376,13 @@ class SoundBoard {
                 let trashId = nodes.indexOf(this.parentNode);
 
                 let board = store.get('board', []);
+                let soundTrash = board[trashId];
+                if (soundTrash.soundUser && fs.existsSync(instance.userDataSounds + '/' + soundTrash.soundUser)) {
+                    fs.unlinkSync(instance.userDataSounds + '/' + soundTrash.soundUser);
+                }
+                if (soundTrash.imageUser && fs.existsSync(instance.userDataImages + '/' + soundTrash.imageUser)) {
+                    fs.unlinkSync(instance.userDataImages + '/' + soundTrash.imageUser);
+                }
                 board.splice(trashId, 1);
                 store.set('board', board);
 
@@ -366,20 +399,24 @@ class SoundBoard {
                 let sound = this.parentNode.getAttribute('data-sound');
                 let soundItem = predefinedSounds.getSound(sound);
                 soundItem.sound = sound;
-                let button = instance.createElementSoundBoardEdit(soundItem);
-                editBoard.appendChild(button);
 
-                let buttonBoard = instance.createElementSoundButtonByItem(soundItem);
-                let container = document.querySelector('.page-sound-board .square-container');
-                container.appendChild(buttonBoard);
-
-                let board = store.get('board', []);
-                board.push({sound: sound});
-                store.set('board', board);
+                instance.addSoundItemToBoard(soundItem, {sound: sound});
             });
             element.appendChild(newSoundAdd);
         }
         return element;
+    }
+
+    addSoundItemToBoard(soundItem, overrideStore = null) {
+        let button = this.createElementSoundBoardEdit(soundItem);
+        document.querySelector('.page-edit-sounds .edit-board').appendChild(button);
+
+        let buttonBoard = this.createElementSoundButtonByItem(soundItem);
+        document.querySelector('.page-sound-board .square-container').appendChild(buttonBoard);
+
+        let board = store.get('board', []);
+        board.push((overrideStore ? overrideStore : soundItem));
+        store.set('board', board);
     }
 
     createSoundBoardEdit() {
@@ -403,6 +440,105 @@ class SoundBoard {
         return array; // for testing
     };
 
+    bindAddOwnSound() {
+        let instance = this;
+        let form = document.getElementById('add-own-sound');
+
+        form.addEventListener('submit', function processForm(event) {
+            event.preventDefault();
+
+            if (form.sound.files.length > 0) {
+                let item = {};
+                let soundFileName = form.sound.files[0].name;
+                let soundFileExtension = soundFileName.split('.').pop();
+                let soundFilePath = form.sound.files[0].path;
+                let newSoundFileName = instance.generateFileCode(instance.userDataSounds, soundFileExtension);
+                item.name = soundFileName;
+                item.soundUser = newSoundFileName;
+
+                fs.copyFile(soundFilePath, instance.userDataSounds + '/' + newSoundFileName, function(error) {
+                    if (error) {
+                        throw error;
+                    }
+                });
+
+                let name = form.name.value;
+                if (name) {
+                    item.name = name;
+                }
+
+                let icon = form.icon.value;
+                if (icon) {
+                    item.icon = icon;
+                }
+
+                if (form.image.files.length > 0) {
+                    let imageFileName = form.image.files[0].name;
+                    let imageFileExtension = imageFileName.split('.').pop();
+                    let imageFilePath = form.image.files[0].path;
+                    let newImageFileName = instance.generateFileCode(instance.userDataImages, imageFileExtension);
+                    item.imageUser = newImageFileName;
+
+                    fs.copyFile(imageFilePath, instance.userDataImages + '/' + newImageFileName, function(error) {
+                        if (error) {
+                            throw error;
+                        }
+                    });
+                }
+
+                instance.addSoundItemToBoard(item);
+                instance.switchPage('.page-edit-sounds');
+                form.reset();
+            }
+
+            return false; // Prevent the default form behavior
+        });
+
+    }
+
+    generateFileCode(path, extension) {
+        let counter = 0;
+        while (counter < 100) {
+            let code = this.generateRandomString() + '.' + extension;
+            try {
+                if (!fs.existsSync(path + '/' + code)) {
+                    return code;
+                }
+            } catch(err) {
+                console.error(err)
+            }
+            counter++;
+        }
+        return '';
+    }
+
+    generateRandomString(length = 12, characters = '') {
+        let string = '';
+        if (!characters || characters === '') {
+            characters = this.jsRange('A','Z') + this.jsRange('a','z') + this.jsRange('0','9') + '_' + '-';
+        }
+        let maxNumber = characters.length - 1;
+        for (let i = 0; i < length; i++) {
+            let randomNumber = this.mt_rand(0, maxNumber);
+            string += characters[randomNumber];
+        }
+        return string;
+    }
+
+    jsRange(start, end) {
+        return String.fromCharCode(...[...Array(end.charCodeAt(0) - start.charCodeAt(0) + 1).keys()].map(i => i + start.charCodeAt(0)));
+    }
+
+    mt_rand(min, max) {
+        let argc = arguments.length;
+        if (argc === 0) {
+            min = 0;
+            max = 2147483647;
+        } else if (argc === 1) {
+            throw new Error('Warning: mt_rand() expects exactly 2 parameters, 1 given');
+        }
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function () {

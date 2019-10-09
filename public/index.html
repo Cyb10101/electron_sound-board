@@ -19,6 +19,7 @@
     <div class="button help"><i class="fas fa-question"></i></div>
     <div class="button copyright"><i class="fas fa-copyright"></i></div>
     <div class="button edit-sounds"><i class="fas fa-pencil-alt"></i></div>
+    <div class="button add-own-sound"><i class="fas fa-plus"></i></div>
 </div>
 
 <div class="page page-sound-board">
@@ -51,6 +52,35 @@
             </div>
             <div class="image-licences">
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page page-add-own-sound" style="display: none;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h3>Add own sound</h3>
+                <form id="add-own-sound">
+                    <div class="form-group">
+                        <label for="own-sound-file">Sound file</label>
+                        <input type="file" class="form-control-file" id="own-sound-file" name="sound" accept="audio/wav, audio/mpeg" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="own-sound-name">Name</label>
+                        <input type="text" class="form-control" id="own-sound-name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="own-sound-icon">Icon</label>
+                        <input type="text" class="form-control" id="own-sound-icon" name="icon" placeholder="fas fa-volume-up">
+                    </div>
+                    <div class="form-group">
+                        <label for="own-sound-image">Image file</label>
+                        <input type="file" class="form-control-file" id="own-sound-image" name="image" accept="image/svg, image/jpeg, image/png, image/gif">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add sound</button>
+                </form>
             </div>
         </div>
     </div>

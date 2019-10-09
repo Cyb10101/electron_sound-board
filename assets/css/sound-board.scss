@@ -74,7 +74,7 @@
         }
     }
 
-    .fas {
+    .fas, .far, .fal {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -103,7 +103,7 @@
             mask-size: calc(100vw / 7) calc(100vw / 7);
         }
 
-        .fas, .far {
+        .fas, .far, .fal {
             font-size: calc(100vw / 7);
         }
     }
@@ -124,7 +124,7 @@
                 mask-size: calc(100vw / 8) calc(100vw / 8);
             }
 
-            .fas, .far {
+            .fas, .far, .fal {
                 font-size: calc(100vw / 8);
             }
         }
@@ -146,7 +146,7 @@
                 mask-size: calc(100vw / 9) calc(100vw / 9);
             }
 
-            .fas, .far {
+            .fas, .far, .fal {
                 font-size: calc(100vw / 9);
             }
         }
@@ -168,7 +168,7 @@
                 mask-size: calc(100vw / 12) calc(100vw / 12);
             }
 
-            .fas, .far {
+            .fas, .far, .fal {
                 font-size: calc(100vw / 12);
             }
         }
@@ -190,7 +190,7 @@
                 mask-size: calc(100vw / 14) calc(100vw / 14);
             }
 
-            .fas, .far {
+            .fas, .far, .fal {
                 font-size: calc(100vw / 14);
             }
         }
