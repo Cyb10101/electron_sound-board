@@ -12,7 +12,6 @@ class PredefinedSounds {
             'weapon-science-fiction-01': {
                 sound: 'weapon-science-fiction-01.mp3',
                 image: 'weapon-military-01.svg',
-                author: 'ZapSplat',
                 soundLicence: this.getLicence('ZapSplat: Standard License', 'ZapSplat', 'https://www.zapsplat.com/music/science-fiction-weapon-gun-shoot-powerful-1/'),
                 imageLicence: this.getLicence('IconFinder: Free for commercial use', 'ibrandify', 'https://www.iconfinder.com/icons/2969374/gun_military_weapon_icon')
             }
@@ -49,6 +48,7 @@ class PredefinedSounds {
 
         if (licences.hasOwnProperty(id)) {
             let licence = licences[id];
+            licence.id = id;
             licence.author = author;
             licence.origin = origin;
             return licence;

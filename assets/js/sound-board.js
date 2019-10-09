@@ -11,6 +11,7 @@ class SoundBoard {
         this.rootDiv = document.querySelectorAll('.sound-board');
         if (this.rootDiv) {
             this.createSoundBoard();
+            this.createCopyrightSoundLicences();
             this.connectMenu();
             this.connectIpc();
             this.connectSoundButtons();
@@ -27,6 +28,39 @@ class SoundBoard {
         }];
     }
 
+    createElementSoundButtonByItem(item, tagName = 'div') {
+        let element = document.createElement(tagName);
+        element.className = 'square-item button-sound';
+
+        let soundStored = predefinedSounds.getSound(item.sound);
+        soundStored = {...soundStored, ...item}; // Merge sound objects
+        if (item.sound && soundStored) {
+            element.setAttribute('data-sound', item.sound);
+            if (!item.image && soundStored.image) {
+                item.image = soundStored.image;
+            }
+            if (!item.image && !item.icon) {
+                item.icon = soundStored.icon;
+            }
+        } else if (item.soundUser) {
+            element.setAttribute('data-soundUser', item.soundUser);
+        }
+        if (item.image) {
+            element.setAttribute('data-image', item.image);
+        } else if (item.imageUser) {
+            element.setAttribute('data-imageUser', item.imageUser);
+        } else {
+            if (!item.icon) {
+                item.icon = 'fas fa-volume-up';
+            }
+
+            let icon = document.createElement('i');
+            icon.className = item.icon;
+            element.appendChild(icon);
+        }
+        return element;
+    }
+
     createSoundBoard() {
         let board = store.get('board', []);
         if (board.length === 0) {
@@ -35,35 +69,75 @@ class SoundBoard {
         }
 
         for (let item of board) {
-            let element = document.createElement('div');
-            element.className = 'square-item button-sound';
+            document.querySelector('.page-sound-board .square-container').appendChild(this.createElementSoundButtonByItem(item));
+        }
+    }
 
-            let soundStored = predefinedSounds.getSound(item.sound);
-            if (item.sound && soundStored) {
-                element.setAttribute('data-sound', item.sound);
-                if (!item.image && soundStored.image) {
-                    item.image = soundStored.image;
-                }
-                if (!item.image && !item.icon) {
-                    item.icon = soundStored.icon;
-                }
-            } else if (item.soundUser) {
-                element.setAttribute('data-soundUser', item.soundUser);
-            }
-            if (item.image) {
-                element.setAttribute('data-image', item.image);
-            } else if (item.imageUser) {
-                element.setAttribute('data-imageUser', item.imageUser);
-            } else {
-                if (!item.icon) {
-                    item.icon = 'fas fa-volume-up';
-                }
+    createElementLicenceData(appendElement, header, linkText, linkUrl) {
+        let elHeader = document.createElement('b');
+        elHeader.innerText = header + ':';
+        appendElement.appendChild(elHeader);
 
-                let icon = document.createElement('i');
-                icon.className = item.icon;
-                element.appendChild(icon);
+        let space = document.createTextNode(' ');
+        appendElement.appendChild(space);
+
+        let elLink = document.createElement('a');
+        elLink.className = 'external';
+        elLink.href = linkUrl;
+        elLink.innerText = linkText;
+        appendElement.appendChild(elLink);
+
+        let elNewLine = document.createElement('br');
+        appendElement.appendChild(elNewLine);
+    }
+
+    addCopyrightSoundLicence(item, sound) {
+        item.sound = sound;
+        item.icon = 'fas fa-volume-up';
+        item.image = null;
+
+        let div = document.createElement('div');
+        div.className = 'col-lg-3 col-md-4 col-sm-6 col-12 mb-3';
+
+        let header = document.createElement('h5');
+        header.appendChild(this.createElementSoundButtonByItem(item, 'div'));
+        header.appendChild(document.createTextNode(' ' + sound));
+        div.appendChild(header);
+
+        this.createElementLicenceData(div, 'Author', item.soundLicence.author, item.soundLicence.origin);
+        this.createElementLicenceData(div, 'License', item.soundLicence.name, item.soundLicence.url);
+        document.querySelector('.page-copyright .sound-licences').appendChild(div);
+    }
+
+    addCopyrightImageLicence(item) {
+        let div = document.createElement('div');
+        div.className = 'col-lg-3 col-md-4 col-sm-6 col-12 mb-3';
+
+        let header = document.createElement('h5');
+        let image = document.createElement('img');
+        image.src = 'app://images/sounds/' + item.image;
+        image.width = 24;
+        image.height = 24;
+        header.appendChild(image);
+        header.appendChild(document.createTextNode(' ' + item.image));
+        div.appendChild(header);
+
+        this.createElementLicenceData(div, 'Author', item.imageLicence.author, item.imageLicence.origin);
+        this.createElementLicenceData(div, 'License', item.imageLicence.name, item.imageLicence.url);
+        document.querySelector('.page-copyright .image-licences').appendChild(div);
+    }
+
+    createCopyrightSoundLicences() {
+        let sameImage = [];
+        let ignoreImageLicence = ['Font Awesome Free'];
+
+        for (let sound in predefinedSounds.getSounds()) {
+            let item = predefinedSounds.getSound(sound);
+            if (item.image && !sameImage.includes(item.image) && !ignoreImageLicence.includes(item.imageLicence.id)) {
+                sameImage.push(item.image);
+                this.addCopyrightImageLicence(item);
             }
-            document.querySelector('.page-sound-board .square-container').appendChild(element);
+            this.addCopyrightSoundLicence(item, sound);
         }
     }
 
@@ -74,7 +148,7 @@ class SoundBoard {
                 event.preventDefault();
                 let link = this.href;
                 shell.openExternal(link).catch(function () {
-                    console.log('Can\'t open external link.');
+                    console.error('Can\'t open external link.');
                 });
             });
         }
