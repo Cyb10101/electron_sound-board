@@ -11,10 +11,11 @@ class SoundBoard {
         this.rootDiv = document.querySelectorAll('.sound-board');
         if (this.rootDiv) {
             this.createSoundBoard();
-            this.createCopyrightSoundLicences();
+            this.createSoundBoardEdit();
+            this.addTestSoundButtons();
+            this.createCopyrightSoundLicencesAndAddSounds();
             this.connectMenu();
             this.connectIpc();
-            this.connectSoundButtons();
             this.connectSortable();
         }
         this.connectExternalLinks();
@@ -58,6 +59,8 @@ class SoundBoard {
             icon.className = item.icon;
             element.appendChild(icon);
         }
+
+        this.configureSoundButton(element);
         return element;
     }
 
@@ -68,8 +71,10 @@ class SoundBoard {
             board = store.get('board', []);
         }
 
+        let container = document.querySelector('.page-sound-board .square-container');
+        container.innerHTML = '';
         for (let item of board) {
-            document.querySelector('.page-sound-board .square-container').appendChild(this.createElementSoundButtonByItem(item));
+            container.appendChild(this.createElementSoundButtonByItem(item));
         }
     }
 
@@ -127,9 +132,11 @@ class SoundBoard {
         document.querySelector('.page-copyright .image-licences').appendChild(div);
     }
 
-    createCopyrightSoundLicences() {
+    createCopyrightSoundLicencesAndAddSounds() {
         let sameImage = [];
         let ignoreImageLicence = ['Font Awesome Free'];
+        let addSounds = document.querySelector('.page-edit-sounds .add-sounds');
+        addSounds.innerHTML = '';
 
         for (let sound in predefinedSounds.getSounds()) {
             let item = predefinedSounds.getSound(sound);
@@ -137,6 +144,9 @@ class SoundBoard {
                 sameImage.push(item.image);
                 this.addCopyrightImageLicence(item);
             }
+
+            item.sound = sound;
+            addSounds.appendChild(this.createElementSoundBoardEdit(item, 'add'));
             this.addCopyrightSoundLicence(item, sound);
         }
     }
@@ -160,15 +170,15 @@ class SoundBoard {
         document.querySelector('.menu .page-back').addEventListener('click', function () {
             instance.switchPage('.page-sound-board');
         });
-
+        document.querySelector('.menu .edit-sounds').addEventListener('click', function () {
+            instance.switchPage('.page-edit-sounds');
+        });
         document.querySelector('.menu .copyright').addEventListener('click', function () {
             instance.switchPage('.page-copyright');
         });
-
         document.querySelector('.menu .help').addEventListener('click', function () {
             instance.switchPage('.page-help');
         });
-
         document.querySelector('.menu .settings').addEventListener('click', function () {
             instance.switchPage('.page-settings');
         });
@@ -218,11 +228,15 @@ class SoundBoard {
         }
     }
 
-    connectSoundButtons() {
-        this.soundButtons = document.querySelectorAll('.button-sound');
-        for (let i = 0; i < this.soundButtons.length; i++) {
-            this.configureSoundButton(this.soundButtons[i]);
-        }
+    addTestSoundButtons() {
+        let instance = this;
+        document.querySelectorAll('.test-sound').forEach(function (button) {
+            let soundButton = instance.createElementSoundButtonByItem({sound: 'ba-da-dum', icon: 'fas fa-volume-up'});
+            button.classList.forEach(function (className) {
+               soundButton.classList.add(className);
+            });
+            button.parentNode.replaceChild(soundButton, button);
+        });
     }
 
     configureSoundButton(button) {
@@ -254,6 +268,10 @@ class SoundBoard {
             button.appendChild(span);
         }
 
+        this.addSoundButtonEvent(button);
+    }
+
+    addSoundButtonEvent(button) {
         let sound = button.attributes['data-sound'];
         let soundUser = button.attributes['data-soundUser'];
         let external = false;
@@ -281,18 +299,97 @@ class SoundBoard {
 
     connectSortable() {
         let instance = this;
-        let sortable = new Sortable(document.querySelector('.page-sound-board .square-container'), {
-            delay: 500,
+        let editBoard = document.querySelector('.page-edit-sounds .edit-board');
+        let sortable = new Sortable(editBoard, {
+            delay: 0,
             animation: 150,
-            draggable: '.square-item',
+            draggable: '.list-group-item',
+            handle: '.move',
             ghostClass: 'sortable-ghost',
-            chosenClass: "sortable-chosen",
+            chosenClass: 'sortable-chosen',
             onUpdate: function (event) {
                 let board = store.get('board', []);
                 instance.arrayMove(board, event.oldIndex, event.newIndex);
                 store.set('board', board);
+                instance.createSoundBoard();
             },
         });
+
+        document.querySelectorAll('.page-edit-sounds .add-sounds .add-sound').forEach(function (item) {
+            item.addEventListener('click', function () {
+                let parent = this.parentNode;
+                let newSound = document.createElement('li');
+                newSound.className = 'list-group-item';
+                newSound.innerText = parent.innerText;
+                editBoard.appendChild(newSound);
+            });
+        });
+    }
+
+    createElementSoundBoardEdit(item, type = 'edit') {
+        let instance = this;
+        let editBoard = document.querySelector('.page-edit-sounds .edit-board');
+
+        let element = document.createElement('li');
+        element.className = 'list-group-item';
+        element.setAttribute('data-sound', item.sound);
+
+        let soundButton = this.createElementSoundButtonByItem(item);
+        element.appendChild(soundButton);
+        element.appendChild(document.createTextNode(' ' + item.sound + ' '));
+
+        if (type === 'edit') {
+            let newSoundMove = document.createElement('i');
+            newSoundMove.className = 'fas fa-bars float-right move';
+            element.appendChild(newSoundMove);
+
+            let newSoundTrash = document.createElement('i');
+            newSoundTrash.className = 'fas fa-trash float-right trash';
+            newSoundTrash.addEventListener('click', function () {
+                let nodes = Array.prototype.slice.call(this.parentNode.parentNode.children);
+                let trashId = nodes.indexOf(this.parentNode);
+
+                let board = store.get('board', []);
+                board.splice(trashId, 1);
+                store.set('board', board);
+
+                let container = document.querySelector('.page-sound-board .square-container');
+                container.removeChild(container.children[trashId]);
+                this.parentNode.parentNode.removeChild(this.parentNode);
+
+            });
+            element.appendChild(newSoundTrash);
+        } else {
+            let newSoundAdd = document.createElement('i');
+            newSoundAdd.className = 'fas fa-plus-square float-right add';
+            newSoundAdd.addEventListener('click', function () {
+                let sound = this.parentNode.getAttribute('data-sound');
+                let soundItem = predefinedSounds.getSound(sound);
+                soundItem.sound = sound;
+                let button = instance.createElementSoundBoardEdit(soundItem);
+                editBoard.appendChild(button);
+
+                let buttonBoard = instance.createElementSoundButtonByItem(soundItem);
+                let container = document.querySelector('.page-sound-board .square-container');
+                container.appendChild(buttonBoard);
+
+                let board = store.get('board', []);
+                board.push({sound: sound});
+                store.set('board', board);
+            });
+            element.appendChild(newSoundAdd);
+        }
+        return element;
+    }
+
+    createSoundBoardEdit() {
+        let board = store.get('board', []);
+
+        let container = document.querySelector('.page-edit-sounds .edit-board');
+        container.innerHTML = '';
+        for (let item of board) {
+            container.appendChild(this.createElementSoundBoardEdit(item));
+        }
     }
 
     arrayMove(array, oldIndex, newIndex) {
