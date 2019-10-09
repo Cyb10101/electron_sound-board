@@ -158,6 +158,10 @@ class Settings {
 
     bindDangerZone() {
         document.querySelector('.setting-store-editor').addEventListener('click', function () {
+            // Lazy method to prevent errors for a deleted config file
+            store.set('nothing', 'How lazy...');
+            store.delete('nothing');
+
             store.openInEditor();
         });
         document.querySelector('.setting-open-user-data').addEventListener('click', function () {
