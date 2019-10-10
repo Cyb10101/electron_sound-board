@@ -127,7 +127,7 @@ class ElectronApp {
             autoHideMenuBar: false,
             resizable: true,
             useContentSize: true,
-            icon: path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'),
+            icon: path.join(__dirname, 'assets/images/icons/iconfinder_S_1553065_256.png'),
             webPreferences: {
                 nodeIntegration: true
             },
@@ -217,7 +217,7 @@ class ElectronApp {
         }
 
         let instance = this;
-        trayMenu = new Tray(path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'));
+        trayMenu = new Tray(path.join(__dirname, 'assets/images/icons/iconfinder_S_1553065_32.png'));
         trayMenu.addListener('click', function () {
             instance.trayMenuOpenPage('.page-sound-board');
         });
