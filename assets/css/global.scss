@@ -26,17 +26,17 @@ body {
 
 a {
     color: #000000;
-    border-bottom: 1px solid #c0c0c0;
+    border-bottom: 1px dashed #000000;
     text-decoration: none;
     -webkit-app-region: no-drag;
 }
 a:active {
     text-decoration: none;
-    border-bottom: 1px solid #c0c0c0;
+    border-bottom-style: dashed;
 }
 a:hover {
     text-decoration: none;
-    border-bottom: 1px dashed #c0c0c0;
+    border-bottom-style: solid;
 }
 
 .modal button,
@@ -93,7 +93,7 @@ nav.navbar {
             vertical-align: bottom;
         }
         &:hover span {
-            width: 45px;
+            width: 100px;
         }
     }
 
