@@ -44,7 +44,7 @@ class ElectronApp {
 
     mainWindowMenu() {
         const mainMenuTemplate = [{
-            label: 'File',
+            label: this.__('File'),
             submenu: [{
                 label: this.__('Quit'),
                 accelerator: environment.isMac() ? 'Command+Q' : 'Ctrl+Q',
@@ -53,13 +53,13 @@ class ElectronApp {
                 }
             }]
         }, {
-            label: 'Development',
+            label: this.__('Development'),
             submenu: [{
-                label: 'Developer Tools',
+                label: this.__('Developer Tools'),
                 role: 'toggledevtools'
             }]
         }, {
-            label: 'Dashboard',
+            label: this.__('Dashboard'),
             click() {
                 mainWindow.loadURL('app://index.html').catch(function () {
                     console.error('Can\'t open Dashboard');
@@ -242,27 +242,27 @@ class ElectronApp {
         }, {
             type: 'separator'
         }, {
-            label: 'Settings',
+            label: this.__('Settings'),
             click: function () {
                 instance.trayMenuOpenPage('.page-settings');
             }
         }, {
-            label: 'Add own sound',
+            label: this.__('Add own sound'),
             click: function () {
                 instance.trayMenuOpenPage('.page-add-own-sound');
             }
         }, {
-            label: 'Edit sounds',
+            label: this.__('Edit board'),
             click: function () {
-                instance.trayMenuOpenPage('.page-edit-sounds');
+                instance.trayMenuOpenPage('.page-edit-board');
             }
         }, {
-            label: 'Help',
+            label: this.__('Help'),
             click: function () {
                 instance.trayMenuOpenPage('.page-help');
             }
         }, {
-            label: 'Copyright',
+            label: this.__('Copyright'),
             click: function () {
                 instance.trayMenuOpenPage('.page-copyright');
             }

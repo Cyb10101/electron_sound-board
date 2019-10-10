@@ -1,4 +1,71 @@
 {
+    "File": "Datei",
+    "Development": "Entwicklung",
+    "Developer Tools": "Entwickler Tools",
+    "Dashboard": "Dashboard",
+
+    "Settings": "Einstellungen",
+    "Add own sound": "Eigenen Sound hinzufügen",
+    "Edit board":  "Board bearbeiten",
+    "Help": "Hilfe",
+    "Copyright":  "Copyright",
     "Quit": "Beenden",
-    "Volume": "Lautstärke"
+
+    "General": "Allgemein",
+    "Sounds": "Töne",
+    "Images":  "Bilder",
+
+    "Name": "Name",
+    "Sound file": "Audio Datei",
+    "Icon": "Symbol",
+    "Image file": "Bild Datei",
+
+    "Add sound": "Ton hinzufügen",
+    "Sounds on board": "Sounds im Bord",
+    "Add sounds to board": "Sounds zum Board hinzufügen",
+
+    "Author": "Autor",
+    "License": "Lizenz",
+
+    "Sound test buttons": "Test Sound Schaltflächen",
+    "If you're watching this:": "Wenn du dir das ansiehst:",
+    "...then you can with a mouse click hear a sound. Crazy, isn't it?": "...dann kannst du mit einem Mausklick ein Ton höhren. Verrückt, nicht wahr?",
+    "Press": "Drücke",
+    "Modifier-Keys + Number": "Modifikator-Tasten + Nummer",
+    "on the keyboard to play sounds": "auf der Tastatur, um Klänge abzuspielen",
+    "Current possible numbers are": "Aktuell mögliche Nummern sind",
+    "Modifier keys for shortcuts can be changed in the settings.": "Modifikator Tasten für Tastenkombinationen können in den Einstellungen geändert werden.",
+    "Further information is documented in the GitHub repository": "Weitere Informationen sind im GitHub-Repository dokumentiert",
+
+    "Volume": "Lautstärke",
+    "Test": "Test",
+    "Shortcuts": "Tastenkombinationen",
+    "Modifier": "Modifikator",
+    "See help for more information. Modifier + Number [0 - 9]": "Siehe Hilfe für weitere Informationen. Modifikator + Nummer [0 - 9]",
+    "Page color": "Seiten Farbe",
+    "Button color": "Schaltflächen Farbe",
+    "Application": "Anwendung",
+
+    "Start minimized (Only for tray)": "Start minimiert (Nur für Tray)",
+    "Frame (Disable for frameless window)": "Rahmen (Deaktivieren für rahmenloses Fenster)",
+    "Show in tray": "Tray anzeigen",
+    "Show in taskbar": "Taskleiste anzeigen",
+
+    "Version": "Version",
+    "Danger Zone": "Gefahren Zone",
+    "Configuration editor": "Konfigurations-Editor",
+    "User data folder": "Benutzerdaten Ordner",
+    "Reset App": "App zurücksetzen",
+
+    "Change window frame": "Fensterrahmen ändern",
+    "No": "Nein",
+    "Yes": "Ja",
+    "No, do nothing": "Nein, tu nichts",
+    "Yes, close": "Ja, schließen",
+    "Yes, restart": "Ja, neu starten",
+
+    "Do you want to change window frame and restart the application?": "Willst du den Fensterrahmen ändern und die Anwendung neu starten?",
+    "Reset app data": "Anwendungsdaten zurücksetzen",
+    "If you reset the app, all settings will be reset to default.": "Wenn Sie die Anwendung zurücksetzen, werden alle Einstellungen auf die Standardeinstellungen zurückgesetzt.",
+    "Note: Windows maybe does not start the application automatically.": "Hinweis: Windows startet die Anwendung möglicherweise nicht automatisch."
 }

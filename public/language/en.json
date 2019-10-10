@@ -1,4 +1,71 @@
 {
+    "File": "File",
+    "Development": "Development",
+    "Developer Tools": "Developer Tools",
+    "Dashboard": "Dashboard",
+
+    "Settings": "Settings",
+    "Add own sound": "Add own sound",
+    "Edit sounds":  "Edit sounds",
+    "Help": "Help",
+    "Copyright":  "Copyright",
     "Quit": "Quit",
-    "Volume": "Volume"
+
+    "General": "General",
+    "Sounds": "Sounds",
+    "Images":  "Images",
+
+    "Name": "Name",
+    "Sound file": "Sound file",
+    "Icon": "Icon",
+    "Image file": "Image file",
+
+    "Add sound": "Add sound",
+    "Sounds on board": "Sounds on board",
+    "Add sounds to board": "Add sounds to board",
+
+    "Author": "Author",
+    "License": "License",
+
+    "Sound test buttons": "Sound test buttons",
+    "If you're watching this:": "If you're watching this:",
+    "...then you can with a mouse click hear a sound. Crazy, isn't it?": "...then you can with a mouse click hear a sound. Crazy, isn't it?",
+    "Press": "Press",
+    "Modifier-Keys + Number": "Modifier-Keys + Number",
+    "on the keyboard to play sounds": "on the keyboard to play sounds",
+    "Current possible numbers are": "Current possible numbers are",
+    "Modifier keys for shortcuts can be changed in the settings.": "Modifier keys for shortcuts can be changed in the settings.",
+    "Further information is documented in the GitHub repository": "Further information is documented in the GitHub repository",
+
+    "Volume": "Volume",
+    "Test": "Test",
+    "Shortcuts": "Shortcuts",
+    "Modifier": "Modifier",
+    "See help for more information. Modifier + Number [0 - 9]": "See help for more information. Modifier + Number [0 - 9]",
+    "Page color": "Page color",
+    "Button color": "Button color",
+    "Application": "Application",
+
+    "Start minimized (Only for tray)": "Start minimized (Only for tray)",
+    "Frame (Disable for frameless window)": "Frame (Disable for frameless window)",
+    "Show in tray": "Show in tray",
+    "Show in taskbar": "Show in taskbar",
+
+    "Version": "Version",
+    "Danger Zone": "Danger Zone",
+    "Configuration editor": "Configuration editor",
+    "User data folder": "User data folder",
+    "Reset App": "Reset App",
+
+    "Change window frame": "Change window frame",
+    "No": "No",
+    "Yes": "Yes",
+    "No, do nothing": "No, do nothing",
+    "Yes, close": "Yes, close",
+    "Yes, restart": "Yes, restart",
+
+    "Do you want to change window frame and restart the app?": "Do you want to change window frame and restart the application?",
+    "Reset app data": "Reset app data",
+    "If you reset the app, all settings will be reset to default.": "If you reset the app, all settings will be reset to default.",
+    "Note: Windows maybe does not start the application automatically.": "Note: Windows maybe does not start the application automatically.",
 }
