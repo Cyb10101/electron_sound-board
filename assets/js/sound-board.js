@@ -34,11 +34,13 @@ class SoundBoard {
     }
 
     defaultSoundBoard() {
-        return [{
-            sound: 'ba-da-dum'
-        }, {
-            sound: 'weapon-science-fiction-01',
-        }];
+        let defaultBoard = [];
+        let soundKeys = Object.keys(predefinedSounds.getSounds());
+        soundKeys.forEach(function (key) {
+            defaultBoard.push({sound: key})
+
+        });
+        return defaultBoard;
     }
 
     createElementSoundButtonByItem(item, tagName = 'div') {
