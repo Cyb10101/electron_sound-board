@@ -446,6 +446,22 @@ class SoundBoard {
         let instance = this;
         let form = document.getElementById('add-own-sound');
 
+        form.sound.addEventListener('change', function () {
+            let value = 'Sound file';
+            if (form.sound.files.length > 0) {
+                value = form.sound.files[0].name;
+            }
+            this.parentNode.querySelector('.custom-file-label').innerHTML = value;
+        });
+
+        form.image.addEventListener('change', function () {
+            let value = 'Sound file';
+            if (form.image.files.length > 0) {
+                value = form.image.files[0].name;
+            }
+            this.parentNode.querySelector('.custom-file-label').innerHTML = value;
+        });
+
         form.addEventListener('submit', function processForm(event) {
             event.preventDefault();
 
