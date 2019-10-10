@@ -124,6 +124,7 @@
     .setting-color-#{$selector} {
         background-color: $backgroundColor;
         color: $textColor;
+        border-color: $textColor;
     }
 }
 
@@ -152,3 +153,5 @@
 @include settingColor(17, #795548, #ffffff, #ffffff);
 @include settingColor(18, #9e9e9e, #ffffff, #ffffff);
 @include settingColor(19, #607d8b, #ffffff, #ffffff);
+@include settingColor(20, #1a2933, #767f85, #767f85);
+@include settingColor(21, #1a2933, #ffffff, #ffffff);
