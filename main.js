@@ -66,6 +66,7 @@ class ElectronApp {
                 });
             }
         }, {
+            label: this.__('Reload'),
             role: 'reload',
             accelerator: environment.isMac() ? '' : 'F5',
         }];
