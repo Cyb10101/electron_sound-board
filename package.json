@@ -47,7 +47,8 @@
                         "ia32"
                     ]
                 }
-            ]
+            ],
+            "icon": "assets/images/icons/iconfinder_S_1553065_512.png"
         },
         "win": {
             "target": [
