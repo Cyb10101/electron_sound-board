@@ -34,7 +34,7 @@ let mainWindow;
 let trayMenu;
 let appQuit = false;
 let clearStore = false;
-let initializeStartMinimized = store.get('app-tray-instead-taskbar', true) && store.get('app-start-minimized', false);
+let initializeStartMinimized = store.get('app-tray-instead-taskbar', false) && store.get('app-start-minimized', false);
 
 class ElectronApp {
     mainWindowMenu() {
@@ -133,7 +133,7 @@ class ElectronApp {
             },
             show: !initializeStartMinimized
         });
-        mainWindow.setSkipTaskbar(store.get('app-tray-instead-taskbar', true));
+        mainWindow.setSkipTaskbar(store.get('app-tray-instead-taskbar', false));
 
         this.registerFileProtocol('app', __dirname + '/public/');
         this.registerFileProtocol('user', app.getPath('userData') + '/');
@@ -147,13 +147,13 @@ class ElectronApp {
         });
 
         mainWindow.on('restore', () => {
-            if (store.get('app-tray-instead-taskbar', true)) {
+            if (store.get('app-tray-instead-taskbar', false)) {
                 mainWindow.setSkipTaskbar(false);
             }
         });
 
         mainWindow.on('minimize', () => {
-            if (store.get('app-tray-instead-taskbar', true)) {
+            if (store.get('app-tray-instead-taskbar', false)) {
                 mainWindow.setSkipTaskbar(true);
             }
         });
@@ -180,7 +180,7 @@ class ElectronApp {
                 }
                 store.set('mainWindowBounds', bounds);
             }
-            if (!appQuit && store.get('app-tray-instead-taskbar', true)) {
+            if (!appQuit && store.get('app-tray-instead-taskbar', false)) {
                 event.preventDefault();
                 mainWindow.minimize();
             }
@@ -204,7 +204,7 @@ class ElectronApp {
 
 
     trayMenu() {
-        if (!store.get('app-tray-instead-taskbar', true)) {
+        if (!store.get('app-tray-instead-taskbar', false)) {
             return;
         }
 
@@ -278,7 +278,7 @@ class ElectronApp {
         }, {
             label: 'Quit',
             click: function () {
-                if (store.get('app-tray-instead-taskbar', true)) {
+                if (store.get('app-tray-instead-taskbar', false)) {
                     appQuit = true;
                 }
                 app.quit();
@@ -310,7 +310,7 @@ class ElectronApp {
 
         ipcMain.on('app', function (event, args) {
             if (args.do === 'tray-instead-taskbar') {
-                let isTray = store.get('app-tray-instead-taskbar', true);
+                let isTray = store.get('app-tray-instead-taskbar', false);
                 if (isTray && !trayMenu) {
                     instance.trayMenu();
                 } else {
@@ -318,7 +318,7 @@ class ElectronApp {
                 }
                 mainWindow.setSkipTaskbar(isTray);
             } else if (args.do === 'restart') {
-                if (store.get('app-tray-instead-taskbar', true)) {
+                if (store.get('app-tray-instead-taskbar', false)) {
                     appQuit = true;
                 }
                 app.relaunch();
@@ -330,7 +330,7 @@ class ElectronApp {
                 if (args.action === 'restart') {
                     app.relaunch();
                 }
-                if (store.get('app-tray-instead-taskbar', true)) {
+                if (store.get('app-tray-instead-taskbar', false)) {
                     appQuit = true;
                 }
                 app.quit();
@@ -372,7 +372,7 @@ class ElectronApp {
 let electronApp = new ElectronApp();
 
 if (!app.requestSingleInstanceLock()) {
-    if (store.get('app-tray-instead-taskbar', true)) {
+    if (store.get('app-tray-instead-taskbar', false)) {
         appQuit = true;
     }
     app.quit();
@@ -398,7 +398,7 @@ app.on('ready', () => {
 
 app.on('window-all-closed', () => {
     if (!environment.isMac()) {
-        if (store.get('app-tray-instead-taskbar', true)) {
+        if (store.get('app-tray-instead-taskbar', false)) {
             appQuit = true;
         }
         app.quit();
