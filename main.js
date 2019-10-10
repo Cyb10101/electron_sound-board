@@ -12,7 +12,7 @@ class Environment {
     }
 
     isDevelopment() {
-        return !(global.process.env.APP_ENV && global.process.env.APP_ENV === 'dev');
+        return (global.process.env.APP_ENV && global.process.env.APP_ENV === 'dev');
     }
 
     isWindows() {
