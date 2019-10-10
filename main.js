@@ -1,5 +1,5 @@
 const electron = require('electron');
-const {app, BrowserWindow, Menu, Tray, globalShortcut, ipcMain} = require('electron');
+const {app, BrowserWindow, Menu, Tray, globalShortcut, ipcMain, dialog} = require('electron');
 const path = require('path');
 const Store = require('electron-store');
 const store = new Store();
@@ -37,11 +37,16 @@ let clearStore = false;
 let initializeStartMinimized = store.get('app-tray-instead-taskbar', false) && store.get('app-start-minimized', false);
 
 class ElectronApp {
+    initializeLanguage() {
+        this.__ = require('./assets/js/language.js');
+        // dialog.showErrorBox('lang: ' + app.getLocale(), this.__('Quit'));
+    }
+
     mainWindowMenu() {
         const mainMenuTemplate = [{
             label: 'File',
             submenu: [{
-                label: 'Quit',
+                label: this.__('Quit'),
                 accelerator: environment.isMac() ? 'Command+Q' : 'Ctrl+Q',
                 click() {
                     app.quit();
@@ -127,23 +132,30 @@ class ElectronApp {
             autoHideMenuBar: false,
             resizable: true,
             useContentSize: true,
+            backgroundColor: '#eaeaea',
             icon: path.join(__dirname, 'assets/images/icons/iconfinder_S_1553065_256.png'),
             webPreferences: {
                 nodeIntegration: true
             },
-            show: !initializeStartMinimized
+            show: false
         });
         mainWindow.setSkipTaskbar(store.get('app-tray-instead-taskbar', false));
 
         this.registerFileProtocol('app', __dirname + '/public/');
         this.registerFileProtocol('user', app.getPath('userData') + '/');
 
-        if (environment.isDevelopment()) {
-            mainWindow.webContents.openDevTools();
-        }
-
         mainWindow.loadURL('app://index.html').catch(function () {
             console.error('Can\'t open Dashboard');
+        });
+
+        mainWindow.once('ready-to-show', () => {
+            if (!initializeStartMinimized) {
+                mainWindow.show();
+
+                if (environment.isDevelopment()) {
+                    mainWindow.webContents.openDevTools();
+                }
+            }
         });
 
         mainWindow.on('restore', () => {
@@ -257,7 +269,7 @@ class ElectronApp {
         }, {
             type: 'separator'
         }, {
-            label: 'Quit',
+            label: this.__('Quit'),
             click: function () {
                 if (store.get('app-tray-instead-taskbar', false)) {
                     appQuit = true;
@@ -371,6 +383,7 @@ app.on('second-instance', (event, argv, cwd) => {
 });
 
 app.on('ready', () => {
+    electronApp.initializeLanguage()
     electronApp.mainWindowMenu();
     electronApp.mainWindowCreate();
     electronApp.connectIpc();

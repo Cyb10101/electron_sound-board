@@ -6,9 +6,11 @@ const Store = require('electron-store');
 const store = new Store();
 import Sortable from 'sortablejs';
 import {predefinedSounds} from './predefined-sounds.js';
+const __ = require('./language.js');
 
 class SoundBoard {
     constructor() {
+        this.translate();
         this.initializeUserData();
         this.createSoundBoard();
         this.addTestSoundButtons();
@@ -18,6 +20,12 @@ class SoundBoard {
         this.connectSortable();
         this.bindAddOwnSound();
         this.connectExternalLinks();
+    }
+
+    translate() {
+        document.querySelectorAll('.translate').forEach(function (obj) {
+            obj.innerHTML = __(obj.innerHTML);
+        });
     }
 
     initializeUserData() {
@@ -241,9 +249,6 @@ class SoundBoard {
 
         ipcRenderer.on('switch-page', function(event, arg) {
             instance.switchPage(arg);
-        });
-        ipcRenderer.on('debug', function(event, arg) {
-            console.info(arg);
         });
     }
 
