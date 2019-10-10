@@ -211,11 +211,13 @@ class SoundBoard {
 
     connectIpc() {
         let instance = this;
+        let container = document.querySelector('.page-sound-board .square-container');
         ipcRenderer.on('global-shortcut', function(event, arg) {
-            instance.soundButtons[arg].dispatchEvent(new MouseEvent('click'));
-            instance.soundButtons[arg].classList.add('active');
+            let soundButton = container.children[arg];
+            soundButton.dispatchEvent(new MouseEvent('click'));
+            soundButton.classList.add('active');
             window.setTimeout(function () {
-                instance.soundButtons[arg].classList.remove('active');
+                soundButton.classList.remove('active');
             }, 100);
         });
 
