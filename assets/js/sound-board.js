@@ -24,7 +24,7 @@ class SoundBoard {
 
     translate() {
         document.querySelectorAll('.translate').forEach(function (obj) {
-            obj.innerHTML = __(obj.innerHTML);
+            obj.innerHTML = __(obj.innerHTML.trim());
         });
     }
 
@@ -96,7 +96,7 @@ class SoundBoard {
         }
 
         let container = document.querySelector('.page-sound-board .square-container');
-        let editBoard = document.querySelector('.page-edit-sounds .edit-board');
+        let editBoard = document.querySelector('.page-edit-board .edit-board');
         container.innerHTML = '';
         editBoard.innerHTML = '';
         for (let item of board) {
@@ -148,8 +148,8 @@ class SoundBoard {
         header.appendChild(document.createTextNode(' ' + sound));
         div.appendChild(header);
 
-        this.createElementLicenceData(div, 'Author', item.soundLicence.author, item.soundLicence.origin);
-        this.createElementLicenceData(div, 'License', item.soundLicence.name, item.soundLicence.url);
+        this.createElementLicenceData(div, __('Author'), item.soundLicence.author, item.soundLicence.origin);
+        this.createElementLicenceData(div, __('License'), item.soundLicence.name, item.soundLicence.url);
         document.querySelector('.page-copyright .sound-licences').appendChild(div);
     }
 
@@ -166,15 +166,15 @@ class SoundBoard {
         header.appendChild(document.createTextNode(' ' + item.image));
         div.appendChild(header);
 
-        this.createElementLicenceData(div, 'Author', item.imageLicence.author, item.imageLicence.origin);
-        this.createElementLicenceData(div, 'License', item.imageLicence.name, item.imageLicence.url);
+        this.createElementLicenceData(div, __('Author'), item.imageLicence.author, item.imageLicence.origin);
+        this.createElementLicenceData(div, __('License'), item.imageLicence.name, item.imageLicence.url);
         document.querySelector('.page-copyright .image-licences').appendChild(div);
     }
 
     createCopyrightSoundLicencesAndAddSounds() {
         let sameImage = [];
         let ignoreImageLicence = ['Font Awesome Free'];
-        let addSounds = document.querySelector('.page-edit-sounds .add-sounds');
+        let addSounds = document.querySelector('.page-edit-board .add-sounds');
         addSounds.innerHTML = '';
 
         for (let sound in predefinedSounds.getSounds()) {
@@ -211,8 +211,8 @@ class SoundBoard {
         document.querySelector('.menu .add-own-sound').addEventListener('click', function () {
             instance.switchPage('.page-add-own-sound');
         });
-        document.querySelector('.menu .edit-sounds').addEventListener('click', function () {
-            instance.switchPage('.page-edit-sounds');
+        document.querySelector('.menu .edit-board').addEventListener('click', function () {
+            instance.switchPage('.page-edit-board');
         });
         document.querySelector('.menu .copyright').addEventListener('click', function () {
             instance.switchPage('.page-copyright');
@@ -330,7 +330,7 @@ class SoundBoard {
 
     connectSortable() {
         let instance = this;
-        let editBoard = document.querySelector('.page-edit-sounds .edit-board');
+        let editBoard = document.querySelector('.page-edit-board .edit-board');
         let sortable = new Sortable(editBoard, {
             delay: 0,
             animation: 150,
@@ -350,7 +350,7 @@ class SoundBoard {
             },
         });
 
-        document.querySelectorAll('.page-edit-sounds .add-sounds .add-sound').forEach(function (item) {
+        document.querySelectorAll('.page-edit-board .add-sounds .add-sound').forEach(function (item) {
             item.addEventListener('click', function () {
                 let parent = this.parentNode;
                 let newSound = document.createElement('li');
@@ -455,7 +455,7 @@ class SoundBoard {
 
     addSoundItemToBoard(soundItem, overrideStore = null) {
         let button = this.createElementSoundBoardEdit(soundItem);
-        document.querySelector('.page-edit-sounds .edit-board').appendChild(button);
+        document.querySelector('.page-edit-board .edit-board').appendChild(button);
 
         let buttonBoard = this.createElementSoundButtonByItem(soundItem);
         document.querySelector('.page-sound-board .square-container').appendChild(buttonBoard);
@@ -481,7 +481,7 @@ class SoundBoard {
         let form = document.getElementById('add-own-sound');
 
         form.sound.addEventListener('change', function () {
-            let value = 'Sound file';
+            let value = __('Sound file');
             if (form.sound.files.length > 0) {
                 value = form.sound.files[0].name;
             }
@@ -489,7 +489,7 @@ class SoundBoard {
         });
 
         form.image.addEventListener('change', function () {
-            let value = 'Sound file';
+            let value = __('Sound file');
             if (form.image.files.length > 0) {
                 value = form.image.files[0].name;
             }
@@ -540,9 +540,9 @@ class SoundBoard {
                 }
 
                 instance.addSoundItemToBoard(item);
-                instance.switchPage('.page-edit-sounds');
-                form.sound.parentNode.querySelector('.custom-file-label').innerHTML = 'Sound file';
-                form.image.parentNode.querySelector('.custom-file-label').innerHTML = 'Image file';
+                instance.switchPage('.page-edit-board');
+                form.sound.parentNode.querySelector('.custom-file-label').innerHTML = __('Sound file');
+                form.image.parentNode.querySelector('.custom-file-label').innerHTML = __('Image file');
                 form.reset();
             }
 

@@ -18,7 +18,7 @@
     <div class="button settings"><i class="fas fa-cog"></i></div>
     <div class="button help"><i class="fas fa-question"></i></div>
     <div class="button copyright"><i class="fas fa-copyright"></i></div>
-    <div class="button edit-sounds"><i class="fas fa-pencil-alt"></i></div>
+    <div class="button edit-board"><i class="fas fa-pencil-alt"></i></div>
     <div class="button add-own-sound"><i class="fas fa-plus"></i></div>
 </div>
 
@@ -30,7 +30,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <h3>General</h3>
+                <h3 class="translate">General</h3>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
                 <ul>
@@ -40,12 +40,12 @@
         </div>
         <div class="row sound-licences">
             <div class="col-12">
-                <h3>Sounds</h3>
+                <h3 class="translate">Sounds</h3>
             </div>
         </div>
         <div class="row image-licences">
             <div class="col-12">
-                <h3>Images</h3>
+                <h3 class="translate">Images</h3>
             </div>
         </div>
     </div>
@@ -55,50 +55,47 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 mb-3">
-                <h3>Add own sound</h3>
+                <h3 class="translate">Add own sound</h3>
                 <form id="add-own-sound">
                     <div class="form-group">
-                        <label for="own-sound-name">Name</label>
+                        <label class="translate" for="own-sound-name">Name</label>
                         <input type="text" class="form-control" id="own-sound-name" name="name" required>
                     </div>
                     <div class="form-group mb-0">
-                        <label for="own-sound-file">Sound file</label>
+                        <label class="translate" for="own-sound-file">Sound file</label>
                     </div>
                     <div class="form-group custom-file mb-3">
                         <input type="file" class="custom-file-input" id="own-sound-file" name="sound" accept="audio/wav, audio/mpeg" required>
-                        <label class="custom-file-label" for="own-sound-file">Sound file</label>
+                        <label class="translate custom-file-label" for="own-sound-file">Sound file</label>
                     </div>
                     <div class="form-group">
-                        <label for="own-sound-icon">Icon</label>
+                        <label class="translate" for="own-sound-icon">Icon</label>
                         <input type="text" class="form-control" id="own-sound-icon" name="icon" placeholder="fas fa-volume-up">
                     </div>
                     <div class="form-group mb-0">
-                        <label for="own-sound-image">Image file</label>
+                        <label class="translate" for="own-sound-image">Image file</label>
                     </div>
                     <div class="form-group custom-file mb-3">
                         <input type="file" class="custom-file-input" id="own-sound-image" name="image" accept="image/svg+xml, image/jpeg, image/png, image/gif">
-                        <label class="custom-file-label" for="own-sound-image">Image file</label>
+                        <label class="translate custom-file-label" for="own-sound-image">Image file</label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add sound</button>
+                    <button type="submit" class="btn btn-primary translate">Add sound</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page page-edit-sounds" style="display: none;">
+<div class="page page-edit-board" style="display: none;">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 mb-3">
-                <h3>Sounds on board</h3>
-                <ul class="list-group edit-board">
-                </ul>
-
+                <h3 class="translate">Sounds on board</h3>
+                <ul class="list-group edit-board"></ul>
             </div>
             <div class="col-12">
-                <h3>Add sounds to board</h3>
-                <ul class="list-group add-sounds">
-                </ul>
+                <h3 class="translate">Add sounds to board</h3>
+                <ul class="list-group add-sounds"></ul>
             </div>
         </div>
     </div>
@@ -108,22 +105,22 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 mb-3">
-                <h3><i class="fas fa-book-medical"></i> Sound test buttons</h3>
-                <p>If you're watching this:
+                <h3><i class="fas fa-book-medical"></i> <span class="translate">Sound test buttons</span></h3>
+                <p><span class="translate">If you're watching this:</span>
                     <span class="test-sound pull-right"></span>
                     <br>
-                    ...then you can hear a sound with a mouse click. Crazy, isn't it?</p>
+                    <span class="translate">...then you can with a mouse click hear a sound. Crazy, isn't it?</span></p>
             </div>
             <div class="col-12 mb-3">
-                <h3><i class="fas fa-book-medical"></i> Shortcuts</h3>
-                <p>Press <strong>Modifier-Keys + Number</strong> (<span class="setting-modifier-example">Ctrl + Shift + 1</span>) on the keyboard to play sounds.</p>
-                <p>Current possible numbers are <strong>1, 2, 3, 4, 5, 6, 7, 8, 9, 0</strong>.</p>
-                <p>Modifier keys for shortcuts can be changed in the settings.</p>
+                <h3><i class="fas fa-book-medical"></i> <span class="translate">Shortcuts</span></h3>
+                <p><span class="translate">Press</span> <strong class="translate">Modifier-Keys + Number</strong> (<span class="setting-modifier-example">Ctrl + Shift + 1</span>) <span class="translate">on the keyboard to play sounds</span>.</p>
+                <p><span class="translate">Current possible numbers are</span> <strong>1, 2, 3, 4, 5, 6, 7, 8, 9, 0</strong>.</p>
+                <p class="translate">Modifier keys for shortcuts can be changed in the settings.</p>
             </div>
             <div class="col-12 mb-3">
                 <h3><i class="fab fa-github"></i> GitHub Repository</h3>
                 <p>
-                    Further information is documented in the GitHub repository:
+                    <span class="translate">Further information is documented in the GitHub repository</span>:
                     <a href="https://github.com/Cyb10101/electron_sound-board/" class="external">Cyb10101/electron_sound-board</a>
                 </p>
             </div>
@@ -138,15 +135,15 @@
                 <h3>
                     <span class="translate">Volume</span>:
                     <span id="setting-volume-label"></span>
-                    | Test:
+                    | <span class="translate">Test</span>:
                     <div class="test-sound pull-right"></div>
                 </h3>
                 <input type="range" min="0" max="100" value="50" class="slider" id="setting-volume">
             </div>
 
             <div class="col-12 mb-3">
-                <h3>Shortcuts</h3>
-                <span>Modifier:</span>
+                <h3 class="translate">Shortcuts</h3>
+                <span><span class="translate">Modifier</span>:</span>
                 <div class="custom-control custom-checkbox custom-control-inline mr-3">
                     <input type="checkbox" class="custom-control-input" id="setting-modifier-ctrl">
                     <label class="custom-control-label" for="setting-modifier-ctrl">CTRL</label>
@@ -159,14 +156,12 @@
                     <input type="checkbox" class="custom-control-input" id="setting-modifier-alt">
                     <label class="custom-control-label" for="setting-modifier-alt">ALT</label>
                 </div>
-                <div>
-                    See help for more information. Modifier + Number [0 - 9]
-                </div>
+                <div class="translate">See help for more information. Modifier + Number [0 - 9]</div>
             </div>
 
             <div class="col-12 mb-3">
                 <div class="setting-page-color">
-                    <h3>Page color</h3>
+                    <h3 class="translate">Page color</h3>
                     <div class="color-circle setting-color-0-page"></div>
                     <div class="color-circle setting-color-1"></div>
                     <div class="color-circle setting-color-2"></div>
@@ -193,7 +188,7 @@
             </div>
             <div class="col-12 mb-3">
                 <div class="setting-button-color">
-                    <h3>Button color</h3>
+                    <h3 class="translate">Button color</h3>
                     <div class="color-circle setting-color-0-button"></div>
                     <div class="color-circle setting-color-1"></div>
                     <div class="color-circle setting-color-2"></div>
@@ -219,38 +214,38 @@
                 </div>
             </div>
             <div class="col-12 mb-3">
-                <h3>Application</h3>
+                <h3 class="translate">Application</h3>
                 <div class="custom-control custom-checkbox mb-1">
                     <input type="checkbox" class="custom-control-input" id="settings-app-start-minimized">
-                    <label class="custom-control-label" for="settings-app-start-minimized">Start minimized (Only for tray)</label>
+                    <label class="custom-control-label translate" for="settings-app-start-minimized">Start minimized (Only for tray)</label>
                 </div>
                 <div class="custom-control custom-checkbox mb-1">
                     <input type="checkbox" class="custom-control-input" id="setting-app-frame">
-                    <label class="custom-control-label" for="setting-app-frame">Frame (Disable for frameless window)</label>
+                    <label class="custom-control-label translate" for="setting-app-frame">Frame (Disable for frameless window)</label>
                 </div>
                 <div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="setting-app-tray-instead-taskbar_tray" name="setting-app-tray-instead-taskbar" value="tray" class="custom-control-input" checked>
-                        <label class="custom-control-label" for="setting-app-tray-instead-taskbar_tray">Show in tray</label>
+                        <label class="custom-control-label translate" for="setting-app-tray-instead-taskbar_tray">Show in tray</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="setting-app-tray-instead-taskbar_taskbar" name="setting-app-tray-instead-taskbar" value="taskbar" class="custom-control-input">
-                        <label class="custom-control-label" for="setting-app-tray-instead-taskbar_taskbar">Show in taskbar</label>
+                        <label class="custom-control-label translate" for="setting-app-tray-instead-taskbar_taskbar">Show in taskbar</label>
                     </div>
                 </div>
                 <div>
-                    <b>Version:</b> <span id="setting-app-version"></span>
+                    <b><span class="translate">Version</span>:</b> <span id="setting-app-version"></span>
                 </div>
             </div>
             <div class="col-12 mb-3 border border-danger rounded dashed">
-                <h3>Danger Zone</h3>
-                <button type="button" class="btn btn-theme setting-store-editor mb-1">
+                <h3 class="translate">Danger Zone</h3>
+                <button type="button" class="btn btn-theme setting-store-editor mb-1 translate">
                     Configuration editor
                 </button>
-                <button type="button" class="btn btn-theme setting-open-user-data mb-1">
+                <button type="button" class="btn btn-theme setting-open-user-data mb-1 translate">
                     User data folder
                 </button>
-                <button type="button" class="btn btn-theme mb-1" data-toggle="modal" data-target="#appReset">
+                <button type="button" class="btn btn-theme mb-1 translate" data-toggle="modal" data-target="#appReset">
                     Reset App
                 </button>
             </div>
@@ -262,19 +257,19 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="appFrameLongTitle">Change window frame</h5>
+                <h5 class="modal-title translate" id="appFrameLongTitle">Change window frame</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Do you want to change window frame and restart the app?<br>
+                <span class="translate">Do you want to change window frame and restart the application?</span><br>
                 <br>
-                <i>Note: Windows maybe does not start the application automatically.</i>
+                <i class="translate">Note: Windows maybe does not start the application automatically.</i>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger setting-app-frame-restart">Yes</button>
+                <button type="button" class="btn btn-secondary translate" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger setting-app-frame-restart translate">Yes</button>
             </div>
         </div>
     </div>
@@ -284,20 +279,20 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="appResetLongTitle">Reset app data</h5>
+                <h5 class="modal-title translate" id="appResetLongTitle">Reset app data</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                If you reset the app, all settings will be reset to default.<br>
+                <span class="translate">If you reset the app, all settings will be reset to default.</span><br>
                 <br>
-                <i>Note: Windows maybe does not start the application automatically.</i>
+                <i class="translate">Note: Windows maybe does not start the application automatically.</i>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, do nothing</button>
-                <button type="button" class="btn btn-danger setting-reset-app" data-action="close">Yes, reset & close</button>
-                <button type="button" class="btn btn-danger setting-reset-app" data-action="restart">Yes, reset & restart</button>
+                <button type="button" class="btn btn-secondary translate" data-dismiss="modal">No, do nothing</button>
+                <button type="button" class="btn btn-danger setting-reset-app translate" data-action="close">Yes, close</button>
+                <button type="button" class="btn btn-danger setting-reset-app translate" data-action="restart">Yes, restart</button>
             </div>
         </div>
     </div>

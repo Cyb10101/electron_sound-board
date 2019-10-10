@@ -198,4 +198,3 @@ class Settings {
 document.addEventListener('DOMContentLoaded', function () {
     const settings = new Settings();
 });
-
