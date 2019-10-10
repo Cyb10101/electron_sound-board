@@ -127,23 +127,30 @@ class ElectronApp {
             autoHideMenuBar: false,
             resizable: true,
             useContentSize: true,
+            backgroundColor: '#eaeaea',
             icon: path.join(__dirname, 'assets/images/icons/iconfinder_S_1553065_256.png'),
             webPreferences: {
                 nodeIntegration: true
             },
-            show: !initializeStartMinimized
+            show: false
         });
         mainWindow.setSkipTaskbar(store.get('app-tray-instead-taskbar', false));
 
         this.registerFileProtocol('app', __dirname + '/public/');
         this.registerFileProtocol('user', app.getPath('userData') + '/');
 
-        if (environment.isDevelopment()) {
-            mainWindow.webContents.openDevTools();
-        }
-
         mainWindow.loadURL('app://index.html').catch(function () {
             console.error('Can\'t open Dashboard');
+        });
+
+        mainWindow.once('ready-to-show', () => {
+            if (!initializeStartMinimized) {
+                mainWindow.show();
+
+                if (environment.isDevelopment()) {
+                    mainWindow.webContents.openDevTools();
+                }
+            }
         });
 
         mainWindow.on('restore', () => {
