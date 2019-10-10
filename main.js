@@ -33,6 +33,7 @@ let environment = new Environment();
 let mainWindow;
 let trayMenu;
 let appQuit = false;
+let clearStore = false;
 let initializeStartMinimized = store.get('app-tray-instead-taskbar', true) && store.get('app-start-minimized', false);
 
 class ElectronApp {
@@ -166,18 +167,19 @@ class ElectronApp {
 
         mainWindow.on('close', (event) => {
             let bounds = mainWindow.getBounds();
-            if (store.get('app-frame', false)) {
-                // @todo we should't calculate window size if framed
-                if (environment.isWindows()) {
-                    bounds.width -= 16;
-                    bounds.height -= 39
-                } else if (environment.isLinux()) {
-                    bounds.y -= 30;
-                    bounds.height -= 10;
+            if (!clearStore) {
+                if (store.get('app-frame', false)) {
+                    // @todo we should't calculate window size if framed
+                    if (environment.isWindows()) {
+                        bounds.width -= 16;
+                        bounds.height -= 39
+                    } else if (environment.isLinux()) {
+                        bounds.y -= 30;
+                        bounds.height -= 10;
+                    }
                 }
+                store.set('mainWindowBounds', bounds);
             }
-            store.set('mainWindowBounds', bounds);
-
             if (!appQuit && store.get('app-tray-instead-taskbar', true)) {
                 event.preventDefault();
                 mainWindow.minimize();
@@ -324,6 +326,7 @@ class ElectronApp {
             } else if (args.do === 'reset') {
                 mainWindow.close();
                 store.clear();
+                clearStore = true;
                 if (args.action === 'restart') {
                     app.relaunch();
                 }
