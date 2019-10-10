@@ -44,11 +44,13 @@ class SoundBoard {
     }
 
     createElementSoundButtonByItem(item, tagName = 'div') {
-        let element = document.createElement(tagName);
-        element.className = 'square-item button-sound';
-
         let soundStored = predefinedSounds.getSound(item.sound);
         soundStored = {...soundStored, ...item}; // Merge sound objects
+
+        let element = document.createElement(tagName);
+        element.className = 'square-item button-sound';
+        element.title = this.getNameFromSoundItem(item);
+
         if (item.sound && soundStored) {
             element.setAttribute('data-sound', item.sound);
             if (!item.image && soundStored.image) {
@@ -73,6 +75,11 @@ class SoundBoard {
             icon.className = item.icon;
             element.appendChild(icon);
         }
+
+        let elTitle = document.createElement('div');
+        elTitle.className = 'title';
+        elTitle.innerText = this.getNameFromSoundItem(item);
+        element.appendChild(elTitle);
 
         this.configureSoundButton(element);
         return element;

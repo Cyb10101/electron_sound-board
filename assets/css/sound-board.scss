@@ -74,6 +74,18 @@
         }
     }
 
+    .title {
+        display: none;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        font-size: 2vw;
+        text-align: center;
+        color: #ffffff;
+    }
+
     .fas, .far, .fal {
         display: flex;
         align-items: center;
@@ -103,6 +115,11 @@
             mask-size: calc(100vw / 7) calc(100vw / 7);
         }
 
+        .title {
+            display: block;
+            font-size: calc(100vw / 40);
+        }
+
         .fas, .far, .fal {
             font-size: calc(100vw / 7);
         }
@@ -122,6 +139,10 @@
                 background-size: calc(100vw / 8) calc(100vw / 8);
                 -webkit-mask-size: calc(100vw / 8) calc(100vw / 8);
                 mask-size: calc(100vw / 8) calc(100vw / 8);
+            }
+
+            .title {
+                font-size: calc(100vw / 50);
             }
 
             .fas, .far, .fal {
@@ -146,6 +167,10 @@
                 mask-size: calc(100vw / 9) calc(100vw / 9);
             }
 
+            .title {
+                font-size: calc(100vw / 70);
+            }
+
             .fas, .far, .fal {
                 font-size: calc(100vw / 9);
             }
@@ -168,6 +193,10 @@
                 mask-size: calc(100vw / 12) calc(100vw / 12);
             }
 
+            .title {
+                font-size: calc(100vw / 80);
+            }
+
             .fas, .far, .fal {
                 font-size: calc(100vw / 12);
             }
@@ -188,6 +217,10 @@
                 background-size: calc(100vw / 14) calc(100vw / 14);
                 -webkit-mask-size: calc(100vw / 14) calc(100vw / 14);
                 mask-size: calc(100vw / 14) calc(100vw / 14);
+            }
+
+            .title {
+                font-size: calc(100vw / 90);
             }
 
             .fas, .far, .fal {
