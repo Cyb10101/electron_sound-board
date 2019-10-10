@@ -1,5 +1,6 @@
 {
     "name": "sound-board",
+    "productName": "Sound Board",
     "version": "0.0.1",
     "description": "A board with buttons to play funny sounds.",
     "author": "Thomas Schur <cyb10101@gmail.com>",
@@ -28,7 +29,7 @@
     },
     "build": {
         "appId": "com.cyb.${name}",
-        "artifactName": "${name}_${version}_${os}_${arch}.${ext}",
+        "artifactName": "${name}_${os}_${arch}.${ext}",
         "linux": {
             "category": "Utility",
             "target": [
