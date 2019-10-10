@@ -2,8 +2,9 @@
 
 class PredefinedSounds {
     getSounds() {
-        return {
+        let sounds = {
             'ba-da-dum': {
+                type: 'internal',
                 name: 'Ba Da Dum',
                 sound: 'ba-da-dum.wav',
                 icon: 'fas fa-drum',
@@ -11,6 +12,7 @@ class PredefinedSounds {
                 imageLicence: this.getLicence('Font Awesome Free')
             },
             'sad-trombone-01': {
+                type: 'internal',
                 name: 'Sad Trombone 01',
                 sound: 'sad-trombone-01.wav',
                 // icon: 'fas fa-drum',
@@ -18,6 +20,7 @@ class PredefinedSounds {
                 imageLicence: this.getLicence('Font Awesome Free')
             },
             'weapon-science-fiction-01': {
+                type: 'internal',
                 name: 'Weapon Science Fiction 01',
                 sound: 'weapon-science-fiction-01.mp3',
                 image: 'weapon-military-01.svg',
@@ -25,6 +28,12 @@ class PredefinedSounds {
                 imageLicence: this.getLicence('IconFinder: Free for commercial use', 'ibrandify', 'https://www.iconfinder.com/icons/2969374/gun_military_weapon_icon')
             }
         };
+
+        let soundKeys = Object.keys(sounds);
+        soundKeys.forEach(function (key) {
+            sounds[key].id = key;
+        });
+        return sounds;
     }
 
     getSound(id) {

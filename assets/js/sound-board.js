@@ -11,7 +11,6 @@ class SoundBoard {
     constructor() {
         this.initializeUserData();
         this.createSoundBoard();
-        this.createSoundBoardEdit();
         this.addTestSoundButtons();
         this.createCopyrightSoundLicencesAndAddSounds();
         this.connectMenu();
@@ -37,35 +36,31 @@ class SoundBoard {
         let defaultBoard = [];
         let soundKeys = Object.keys(predefinedSounds.getSounds());
         soundKeys.forEach(function (key) {
-            defaultBoard.push({sound: key})
-
+            defaultBoard.push({type: 'default', sound: key})
         });
         return defaultBoard;
     }
 
-    createElementSoundButtonByItem(item, tagName = 'div') {
-        let soundStored = predefinedSounds.getSound(item.sound);
-        soundStored = {...soundStored, ...item}; // Merge sound objects
+    createElementSoundButtonByItem(item, tagName = 'div', overrideItem = null) {
+        if (item.type === 'default') {
+            let soundStored = predefinedSounds.getSound(item.sound);
+            item = {...item, ...soundStored}; // Merge sound objects
+        }
+
+        if (overrideItem) {
+            item = {...item, ...overrideItem}; // Merge sound objects
+        }
 
         let element = document.createElement(tagName);
         element.className = 'square-item button-sound';
         element.title = this.getNameFromSoundItem(item);
+        element.setAttribute('data-type', item.type);
 
-        if (item.sound && soundStored) {
+        if (item.sound) {
             element.setAttribute('data-sound', item.sound);
-            if (!item.image && soundStored.image) {
-                item.image = soundStored.image;
-            }
-            if (!item.image && !item.icon) {
-                item.icon = soundStored.icon;
-            }
-        } else if (item.soundUser) {
-            element.setAttribute('data-soundUser', item.soundUser);
         }
         if (item.image) {
             element.setAttribute('data-image', item.image);
-        } else if (item.imageUser) {
-            element.setAttribute('data-imageUser', item.imageUser);
         } else {
             if (!item.icon) {
                 item.icon = 'fas fa-volume-up';
@@ -93,6 +88,22 @@ class SoundBoard {
         }
 
         let container = document.querySelector('.page-sound-board .square-container');
+        let editBoard = document.querySelector('.page-edit-sounds .edit-board');
+        container.innerHTML = '';
+        editBoard.innerHTML = '';
+        for (let item of board) {
+            container.appendChild(this.createElementSoundButtonByItem(item));
+            editBoard.appendChild(this.createElementSoundBoardEdit(item));
+        }
+    }
+
+    /**
+     * Remove if fixed!
+     * @todo edit board: delete item
+     */
+    recreateSoundBoard() {
+        let board = store.get('board', []);
+        let container = document.querySelector('.page-sound-board .square-container');
         container.innerHTML = '';
         for (let item of board) {
             container.appendChild(this.createElementSoundButtonByItem(item));
@@ -118,7 +129,6 @@ class SoundBoard {
     }
 
     addCopyrightSoundLicence(item, sound) {
-        item.sound = sound;
         item.icon = 'fas fa-volume-up';
         item.image = null;
 
@@ -166,7 +176,6 @@ class SoundBoard {
                 this.addCopyrightImageLicence(item);
             }
 
-            item.sound = sound;
             addSounds.appendChild(this.createElementSoundBoardEdit(item, 'add'));
             this.addCopyrightSoundLicence(item, sound);
         }
@@ -260,7 +269,7 @@ class SoundBoard {
     addTestSoundButtons() {
         let instance = this;
         document.querySelectorAll('.test-sound').forEach(function (button) {
-            let soundButton = instance.createElementSoundButtonByItem({sound: 'ba-da-dum', icon: 'fas fa-volume-up'});
+            let soundButton = instance.createElementSoundButtonByItem({type: 'default', sound: 'ba-da-dum'}, null, {icon: 'fas fa-volume-up'});
             button.classList.forEach(function (className) {
                soundButton.classList.add(className);
             });
@@ -269,30 +278,23 @@ class SoundBoard {
     }
 
     configureSoundButton(button) {
+        let type = button.attributes['data-type'].value;
+        let imageUrl = 'app://images/sounds/';
+        if (type === 'external') {
+            imageUrl = 'user://images/';
+        }
+
         let image = button.attributes['data-image'];
-        let imageUser = button.attributes['data-imageUser'];
         if (image && image.value !== '') {
             let span = document.createElement('span');
             span.classList.add('button-icon');
             let extension = image.value.split('.').pop();
             if (extension === 'svg') {
                 span.classList.add('mask');
-                span.style.webkitMaskImage = 'url("app://images/sounds/' + image.value + '")';;
-                span.style.maskImage = 'url("app://images/sounds/' + image.value + '")';
+                span.style.webkitMaskImage = 'url("' + imageUrl + image.value + '")';;
+                span.style.maskImage = 'url("' + imageUrl + image.value + '")';
             } else {
-                span.style.backgroundImage = 'url("app://images/sounds/' + image.value + '")';
-            }
-            button.appendChild(span);
-        } else if (imageUser && imageUser.value !== '') {
-            let span = document.createElement('span');
-            span.classList.add('button-icon');
-            let extension = imageUser.value.split('.').pop();
-            if (extension === 'svg') {
-                span.classList.add('mask');
-                span.style.webkitMaskImage = 'url("user://images/' + imageUser.value + '")';
-                span.style.maskImage = 'url("user://images/' + imageUser.value + '")';
-            } else {
-                span.style.backgroundImage = 'url("user://images/' + imageUser.value + '")';
+                span.style.backgroundImage = 'url("' + imageUrl + image.value + '")';
             }
             button.appendChild(span);
         }
@@ -301,26 +303,21 @@ class SoundBoard {
     }
 
     addSoundButtonEvent(button) {
-        let sound = button.attributes['data-sound'];
-        let soundUser = button.attributes['data-soundUser'];
-        let external = false;
-        let filename;
-        if (sound && sound.value !== '') {
-            let soundStored = predefinedSounds.getSound(sound.value);
-            filename = 'app://sounds/' + soundStored.sound;
-        } else if (soundUser && soundUser.value !== '') {
-            external = true;
-            filename = 'user://sounds/' + soundUser.value;
+        let type = button.attributes['data-type'].value;
+        let soundUrl = 'app://sounds/';
+        if (type === 'external') {
+            soundUrl = 'user://sounds/';
         }
 
-        if (filename) {
-            let audio = new Audio(filename);
+        let sound = button.attributes['data-sound'];
+        if (sound && sound.value !== '') {
+            let audio = new Audio(soundUrl + sound.value);
             button.addEventListener('click', function () {
                 audio.currentTime = 0;
                 let volume = parseInt(store.get('volume', 50), 10);
                 audio.volume = volume / 100;
                 audio.play().catch(function () {
-                    console.error('Can\'t play sound: ' + (external ? soundUser.value : sound.value));
+                    console.error('Can\'t play sound: ' + sound.value);
                 });
             });
         }
@@ -340,7 +337,11 @@ class SoundBoard {
                 let board = store.get('board', []);
                 instance.arrayMove(board, event.oldIndex, event.newIndex);
                 store.set('board', board);
-                instance.createSoundBoard();
+
+                // @todo edit board: delete item
+                instance.recreateSoundBoard();
+                // let container = document.querySelector('.page-sound-board .square-container');
+                // instance.swapChildrenInParent(container, event.oldIndex, event.newIndex);
             },
         });
 
@@ -355,24 +356,52 @@ class SoundBoard {
         });
     }
 
+    swapChildrenInParent(parentNode, oldIndex, newIndex) {
+        let oldNode;
+        let newNode;
+        if (oldIndex >= newIndex) {
+            let tmp = newIndex;
+            newIndex = oldIndex;
+            oldIndex = tmp;
+        }
+
+        oldNode = parentNode.children[oldIndex];
+        newNode = parentNode.children[newIndex];
+        parentNode.removeChild(newNode);
+        parentNode.removeChild(oldNode);
+
+        if (parentNode.children[oldIndex]) {
+            parentNode.insertBefore(newNode, parentNode.children[oldIndex]);
+        } else {
+            parentNode.appendChild(newNode);
+        }
+
+        if (parentNode.children[newIndex]) {
+            parentNode.insertBefore(oldNode, parentNode.children[newIndex]);
+        } else {
+            parentNode.appendChild(oldNode);
+        }
+    }
+
     getNameFromSoundItem(soundItem) {
         let name = 'Unnamed sound';
         if (soundItem.hasOwnProperty('name')) {
             name = soundItem.name;
         } else if (soundItem.hasOwnProperty('sound')) {
             name = soundItem.sound;
-        } else if (soundItem.hasOwnProperty('soundUser')) {
-            name = soundItem.soundUser;
         }
         return name;
     }
 
     createElementSoundBoardEdit(item, type = 'edit') {
         let instance = this;
+        if (item.type === 'default') {
+            let soundStored = predefinedSounds.getSound(item.sound);
+            item = {...item, ...soundStored}; // Merge sound objects
+        }
 
         let element = document.createElement('li');
         element.className = 'list-group-item';
-        element.setAttribute('data-sound', item.sound);
 
         let soundButton = this.createElementSoundButtonByItem(item);
         element.appendChild(soundButton);
@@ -391,11 +420,13 @@ class SoundBoard {
 
                 let board = store.get('board', []);
                 let soundTrash = board[trashId];
-                if (soundTrash.soundUser && fs.existsSync(instance.userDataSounds + '/' + soundTrash.soundUser)) {
-                    fs.unlinkSync(instance.userDataSounds + '/' + soundTrash.soundUser);
-                }
-                if (soundTrash.imageUser && fs.existsSync(instance.userDataImages + '/' + soundTrash.imageUser)) {
-                    fs.unlinkSync(instance.userDataImages + '/' + soundTrash.imageUser);
+                if (type === 'external') {
+                    if (soundTrash.sound && fs.existsSync(instance.userDataSounds + '/' + soundTrash.sound)) {
+                        fs.unlinkSync(instance.userDataSounds + '/' + soundTrash.sound);
+                    }
+                    if (soundTrash.image && fs.existsSync(instance.userDataImages + '/' + soundTrash.image)) {
+                        fs.unlinkSync(instance.userDataImages + '/' + soundTrash.image);
+                    }
                 }
                 board.splice(trashId, 1);
                 store.set('board', board);
@@ -410,11 +441,7 @@ class SoundBoard {
             let newSoundAdd = document.createElement('i');
             newSoundAdd.className = 'fas fa-plus-square float-right add';
             newSoundAdd.addEventListener('click', function () {
-                let sound = this.parentNode.getAttribute('data-sound');
-                let soundItem = predefinedSounds.getSound(sound);
-                soundItem.sound = sound;
-
-                instance.addSoundItemToBoard(soundItem, {sound: sound});
+                instance.addSoundItemToBoard({type: 'default', sound: item.id});
             });
             element.appendChild(newSoundAdd);
         }
@@ -431,16 +458,6 @@ class SoundBoard {
         let board = store.get('board', []);
         board.push((overrideStore ? overrideStore : soundItem));
         store.set('board', board);
-    }
-
-    createSoundBoardEdit() {
-        let board = store.get('board', []);
-
-        let container = document.querySelector('.page-edit-sounds .edit-board');
-        container.innerHTML = '';
-        for (let item of board) {
-            container.appendChild(this.createElementSoundBoardEdit(item));
-        }
     }
 
     arrayMove(array, oldIndex, newIndex) {
@@ -483,8 +500,9 @@ class SoundBoard {
                 let soundFileExtension = soundFileName.split('.').pop();
                 let soundFilePath = form.sound.files[0].path;
                 let newSoundFileName = instance.generateFileCode(instance.userDataSounds, soundFileExtension);
+                item.type = 'external';
                 item.name = soundFileName;
-                item.soundUser = newSoundFileName;
+                item.sound = newSoundFileName;
 
                 fs.copyFile(soundFilePath, instance.userDataSounds + '/' + newSoundFileName, function(error) {
                     if (error) {
@@ -507,7 +525,7 @@ class SoundBoard {
                     let imageFileExtension = imageFileName.split('.').pop();
                     let imageFilePath = form.image.files[0].path;
                     let newImageFileName = instance.generateFileCode(instance.userDataImages, imageFileExtension);
-                    item.imageUser = newImageFileName;
+                    item.image = newImageFileName;
 
                     fs.copyFile(imageFilePath, instance.userDataImages + '/' + newImageFileName, function(error) {
                         if (error) {
