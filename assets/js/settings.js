@@ -63,7 +63,7 @@ class Settings {
         if (store.get('modifier-shift', true)) {
             modifierCombined += 'Shift + ';
         }
-        if (store.get('modifier-alt', true)) {
+        if (store.get('modifier-alt', false)) {
             modifierCombined += 'Alt + ';
         }
         modifierCombined += '1';
