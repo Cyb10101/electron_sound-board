@@ -12,7 +12,7 @@ class Environment {
     }
 
     isDevelopment() {
-        return (global.process.env.APP_ENV && global.process.env.APP_ENV === 'dev');
+        return !(global.process.env.APP_ENV && global.process.env.APP_ENV === 'dev');
     }
 
     isWindows() {
@@ -202,6 +202,14 @@ class ElectronApp {
         });
     }
 
+    trayMenuOpenPage(selector) {
+        if (!mainWindow) {
+            this.mainWindowCreate();
+        }
+        mainWindow.show();
+        mainWindow.focus();
+        mainWindow.webContents.send('switch-page', selector);
+    }
 
     trayMenu() {
         if (!store.get('app-tray-instead-taskbar', false)) {
@@ -210,68 +218,41 @@ class ElectronApp {
 
         let instance = this;
         trayMenu = new Tray(path.join(__dirname, 'assets/images/icons/round-corner/64x64.png'));
+        trayMenu.addListener('click', function () {
+            instance.trayMenuOpenPage('.page-sound-board');
+        });
 
         const contextMenu = Menu.buildFromTemplate([{
             label: 'Sound board',
             click: function () {
-                if (!mainWindow) {
-                    instance.mainWindowCreate();
-                }
-                mainWindow.show();
-                mainWindow.focus();
-                mainWindow.webContents.send('switch-page', '.page-sound-board');
+                instance.trayMenuOpenPage('.page-sound-board');
             }
         }, {
             type: 'separator'
         }, {
             label: 'Settings',
             click: function () {
-                if (!mainWindow) {
-                    instance.mainWindowCreate();
-                }
-                mainWindow.show();
-                mainWindow.focus();
-                mainWindow.webContents.send('switch-page', '.page-settings');
+                instance.trayMenuOpenPage('.page-settings');
             }
         }, {
             label: 'Add own sound',
             click: function () {
-                if (!mainWindow) {
-                    instance.mainWindowCreate();
-                }
-                mainWindow.show();
-                mainWindow.focus();
-                mainWindow.webContents.send('switch-page', '.page-add-own-sound');
+                instance.trayMenuOpenPage('.page-add-own-sound');
             }
         }, {
             label: 'Edit sounds',
             click: function () {
-                if (!mainWindow) {
-                    instance.mainWindowCreate();
-                }
-                mainWindow.show();
-                mainWindow.focus();
-                mainWindow.webContents.send('switch-page', '.page-edit-sounds');
+                instance.trayMenuOpenPage('.page-edit-sounds');
             }
         }, {
             label: 'Help',
             click: function () {
-                if (!mainWindow) {
-                    instance.mainWindowCreate();
-                }
-                mainWindow.show();
-                mainWindow.focus();
-                mainWindow.webContents.send('switch-page', '.page-help');
+                instance.trayMenuOpenPage('.page-help');
             }
         }, {
             label: 'Copyright',
             click: function () {
-                if (!mainWindow) {
-                    instance.mainWindowCreate();
-                }
-                mainWindow.show();
-                mainWindow.focus();
-                mainWindow.webContents.send('switch-page', '.page-copyright');
+                instance.trayMenuOpenPage('.page-copyright');
             }
         }, {
             type: 'separator'

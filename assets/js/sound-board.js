@@ -224,6 +224,9 @@ class SoundBoard {
         ipcRenderer.on('switch-page', function(event, arg) {
             instance.switchPage(arg);
         });
+        ipcRenderer.on('debug', function(event, arg) {
+            console.info(arg);
+        });
     }
 
     switchPage(pageSelector) {
