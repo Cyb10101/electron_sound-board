@@ -506,6 +506,8 @@ class SoundBoard {
 
                 instance.addSoundItemToBoard(item);
                 instance.switchPage('.page-edit-sounds');
+                form.sound.parentNode.querySelector('.custom-file-label').innerHTML = 'Sound file';
+                form.image.parentNode.querySelector('.custom-file-label').innerHTML = 'Image file';
                 form.reset();
             }
 
