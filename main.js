@@ -38,7 +38,9 @@ let initializeStartMinimized = store.get('app-tray-instead-taskbar', false) && s
 
 class ElectronApp {
     initializeLanguage() {
-        this.__ = require('./assets/js/language.js');
+        const {language} = require('./assets/js/language.js');
+        language.load();
+        this.__ = language.__;
     }
 
     mainWindowMenu() {
@@ -229,7 +231,9 @@ class ElectronApp {
         }
 
         let instance = this;
-        trayMenu = new Tray(path.join(__dirname, 'assets/images/icons/iconfinder_S_1553065_32.png'));
+        if (!trayMenu) {
+            trayMenu = new Tray(path.join(__dirname, 'assets/images/icons/iconfinder_S_1553065_32.png'));
+        }
         trayMenu.addListener('click', function () {
             instance.trayMenuOpenPage('.page-sound-board');
         });
@@ -310,6 +314,10 @@ class ElectronApp {
                     // @todo destroy tray menu
                 }
                 mainWindow.setSkipTaskbar(isTray);
+            } else if (args.do === 'reTranslate') {
+                instance.initializeLanguage();
+                instance.mainWindowMenu();
+                instance.trayMenu();
             } else if (args.do === 'restart') {
                 if (store.get('app-tray-instead-taskbar', false)) {
                     appQuit = true;
@@ -383,7 +391,7 @@ app.on('second-instance', (event, argv, cwd) => {
 });
 
 app.on('ready', () => {
-    electronApp.initializeLanguage()
+    electronApp.initializeLanguage();
     electronApp.mainWindowMenu();
     electronApp.mainWindowCreate();
     electronApp.connectIpc();

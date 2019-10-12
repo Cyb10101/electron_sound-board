@@ -69,5 +69,10 @@
     "Do you want to change window frame and restart the application?": "Willst du den Fensterrahmen ändern und die Anwendung neu starten?",
     "Reset app data": "Anwendungsdaten zurücksetzen",
     "If you reset the app, all settings will be reset to default.": "Wenn Sie die Anwendung zurücksetzen, werden alle Einstellungen auf die Standardeinstellungen zurückgesetzt.",
-    "Note: Windows maybe does not start the application automatically.": "Hinweis: Windows startet die Anwendung möglicherweise nicht automatisch."
+    "Note: Windows maybe does not start the application automatically.": "Hinweis: Windows startet die Anwendung möglicherweise nicht automatisch.",
+
+    "Language": "Sprache",
+    "- System default -": "- System Standard -",
+    "English": "Englisch",
+    "German": "Deutsch"
 }
