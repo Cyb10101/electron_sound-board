@@ -3,19 +3,23 @@
 const {ipcRenderer, remote, shell} = require('electron');
 const Store = require('electron-store');
 const store = new Store();
+const {__, language} = require('./language.js');
 
 class Settings {
     constructor() {
-        this.setVolume();
         this.bindVolume();
+        this.setVolume();
 
-        this.setModifier();
         this.bindModifier();
+        this.setModifier();
 
-        this.setPageColor();
-        this.setButtonColor();
         this.bindPageColor();
         this.bindButtonColor();
+        this.setPageColor();
+        this.setButtonColor();
+
+        this.bindLanguage();
+        this.setLanguage();
 
         this.bindAppSettings();
         this.setAppSettings();
@@ -79,6 +83,35 @@ class Settings {
 
         let amount = document.querySelectorAll('.page-sound-board .button-sound').length;
         ipcRenderer.send('setGlobalShortcuts', amount);
+    }
+
+    bindLanguage() {
+        let settingLanguage = document.querySelector('#settings-language');
+
+        for (let languageAvailable of language.getAvailable()) {
+            let option = document.createElement('option');
+            option.className = 'translate';
+            option.value = languageAvailable;
+            option.innerText = __('language.' + languageAvailable);
+            settingLanguage.appendChild(option);
+        }
+
+        settingLanguage.addEventListener('change', function () {
+            let oldLanguage = store.get('language', 'en');
+            store.set('language', this.value);
+            language.reTranslate();
+            ipcRenderer.send('app', {do: 'reTranslate'});
+        });
+    }
+
+    setLanguage() {
+        let settingLanguage = document.querySelector('#settings-language');
+        let languageStored = store.get('language', '');
+        if (language.getAvailable().includes(languageStored)) {
+            settingLanguage.value = languageStored;
+        } else {
+            settingLanguage.value = '';
+        }
     }
 
     bindAppSettings() {

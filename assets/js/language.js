@@ -2,17 +2,46 @@
 
 const electron = require('electron');
 const fs = require('fs');
+const Store = require('electron-store');
+const store = new Store();
 let loadedLanguage;
 let app = electron.app ? electron.app : electron.remote.app;
 let pathLanguage = electron.app ? __dirname + '/../../' : '';
+let languages = ['en', 'de'];
 
 class Language {
     constructor() {
-        let currentLanguage = 'en';
-        if (fs.existsSync(pathLanguage + 'public/language/' + app.getLocale() + '.json')) {
-            currentLanguage = app.getLocale();
+        this.load();
+    }
+
+    load() {
+        let language = this.getCurrent();
+        loadedLanguage = JSON.parse(fs.readFileSync(pathLanguage + 'public/language/en.json', 'utf8'));
+        if (language !== '' && language !== 'en') {
+            let loadedLanguage2 = JSON.parse(fs.readFileSync(pathLanguage + 'public/language/' + language + '.json', 'utf8'));
+            loadedLanguage = {...loadedLanguage, ...loadedLanguage2}; // Merge language objects
         }
-        loadedLanguage = JSON.parse(fs.readFileSync(pathLanguage + 'public/language/' + currentLanguage + '.json', 'utf8'));
+    }
+
+    getAvailable() {
+        return ['en', 'de'];
+    }
+
+    getCurrent() {
+        let language = store.get('language', '');
+        if (!this.getAvailable().includes(language)) {
+            language = app.getLocale();
+
+            if (!this.getAvailable().includes(language)) {
+                language = 'en';
+            }
+        }
+
+        if (!fs.existsSync(pathLanguage + 'public/language/' + language + '.json')) {
+            language = 'en';
+        }
+
+        return language;
     }
 
     __(phrase) {
@@ -22,9 +51,32 @@ class Language {
         }
         return translation
     }
+
+    translate() {
+        let instance = this;
+        document.querySelectorAll('.translate').forEach(function (obj) {
+            obj.innerHTML = instance.__(obj.innerHTML.trim());
+        });
+    }
+
+    reTranslate() {
+        let instance = this;
+        loadedLanguage = this.objectFlip(loadedLanguage);
+        this.translate();
+        language.load();
+        this.translate();
+    }
+
+    objectFlip(obj) {
+        const ret = {};
+        Object.keys(obj).forEach(key => {
+            ret[obj[key]] = key;
+        });
+        return ret;
+    }
 }
 
 const language = new Language();
 const __ = language.__;
-// module.exports = language;
-module.exports = __;
+exports.language = language;
+exports.__ = language.__;

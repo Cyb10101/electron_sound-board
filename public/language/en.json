@@ -70,4 +70,12 @@
     "Reset app data": "Reset app data",
     "If you reset the app, all settings will be reset to default.": "If you reset the app, all settings will be reset to default.",
     "Note: Windows maybe does not start the application automatically.": "Note: Windows maybe does not start the application automatically.",
+
+    "Language": "Language",
+    "- System default -": "- System default -",
+    "English": "English",
+    "German": "German",
+
+    "language.en": "English",
+    "language.de": "German"
 }
