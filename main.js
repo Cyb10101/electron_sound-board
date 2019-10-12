@@ -39,7 +39,6 @@ let initializeStartMinimized = store.get('app-tray-instead-taskbar', false) && s
 class ElectronApp {
     initializeLanguage() {
         this.__ = require('./assets/js/language.js');
-        // dialog.showErrorBox('lang: ' + app.getLocale(), this.__('Quit'));
     }
 
     mainWindowMenu() {
@@ -62,7 +61,7 @@ class ElectronApp {
             label: this.__('Dashboard'),
             click() {
                 mainWindow.loadURL('app://index.html').catch(function () {
-                    console.error('Can\'t open Dashboard');
+                    dialog.showErrorBox(app.getName(), 'Can\'t open Dashboard');
                 });
             }
         }, {
@@ -146,7 +145,7 @@ class ElectronApp {
         this.registerFileProtocol('user', app.getPath('userData') + '/');
 
         mainWindow.loadURL('app://index.html').catch(function () {
-            console.error('Can\'t open Dashboard');
+            dialog.showErrorBox(app.getName(), 'Can\'t open Dashboard');
         });
 
         mainWindow.once('ready-to-show', () => {
@@ -210,7 +209,7 @@ class ElectronApp {
             callback({path: path.normalize(pathName + url)});
         }, (error) => {
             if (error) {
-                console.error('Failed to register protocol ' + scheme);
+                dialog.showErrorBox(app.getName(), 'Failed to register protocol ' + scheme);
             }
         });
     }
