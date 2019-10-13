@@ -14,10 +14,12 @@ A colleague comes to you with a questionable request and you answer with a funny
 >
 > ![GitHub issue/pull request detail](https://img.shields.io/github/issues/detail/title/Cyb10101/electron_sound-board/5)
 
-
 | Windows | Linux | Mac |
 |:---:|:---:|:---:|
-| - | - | ![GitHub issue/pull request detail](https://img.shields.io/github/issues/detail/title/Cyb10101/electron_sound-board/16) |
+| ![sound-board_win.exe](https://img.shields.io/github/downloads/cyb10101/electron_sound-board/latest/sound-board_win.exe) | ![sound-board_linux_amd64.deb](https://img.shields.io/github/downloads/cyb10101/electron_sound-board/latest/sound-board_linux_amd64.deb) | ![GitHub issue/pull request detail](https://img.shields.io/github/issues/detail/title/Cyb10101/electron_sound-board/16) |
+| | ![sound-board_linux_i386.deb](https://img.shields.io/github/downloads/cyb10101/electron_sound-board/latest/sound-board_linux_i386.deb) | |
+| | ![sound-board_linux_x86_64.AppImage](https://img.shields.io/github/downloads/cyb10101/electron_sound-board/latest/sound-board_linux_x86_64.AppImage) | |
+| | ![sound-board_linux_i386.AppImage](https://img.shields.io/github/downloads/cyb10101/electron_sound-board/latest/sound-board_linux_i386.AppImage) | |
 
 ## Documentation
 
