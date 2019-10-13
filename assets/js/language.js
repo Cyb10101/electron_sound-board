@@ -6,8 +6,7 @@ const Store = require('electron-store');
 const store = new Store();
 let loadedLanguage;
 let app = electron.app ? electron.app : electron.remote.app;
-let pathLanguage = electron.app ? __dirname + '/../../' : '';
-let languages = ['en', 'de'];
+let pathLanguage = app.getAppPath() + '/public/language';
 
 class Language {
     constructor() {
@@ -16,9 +15,9 @@ class Language {
 
     load() {
         let language = this.getCurrent();
-        loadedLanguage = JSON.parse(fs.readFileSync(pathLanguage + 'public/language/en.json', 'utf8'));
+        loadedLanguage = JSON.parse(fs.readFileSync(pathLanguage + '/en.json', 'utf8'));
         if (language !== '' && language !== 'en') {
-            let loadedLanguage2 = JSON.parse(fs.readFileSync(pathLanguage + 'public/language/' + language + '.json', 'utf8'));
+            let loadedLanguage2 = JSON.parse(fs.readFileSync(pathLanguage + '/' + language + '.json', 'utf8'));
             loadedLanguage = {...loadedLanguage, ...loadedLanguage2}; // Merge language objects
         }
     }
@@ -37,7 +36,7 @@ class Language {
             }
         }
 
-        if (!fs.existsSync(pathLanguage + 'public/language/' + language + '.json')) {
+        if (!fs.existsSync(pathLanguage + '/' + language + '.json')) {
             language = 'en';
         }
 
