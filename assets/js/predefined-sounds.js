@@ -19,6 +19,14 @@ class PredefinedSounds {
                 soundLicence: this.getLicence('CC BY 3.0', 'Benboncan', 'https://freesound.org/people/Benboncan/sounds/73581/'),
                 imageLicence: this.getLicence('Font Awesome Free')
             },
+            'till-with-bell-01': {
+                type: 'internal',
+                name: 'Till With Bell 01',
+                sound: 'till-with-bell-01.wav',
+                icon: 'fas fa-dollar-sign',
+                soundLicence: this.getLicence('CC BY 3.0', 'Benboncan', 'https://freesound.org/people/Benboncan/sounds/91924/'),
+                imageLicence: this.getLicence('Font Awesome Free')
+            },
             'weapon-science-fiction-01': {
                 type: 'internal',
                 name: 'Weapon Science Fiction 01',
