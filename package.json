@@ -1,7 +1,7 @@
 {
     "name": "sound-board",
     "productName": "Sound Board",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A board with buttons to play funny sounds.",
     "author": "Thomas Schur <cyb10101@gmail.com>",
     "homepage": "https://cyb10101.de/",
