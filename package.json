@@ -37,7 +37,7 @@
         "artifactName": "${name}_${os}_${arch}.${ext}",
         "linux": {
             "category": "Utility",
-            "icon": "assets/images/icons/iconfinder_S_1553065_512.png",
+            "icon": "assets/images/icons/iconfinder_S_1553065.icns",
             "target": [
                 {
                     "target": "AppImage",
@@ -65,7 +65,7 @@
         },
         "mac": {
             "category": "public.app-category.utilities",
-            "icon": "assets/images/icons/iconfinder_S_1553065_512.png",
+            "icon": "assets/images/icons/iconfinder_S_1553065.icns",
             "target": [
                 {
                     "target": "dmg"
@@ -83,6 +83,7 @@
         "dist": "electron-builder",
         "dist:dev": "electron-builder --linux AppImage --x64",
         "dist:mac": "electron-builder --mac",
+        "dist:win": "electron-builder --win",
         "dist:all": "electron-builder --linux --win"
     }
 }
