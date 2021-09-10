@@ -407,11 +407,11 @@ class SoundBoard {
 
         if (type === 'edit') {
             let newSoundMove = document.createElement('i');
-            newSoundMove.className = 'fas fa-bars float-right move';
+            newSoundMove.className = 'fas fa-bars float-end move';
             element.appendChild(newSoundMove);
 
             let newSoundTrash = document.createElement('i');
-            newSoundTrash.className = 'fas fa-trash float-right trash';
+            newSoundTrash.className = 'fas fa-trash float-end trash';
             newSoundTrash.addEventListener('click', function () {
                 let nodes = Array.prototype.slice.call(this.parentNode.parentNode.children);
                 let trashId = nodes.indexOf(this.parentNode);
