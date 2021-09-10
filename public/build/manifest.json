@@ -1,0 +1,7 @@
+{
+  "app.css": "app://build/app.css",
+  "app.js": "app://build/app.js",
+  "fonts/OpenSans-Regular.ttf": "app://build/fonts/1b0809d519837cb7aad3.ttf",
+  "app.css.map": "app://build/app.css.map",
+  "app.js.map": "app://build/app.js.map"
+}
