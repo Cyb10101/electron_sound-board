@@ -93,8 +93,10 @@
                 color: $iconColor;
             }
 
-            .fas, .far, .fal {
+            svg {
                 color: $iconColor;
+                max-width: 78%;
+                max-height: 78%;
             }
         }
 

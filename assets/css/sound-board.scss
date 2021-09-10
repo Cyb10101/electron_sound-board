@@ -30,7 +30,8 @@
 }
 
 .button-sound {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     position: relative;
     top: 0;
     width: 24px;
@@ -42,6 +43,8 @@
     -webkit-app-region: no-drag;
     margin-bottom: 4px;
     vertical-align: bottom;
+    font-size: 70px;
+    text-align: center;
 
     &:hover {
         box-shadow: 0 2px 0 darken(#0C7CA2, 11%);
@@ -88,6 +91,13 @@
         color: #ffffff;
     }
 
+    svg {
+        display: block;
+        margin: 0 auto;
+        width: calc(100vw / 7);
+        height: calc(100vw / 7);
+    }
+
     .fas, .far, .fal {
         display: flex;
         align-items: center;
@@ -122,8 +132,9 @@
             font-size: calc(100vw / 40);
         }
 
-        .fas, .far, .fal {
-            font-size: calc(100vw / 7);
+        svg {
+            width: calc(100vw / 7);
+            height: calc(100vw / 7);
         }
     }
 }
@@ -147,8 +158,9 @@
                 font-size: calc(100vw / 50);
             }
 
-            .fas, .far, .fal {
-                font-size: calc(100vw / 8);
+            svg {
+                width: calc(100vw / 8);
+                height: calc(100vw / 8);
             }
         }
     }
@@ -173,8 +185,9 @@
                 font-size: calc(100vw / 70);
             }
 
-            .fas, .far, .fal {
-                font-size: calc(100vw / 9);
+            svg {
+                width: calc(100vw / 9);
+                height: calc(100vw / 9);
             }
         }
     }
@@ -199,8 +212,9 @@
                 font-size: calc(100vw / 80);
             }
 
-            .fas, .far, .fal {
-                font-size: calc(100vw / 12);
+            svg {
+                width: calc(100vw / 12);
+                height: calc(100vw / 12);
             }
         }
     }
@@ -225,8 +239,9 @@
                 font-size: calc(100vw / 90);
             }
 
-            .fas, .far, .fal {
-                font-size: calc(100vw / 14);
+            svg {
+                width: calc(100vw / 14);
+                height: calc(100vw / 14);
             }
         }
     }
