@@ -73,6 +73,8 @@
         "build:dev": "webpack --mode=development --watch",
         "start": "electron .",
         "start:dev": "APP_ENV=dev electron .",
+        "starthost": "./node_modules/electron/dist/electron .",
+        "starthost:dev": "APP_ENV=dev ./node_modules/electron/dist/electron .",
         "dist": "electron-builder",
         "dist:dev": "electron-builder --linux AppImage --x64",
         "dist:mac": "electron-builder --mac",

@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    image: cyb10101/php-dev:apache-8.0
+    hostname: sound-board
+    volumes:
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ~/.ssh:/home/application/.ssh:ro
+      - ~/.composer/cache:/home/application/.composer/cache
+      - ~/.gitconfig:/home/application/.gitconfig:ro
+
+      #- /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      #- DISPLAY=${DISPLAY}
+      - WEB_DOCUMENT_ROOT=/app/public
+    working_dir: /app
+
+  node:
+    image: node:lts
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: tail -f /dev/null
+
+networks:
+  default:
+    external:
+      name: global
