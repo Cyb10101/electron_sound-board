@@ -57,27 +57,25 @@
             <div class="col-12 mb-3">
                 <h3 class="translate">Add own sound</h3>
                 <form id="add-own-sound">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label class="translate" for="own-sound-name">Name</label>
                         <input type="text" class="form-control" id="own-sound-name" name="name" required>
                     </div>
-                    <div class="form-group mb-0">
+                    <div class="mb-0">
                         <label class="translate" for="own-sound-file">Sound file</label>
                     </div>
-                    <div class="form-group custom-file mb-3">
-                        <input type="file" class="custom-file-input" id="own-sound-file" name="sound" accept="audio/wav, audio/mpeg" required>
-                        <label class="translate custom-file-label" for="own-sound-file">Sound file</label>
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="own-sound-file" name="sound" accept="audio/wav, audio/mpeg" required>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label class="translate" for="own-sound-icon">Icon</label>
                         <input type="text" class="form-control" id="own-sound-icon" name="icon" placeholder="fas fa-volume-up">
                     </div>
-                    <div class="form-group mb-0">
+                    <div class="mb-0">
                         <label class="translate" for="own-sound-image">Image file</label>
                     </div>
-                    <div class="form-group custom-file mb-3">
-                        <input type="file" class="custom-file-input" id="own-sound-image" name="image" accept="image/svg+xml, image/jpeg, image/png, image/gif">
-                        <label class="translate custom-file-label" for="own-sound-image">Image file</label>
+                    <div class="mb-3">
+                        <input type="file" class="form-control" id="own-sound-image" name="image" accept="image/svg+xml, image/jpeg, image/png, image/gif">
                     </div>
                     <button type="submit" class="btn btn-primary translate">Add sound</button>
                 </form>
@@ -144,17 +142,17 @@
             <div class="col-12 mb-3">
                 <h3 class="translate">Keyboard shortcuts</h3>
                 <span><span class="translate">Modifier</span>:</span>
-                <div class="custom-control custom-checkbox custom-control-inline mr-3">
-                    <input type="checkbox" class="custom-control-input" id="setting-modifier-ctrl">
-                    <label class="custom-control-label" for="setting-modifier-ctrl">CTRL</label>
+                <div class="form-check form-check-inline mr-3">
+                    <input type="checkbox" class="form-check-input" id="setting-modifier-ctrl">
+                    <label class="form-check-label" for="setting-modifier-ctrl">CTRL</label>
                 </div>
-                <div class="custom-control custom-checkbox custom-control-inline mr-3">
-                    <input type="checkbox" class="custom-control-input" id="setting-modifier-shift">
-                    <label class="custom-control-label" for="setting-modifier-shift">SHIFT</label>
+                <div class="form-check form-check-inline mr-3">
+                    <input type="checkbox" class="form-check-input" id="setting-modifier-shift">
+                    <label class="form-check-label" for="setting-modifier-shift">SHIFT</label>
                 </div>
-                <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="setting-modifier-alt">
-                    <label class="custom-control-label" for="setting-modifier-alt">ALT</label>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="setting-modifier-alt">
+                    <label class="form-check-label" for="setting-modifier-alt">ALT</label>
                 </div>
                 <div class="translate">See help for more information. Modifier + Number [0 - 9]</div>
             </div>
@@ -215,28 +213,28 @@
             </div>
             <div class="col-12 mb-3">
                 <h3 class="translate">Language</h3>
-                <select class="custom-select" id="settings-language">
+                <select class="form-select" id="settings-language">
                     <option class="translate" value="" selected>- System default -</option>
                 </select>
             </div>
             <div class="col-12 mb-3">
                 <h3 class="translate">Application</h3>
-                <div class="custom-control custom-checkbox mb-1">
-                    <input type="checkbox" class="custom-control-input" id="settings-app-start-minimized">
-                    <label class="custom-control-label translate" for="settings-app-start-minimized">Start minimized (Only for tray)</label>
+                <div class="form-check mb-1">
+                    <input type="checkbox" class="form-check-input" id="settings-app-start-minimized">
+                    <label class="form-check-label translate" for="settings-app-start-minimized">Start minimized (Only for tray)</label>
                 </div>
-                <div class="custom-control custom-checkbox mb-1">
-                    <input type="checkbox" class="custom-control-input" id="setting-app-frame">
-                    <label class="custom-control-label translate" for="setting-app-frame">Frame (Disable for frameless window)</label>
+                <div class="form-check mb-1">
+                    <input type="checkbox" class="form-check-input" id="setting-app-frame">
+                    <label class="form-check-label translate" for="setting-app-frame">Frame (Disable for frameless window)</label>
                 </div>
                 <div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="setting-app-tray-instead-taskbar_tray" name="setting-app-tray-instead-taskbar" value="tray" class="custom-control-input" checked>
-                        <label class="custom-control-label translate" for="setting-app-tray-instead-taskbar_tray">Show in tray</label>
+                    <div class="form-check custom-radio form-check-inline">
+                        <input type="radio" id="setting-app-tray-instead-taskbar_tray" name="setting-app-tray-instead-taskbar" value="tray" class="form-check-input" checked>
+                        <label class="form-check-label translate" for="setting-app-tray-instead-taskbar_tray">Show in tray</label>
                     </div>
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="setting-app-tray-instead-taskbar_taskbar" name="setting-app-tray-instead-taskbar" value="taskbar" class="custom-control-input">
-                        <label class="custom-control-label translate" for="setting-app-tray-instead-taskbar_taskbar">Show in taskbar</label>
+                    <div class="form-check custom-radio form-check-inline">
+                        <input type="radio" id="setting-app-tray-instead-taskbar_taskbar" name="setting-app-tray-instead-taskbar" value="taskbar" class="form-check-input">
+                        <label class="form-check-label translate" for="setting-app-tray-instead-taskbar_taskbar">Show in taskbar</label>
                     </div>
                 </div>
                 <div>
