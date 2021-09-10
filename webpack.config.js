@@ -1,6 +1,11 @@
+'use strict';
+
 const path = require('path');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 
 module.exports = (env, argv) => {
     const devMode = argv.mode === 'development';
@@ -8,42 +13,50 @@ module.exports = (env, argv) => {
     return {
         // JavaScript
         entry: {
-            'app': './assets/js/app.js',
+            'app': './assets/js/app.js'
         },
         output: {
             filename: '[name].js',
+            // filename: '[name].[contenthash].js',
+            // chunkFilename: '[name].[contenthash].js',
             path: path.resolve(__dirname, 'public/build'),
             publicPath: 'app://build/'
         },
 
         // Sass
         module: {
-            rules: [{
-                test: /\.s[ac]ss$/i,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    // 'style-loader', // Creates `style` nodes from JS strings
-                    'css-loader', // Translates CSS into CommonJS
-                    'sass-loader' // Compiles Sass to CSS
-                ]
-            }, {
-                test: /\.(ttf|eot|woff|woff2)$/,
-                use: {
-                    loader: 'file-loader',
-                    options: {
-                        name: 'fonts/[name].[ext]',
-                    },
-                },
-            }, {
-                test: /\.(gif|png|jpe?g|svg)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        limit: 8000, // Convert images < 8kb to base64 strings
-                        name: 'images/[hash]-[name].[ext]'
+            rules: [
+                // Website
+                {
+                    test: /\.s[ac]ss$/i,
+                    use: [
+                        MiniCssExtractPlugin.loader, // instead of style-loader
+                        'css-loader', // Translates CSS into CommonJS
+                        // 'sass-loader' // Compiles Sass to CSS
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                implementation: require('sass'), // Prefer: dart-sass
+                                sassOptions: {
+                                    fiber: false,
+                                }
+                            }
+                        }
+                    ]
+                }, {
+                    test: /\.(ttf|eot|woff|woff2)$/i,
+                    type: 'asset/resource',
+                    generator: {
+                        filename: 'fonts/' + (devMode ? '[name]_' : '') + '[hash][ext][query]'
                     }
-                }]
-            }],
+                }, {
+                    test: /\.(gif|png|jpe?g|svg)$/i,
+                    type: 'asset/resource',
+                    generator: {
+                        filename: 'images/' + (devMode ? '[name]_' : '') + '[hash][ext][query]'
+                    }
+                }
+            ],
         },
         externals: [
             (function () {
@@ -59,13 +72,25 @@ module.exports = (env, argv) => {
             })()
         ],
         plugins: [
-            new MiniCssExtractPlugin({
-                filename: '[name].css',
+            new webpack.DefinePlugin({
+                PRODUCTION: (argv.mode === 'production')
             }),
             new FriendlyErrorsWebpackPlugin({
                 clearConsole: false
+            }),
+            new WebpackManifestPlugin(),
+            new CleanWebpackPlugin(),
+            new MiniCssExtractPlugin({
+                filename: '[name].css',
+                // filename: '[name].[contenthash].css',
+                // chunkFilename: '[name].[contenthash].css'
             })
         ],
+        optimization: {
+            splitChunks: {
+                automaticNameDelimiter: '_',
+            }
+        },
         performance: {
             hints: false
         },
