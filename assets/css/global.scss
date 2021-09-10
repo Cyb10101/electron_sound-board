@@ -138,10 +138,7 @@ nav.navbar {
             opacity: 1 !important;
         }
 
-        .fas, .far, .fal {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        svg {
             height: 100%;
             font-size: 24px;
         }
