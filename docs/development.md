@@ -1,28 +1,43 @@
 # Development
 
-## Install electron
+## Run
+
+Terminal 1 - Run docker:
 
 ```bash
-yarn add electron electron-builder --dev
+./start.sh up && ./start.sh zsh
+yarn install
+yarn build:dev
+APP_ENV=dev ./node_modules/electron/dist/electron .
 ```
 
-## WebPack
-
-Webpack requirements:
+Terminal 2 - Run Electron at host:
 
 ```bash
-yarn add webpack webpack-cli \
-    friendly-errors-webpack-plugin \
-    file-loader \
-    sass-loader node-sass css-loader mini-css-extract-plugin \
-    --dev
+APP_ENV=dev ./node_modules/electron/dist/electron .
 ```
 
-Website requirements:
+## Build dist
+
+Terminal 1 - Run docker:
 
 ```bash
-yarn add jquery
-yarn add popper.js bootstrap
-yarn add @fortawesome/fontawesome-free
-yarn add electron-store
+./start.sh up && ./start.sh zsh
+yarn install
+yarn build
+yarn dist
+```
+
+## Build dist & push
+
+```bash
+./start.sh up && ./start.sh zsh
+yarn install
+yarn build
+yarn dist
+
+git add package.json
+git commit -m'Version 1.1.0'
+git tag "v1.1.0"
+git push && git push --tags
 ```
