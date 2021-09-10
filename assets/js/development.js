@@ -1,7 +1,7 @@
 'use strict';
 
 import {environment} from './environment.js';
-const remote = require('electron').remote;
+const {ipcRenderer} = require('electron');
 const fs = require('fs');
 const Store = require('electron-store');
 const store = new Store();
@@ -96,7 +96,9 @@ class Development {
         system.appendChild(this.createElement('<b>Node</b><span>' + global.process.versions.node + '</span>'));
         system.appendChild(this.createElement('<b>Electron</b><span>' + global.process.versions.electron + '</span>'));
         system.appendChild(this.createElement('<b>Chrome</b><span>' + global.process.versions.chrome + '</span>'));
-        system.appendChild(this.createElement('<b>User data</b><span>' + remote.app.getPath('userData') + '</span>'));
+        ipcRenderer.invoke('config', ['userData']).then((userData) => {
+            system.appendChild(this.createElement('<b>User data</b><span>' + userData + '</span>'));
+        });
     }
 
     devToolbarAddDevelopmentInfo() {

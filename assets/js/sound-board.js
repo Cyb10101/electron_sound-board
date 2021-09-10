@@ -1,12 +1,14 @@
 'use strict';
 
-const {ipcRenderer, remote, shell} = require('electron');
+const {ipcRenderer, shell} = require('electron');
 const fs = require('fs');
 const Store = require('electron-store');
 const store = new Store();
 import Sortable from 'sortablejs';
 import {predefinedSounds} from './predefined-sounds.js';
-const {__} = require('./language.js');
+
+const {Language} = require('./language.js');
+const language = new Language();
 
 class SoundBoard {
     constructor() {
@@ -21,8 +23,14 @@ class SoundBoard {
         this.connectExternalLinks();
     }
 
-    initializeUserData() {
-        this.userData = remote.app.getPath('userData');
+    async initializeUserData() {
+        // this.userData = remote.app.getPath('userData');
+        this.userData = await ipcRenderer.invoke('config', ['userData']);
+        if (!this.userData) {
+            console.error('userData not set!');
+            return;
+        }
+
         this.userDataSounds = this.userData + '/sounds';
         this.userDataImages = this.userData + '/images';
         if (!fs.existsSync(this.userDataSounds)) {
@@ -141,8 +149,8 @@ class SoundBoard {
         header.appendChild(document.createTextNode(' ' + sound));
         div.appendChild(header);
 
-        this.createElementLicenceData(div, __('Author'), item.soundLicence.author, item.soundLicence.origin);
-        this.createElementLicenceData(div, __('License'), item.soundLicence.name, item.soundLicence.url);
+        this.createElementLicenceData(div, language.__('Author'), item.soundLicence.author, item.soundLicence.origin);
+        this.createElementLicenceData(div, language.__('License'), item.soundLicence.name, item.soundLicence.url);
         document.querySelector('.page-copyright .sound-licences').appendChild(div);
     }
 
@@ -159,8 +167,8 @@ class SoundBoard {
         header.appendChild(document.createTextNode(' ' + item.image));
         div.appendChild(header);
 
-        this.createElementLicenceData(div, __('Author'), item.imageLicence.author, item.imageLicence.origin);
-        this.createElementLicenceData(div, __('License'), item.imageLicence.name, item.imageLicence.url);
+        this.createElementLicenceData(div, language.__('Author'), item.imageLicence.author, item.imageLicence.origin);
+        this.createElementLicenceData(div, language.__('License'), item.imageLicence.name, item.imageLicence.url);
         document.querySelector('.page-copyright .image-licences').appendChild(div);
     }
 
@@ -474,7 +482,7 @@ class SoundBoard {
         let form = document.getElementById('add-own-sound');
 
         form.sound.addEventListener('change', function () {
-            let value = __('Sound file');
+            let value = language.__('Sound file');
             if (form.sound.files.length > 0) {
                 value = form.sound.files[0].name;
             }
@@ -482,7 +490,7 @@ class SoundBoard {
         });
 
         form.image.addEventListener('change', function () {
-            let value = __('Sound file');
+            let value = language.__('Sound file');
             if (form.image.files.length > 0) {
                 value = form.image.files[0].name;
             }
@@ -534,8 +542,8 @@ class SoundBoard {
 
                 instance.addSoundItemToBoard(item);
                 instance.switchPage('.page-edit-board');
-                form.sound.parentNode.querySelector('.custom-file-label').innerHTML = __('Sound file');
-                form.image.parentNode.querySelector('.custom-file-label').innerHTML = __('Image file');
+                form.sound.parentNode.querySelector('.custom-file-label').innerHTML = language.__('Sound file');
+                form.image.parentNode.querySelector('.custom-file-label').innerHTML = language.__('Image file');
                 form.reset();
             }
 
@@ -590,5 +598,9 @@ class SoundBoard {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const soundBoard = new SoundBoard();
+    language.promiseWhen(() => {return language.initialized;}, 5000).then(() => {
+        const soundBoard = new SoundBoard();
+    }, () => {
+        console.error('Language is not initialized! (sound-board.js)');
+    });
 });

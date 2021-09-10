@@ -1,9 +1,10 @@
 'use strict';
 
-const {ipcRenderer, remote, shell} = require('electron');
+const {ipcRenderer, shell} = require('electron');
 const Store = require('electron-store');
 const store = new Store();
-const {__, language} = require('./language.js');
+const {Language} = require('./language.js');
+const language = new Language();
 
 class Settings {
     constructor() {
@@ -92,7 +93,7 @@ class Settings {
             let option = document.createElement('option');
             option.className = 'translate';
             option.value = languageAvailable;
-            option.innerText = __('language.' + languageAvailable);
+            option.innerText = language.__('language.' + languageAvailable);
             settingLanguage.appendChild(option);
         }
 
@@ -149,7 +150,10 @@ class Settings {
         document.querySelector('.menu .maximize').style.display = (isFrame ? 'none' : 'inline-block');
         document.querySelector('.menu .minimize').style.display = (isFrame ? 'none' : 'inline-block');
         document.querySelector('.menu .window-default').style.display = (isFrame ? 'none' : 'inline-block');
-        document.querySelector('#setting-app-version').innerHTML = remote.app.getVersion();
+
+        ipcRenderer.invoke('config', ['getVersion']).then((version) => {
+            document.querySelector('#setting-app-version').innerHTML = version;
+        });
 
         if (store.get('app-tray-instead-taskbar', false)) {
             document.querySelector('#setting-app-tray-instead-taskbar_tray').checked = true;
@@ -217,7 +221,9 @@ class Settings {
             store.openInEditor();
         });
         document.querySelector('.setting-open-user-data').addEventListener('click', function () {
-            shell.openItem(remote.app.getPath('userData'));
+            ipcRenderer.invoke('config', ['userData']).then((userData) => {
+                shell.openPath(userData);
+            });
         });
         document.querySelectorAll('.setting-reset-app').forEach(function(button) {
             button.addEventListener('click', function () {
@@ -229,5 +235,9 @@ class Settings {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const settings = new Settings();
+    language.promiseWhen(() => {return language.initialized;}, 5000).then(() => {
+        const settings = new Settings();
+    }, () => {
+        console.error('Language is not initialized! (settings.js)');
+    });
 });
