@@ -22,7 +22,7 @@
         "clean-webpack-plugin": "^4.0.0",
         "css-loader": "^6.2.0",
         "electron": "^6.0.12",
-        "electron-builder": "^21.2.0",
+        "electron-builder": "^22.11.7",
         "friendly-errors-webpack-plugin": "^1.7.0",
         "mini-css-extract-plugin": "^2.2.2",
         "node-sass": "^6.0.1",
