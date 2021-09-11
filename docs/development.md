@@ -60,5 +60,7 @@ Create new Github release:
 Upload files:
 
 * ./dist/sound-board_linux_amd64.deb
+* ./dist/sound-board_linux_i386.AppImage
 * ./dist/sound-board_linux_i386.deb
-* ./dist/sound-board_win.exe
+* ./dist/sound-board_linux_x86_64.AppImage
+* ./dist/sound-board_win_x64.exe
