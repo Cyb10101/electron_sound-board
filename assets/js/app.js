@@ -11,7 +11,7 @@ global.$ = global.jQuery = require('jquery');
 // });
 
 require('bootstrap');
-require('./fontAwesome.js');
+import './font-awesome.js';
 
 require('./development.js');
 require('./sound-board.js');
