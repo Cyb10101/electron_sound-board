@@ -79,7 +79,10 @@ module.exports = (env, argv) => {
                 clearConsole: false
             }),
             new WebpackManifestPlugin(),
-            new CleanWebpackPlugin(),
+            new CleanWebpackPlugin({
+                verbose: false,
+                cleanOnceBeforeBuildPatterns: ['**/*', '!manifest.json'],
+            }),
             new MiniCssExtractPlugin({
                 filename: '[name].css',
                 // filename: '[name].[contenthash].css',
@@ -94,6 +97,7 @@ module.exports = (env, argv) => {
         performance: {
             hints: false
         },
+        mode: 'production',
         stats: 'none',
         devtool: 'source-map'
     }
