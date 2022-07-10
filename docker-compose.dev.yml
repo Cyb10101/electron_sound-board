@@ -15,6 +15,9 @@ services:
     environment:
       #- DISPLAY=${DISPLAY}
       - WEB_DOCUMENT_ROOT=/app/public
+
+      # PHP_DEBUGGER: xdebug, blackfire or none
+      - PHP_DEBUGGER=${PHP_DEBUGGER:-none}
     working_dir: /app
 
   node:
