@@ -8,7 +8,6 @@ Terminal 1 - Run docker:
 ./start.sh up && ./start.sh zsh
 yarn install
 yarn build:dev
-APP_ENV=dev ./node_modules/electron/dist/electron .
 ```
 
 Terminal 2 - Run Electron at host:
