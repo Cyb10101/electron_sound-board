@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: cyb10101/php-dev:apache-8.0
+    image: cyb10101/php-dev:apache-8.3
     hostname: sound-board
     volumes:
       - .:/app
