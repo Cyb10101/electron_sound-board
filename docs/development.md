@@ -32,6 +32,7 @@ yarn dist
 Create tag for release:
 
 ```bash
+# Change version in package.json
 git add package.json
 git commit -m'Version 1.1.0'
 git tag -a -m'Version 1.1.0' 'v1.1.0'
@@ -59,7 +60,5 @@ Create new Github release:
 Upload files:
 
 * ./dist/sound-board_linux_amd64.deb
-* ./dist/sound-board_linux_i386.AppImage
-* ./dist/sound-board_linux_i386.deb
 * ./dist/sound-board_linux_x86_64.AppImage
 * ./dist/sound-board_win_x64.exe

@@ -17,9 +17,7 @@ A colleague comes to you with a questionable request and you answer with a funny
 | Windows | Linux | Mac |
 |:---:|:---:|:---:|
 | [sound-board_win_64.exe](https://github.com/Cyb10101/electron_sound-board/releases/latest/download/sound-board_win_x64.exe) | [sound-board_linux_amd64.deb](https://github.com/Cyb10101/electron_sound-board/releases/latest/download/sound-board_linux_amd64.deb) | [![Compiling without Mac](https://img.shields.io/github/issues/detail/title/Cyb10101/electron_sound-board/16)](https://github.com/Cyb10101/electron_sound-board/issues/16) |
-| | [sound-board_linux_i386.deb](https://github.com/Cyb10101/electron_sound-board/releases/latest/download/sound-board_linux_i386.deb) | |
 | | [sound-board_linux_x86_64.AppImage](https://github.com/Cyb10101/electron_sound-board/releases/latest/download/sound-board_linux_x86_64.AppImage) | |
-| | [sound-board_linux_i386.AppImage](https://github.com/Cyb10101/electron_sound-board/releases/latest/download/sound-board_linux_i386.AppImage) | |
 
 ## Documentation
 
