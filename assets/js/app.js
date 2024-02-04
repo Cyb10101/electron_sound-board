@@ -1,3 +1,5 @@
+'use strict';
+
 import '../css/app.scss';
 
 import {Ready} from './Ready.js';
