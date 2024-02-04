@@ -3,7 +3,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 
@@ -75,9 +74,6 @@ module.exports = (env, argv) => {
             new webpack.DefinePlugin({
                 PRODUCTION: (argv.mode === 'production')
             }),
-            new FriendlyErrorsWebpackPlugin({
-                clearConsole: false
-            }),
             new WebpackManifestPlugin(),
             new CleanWebpackPlugin({
                 verbose: false,
@@ -98,7 +94,7 @@ module.exports = (env, argv) => {
             hints: false
         },
         mode: 'production',
-        stats: 'none',
+        stats: 'errors-warnings',
         devtool: 'source-map'
     }
 };
