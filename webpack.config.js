@@ -59,17 +59,17 @@ module.exports = (env, argv) => {
             ],
         },
         externals: [
-            (function () {
+            function ({ context, request }, callback) {
                 let IGNORES = [
                     'electron', 'electron-store', 'fs'
                 ];
-                return function (context, request, callback) {
-                    if (IGNORES.indexOf(request) >= 0) {
-                        return callback(null, "require('" + request + "')");
-                    }
-                    return callback();
-                };
-            })()
+
+                if (IGNORES.indexOf(request) >= 0) {
+                    return callback(null, "require('" + request + "')");
+                }
+
+                callback();
+            },
         ],
         plugins: [
             new webpack.DefinePlugin({
