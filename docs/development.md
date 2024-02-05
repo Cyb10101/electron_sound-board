@@ -5,7 +5,7 @@
 Terminal 1 - Run docker:
 
 ```bash
-./start.sh up && ./start.sh zsh
+docker-compose run --rm node
 yarn install
 yarn build:dev
 ```
@@ -21,7 +21,7 @@ APP_ENV=dev ./node_modules/electron/dist/electron .
 Terminal 1 - Run docker:
 
 ```bash
-./start.sh up && ./start.sh zsh
+docker-compose run --rm node
 yarn install
 yarn build
 yarn dist

@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  node:
+    image: node:lts
+    hostname: sound-board
+    user: node
+    volumes:
+      - ./:/app
+      - ~/.ssh:/home/node/.ssh:ro
+      - ~/.gitconfig:/home/node/.gitconfig:ro
+    working_dir: /app
+    command: bash
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
